@@ -1,3 +1,5 @@
 #directories
 .idea
 
+#files
+composer.phar

@@ -1,0 +1,25 @@
+{
+    "name": "endelwar/zigra",
+    "type": "library",
+    "description": "my framework",
+    "keywords": [
+        "framework",
+        "routing"
+    ],
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Manuel Dalla Lana",
+            "email": "endelwar@aregar.it"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "swiftmailer/swiftmailer": "5.1.*@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Zigra": "src/"
+        }
+    }
+}
