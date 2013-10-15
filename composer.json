@@ -19,7 +19,13 @@
     },
     "autoload": {
         "psr-0": {
-            "Zigra": "src/"
+            "Zigra_": "src/Zigra"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@bitbucket.org:mdallalana/zigra.git"
+        }
+    ]
 }
