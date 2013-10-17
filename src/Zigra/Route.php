@@ -119,17 +119,18 @@ class Zigra_Route
         $compiledRoute = $this->Compile();
 
         if (count($compiledRoute[0]['variables']) != count($params)) {
-            throw new InvalidArgumentException('Zigra_Route->Generate: dai, passami qualche parametro in più, tipo ' . count(
+            throw new InvalidArgumentException('Zigra_Route->generate: dai, passami qualche parametro in più, tipo ' . count(
                 $compiledRoute[0]['variables']
             ) . ' in tutto!');
         } else {
             // il numero dei parametri è giusto, verifichiamo che siano quelli giusti
             $paramdiff = array_diff_key(array_flip($compiledRoute[0]['variables']), $params);
             if (!empty($paramdiff)) {
-                throw new InvalidArgumentException('Zigra_Route->Generate: i nomi dei parametri non sono corretti, manca: ' . implode(
-                    ', ',
-                    array_flip($paramdiff)
-                ));
+                throw new InvalidArgumentException('Zigra_Route->generate: i nomi dei parametri non sono corretti, manca: ' . implode(
+                        ', ',
+                        array_flip($paramdiff)
+                    )
+                );
             } else {
                 $parameters = array();
                 $values = array();

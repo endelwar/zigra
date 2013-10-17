@@ -133,7 +133,7 @@ class Zigra_User extends User
           } */
 
         /* Redirect */
-        $url = Zigra_Router::Generate('homepage');
+        $url = Zigra_Router::generate('homepage');
         header("Location: " . $url);
     }
 

@@ -10,5 +10,3 @@ class Zigra_Tools
     }
 
 }
-
-	

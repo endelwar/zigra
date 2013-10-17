@@ -40,47 +40,38 @@ class Zigra_Registry implements IteratorAggregate
     /**
      * Restituisce l’iteratore che per comodità è uno di quelli
      * implementati nella SPL.
+     *
+     * @return ArrayIterator
      */
     public function getIterator()
     {
         return new ArrayIterator($this->pool);
     }
 
-    /*
+    /**
      * get
      *
      * Returns the variable "key" or "default" if not set
-     * @access public
-     * @param string $key the variable's name
+     *
+     * @param string $key     the variable's name
      * @param string $default optional default value if key not set
+     *
      * @return mixed the variable's value or default
      * */
 
     public function get($key, $default = null)
     {
         return $this->has($key) ? $this->pool[$key] : $default;
-
-        /*
-          if ($this->has($key))
-          {
-          return $this->pool[$key];
-          }
-          else
-          {
-
-          }
-
-          throw new Zigra_RegistryException("Chiave non trovata: " . $key);
-         */
     }
 
-    /*
+    /**
      * set
      *
-     * Set a variable
-     * @access public
-     * @param string $key the variable's name
+     * Set a variable in the pool
+     *
+     * @param string $key   the variable's name
      * @param string $value the variable's value
+     *
      * @return void
      * */
     public function set($key, $value)
@@ -88,6 +79,16 @@ class Zigra_Registry implements IteratorAggregate
         $this->pool[$key] = $value;
     }
 
+     /**
+     * add
+     *
+     * Add a variable in the $key array
+     *
+     * @param string $key   the variable's name
+     * @param string $value the variable's value
+     *
+     * @return void
+     * */
     public function add($key, $value)
     {
         if ($this->has($key) && is_array($this->pool[$key])) {
@@ -95,12 +96,13 @@ class Zigra_Registry implements IteratorAggregate
         }
     }
 
-    /*
+    /**
      * has
      *
      * Check if variable exists
-     * @access public
+     *
      * @param string $key the variable's name
+     *
      * @return boolean
      * */
     public function has($key)
@@ -134,8 +136,8 @@ class Zigra_Registry implements IteratorAggregate
      * Funzioni di utilità per accedere alle chiavi come se fossero
      * proprietà del registro.
      *
-     * @access public
-     * @param string $key
+     * @param string $key the variable's name
+     *
      * @return mixed
      */
     public function __get($key)
@@ -144,9 +146,13 @@ class Zigra_Registry implements IteratorAggregate
     }
 
     /**
+     * Funzioni di utilità per accedere alle chiavi come se fossero
+     * proprietà del registro.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param string $key   the variable's name
+     * @param mixed  $value the variable's value
+     *
+     * @return void
      */
     public function __set($key, $value)
     {

@@ -28,26 +28,23 @@ class Zigra_Request
         //var_dump($this);
     }
 
-    public function GetRequest()
+    public function getRequest()
     {
         return $this->_request;
     }
 
-    public function GetController()
+    public function getController()
     {
         return $this->_controller;
     }
 
-    public function GetAction()
+    public function getAction()
     {
         return $this->_action;
     }
 
-    public function GetArgs()
+    public function getArgs()
     {
         return $this->_args;
     }
-
-
 }
-

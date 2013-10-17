@@ -44,7 +44,7 @@ class Zigra_Controller
      */
     public function getRouter()
     {
-        return Zigra_Router::Singleton();
+        return Zigra_Router::singleton();
     }
 
     /**
@@ -170,7 +170,7 @@ class Zigra_Controller
      */
     public function forward($routename, $params = array(), $statuscode = null)
     {
-        $url = Zigra_Router::Generate($routename, $params);
+        $url = Zigra_Router::generate($routename, $params);
 
         if ($url) {
             if ((null !== $statuscode) && (array_key_exists($statuscode, self::$statusTexts))) {
