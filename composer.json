@@ -19,7 +19,7 @@
     "autoload": {
         "psr-0": { "Zigra_": "src/" },
         "classmap": [
-            "src/Zigra.php"
+            "src/zigra.php"
         ]
     }
 }
