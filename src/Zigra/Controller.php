@@ -79,10 +79,11 @@ class Zigra_Controller
      * Forwards current action to the default 404 error action.
      *
      * @param string $message Message of the generated exception
+     *
+     * @return void
      */
     public function forward404($message = null)
     {
-        //sfContext::getInstance()->getController()->forward(sfConfig::get('sf_error_404_module'), sfConfig::get('sf_error_404_action'));
         header("HTTP/1.1 404 Not Found");
         $this->registry->set('templatename', 'error-404.html.twig');
     }
@@ -167,6 +168,8 @@ class Zigra_Controller
      * @param string $routename  Name of route
      * @param array  $params     Array of parameter for the route
      * @param int    $statuscode HTTP status code
+     *
+     * @return void
      */
     public function forward($routename, $params = array(), $statuscode = null)
     {
