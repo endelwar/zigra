@@ -32,7 +32,7 @@ class Zigra_Router
         $routefound = self::_Process($request, $resetProperties);
         if ($routefound) {
             $className = self::$_controller;
-            $classFileName = 'app/controller/' . $className . 'Controller.php';
+            $classFileName = '../app/controller/' . $className . 'Controller.php';
             if (file_exists($classFileName)) {
                 include_once $classFileName;
 
@@ -49,10 +49,10 @@ class Zigra_Router
 
                     return;
                 } else {
-                    throw new Zigra_Exception('Impossibile richiamare il modulo: <pre>' . $className . '->' . self::$_action . '</pre>');
+                    throw new Zigra_Exception('Impossibile richiamare il modulo: ' . $className . '->' . self::$_action);
                 }
             } else {
-                throw new Zigra_Exception('Impossibile trovare la classe <pre>' . $className . ' (' . $classFileName . ')</pre>');
+                throw new Zigra_Exception('Impossibile trovare la classe ' . $className . ' (' . $classFileName . ')');
 
                 //self::route(new Zigra_Request('error'), true);
             }
