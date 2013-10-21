@@ -36,7 +36,7 @@ class Zigra_Router
             if (file_exists($classFileName)) {
                 include_once $classFileName;
 
-                $fullClassName = $className . 'Controller';
+                $fullClassName = ucfirst($className) . 'Controller';
                 self::$_controller = new $fullClassName($request, self::$_args);
                 if (is_callable(array(self::$_controller, self::$_action))) {
                     $registry = Zigra_Registry::getInstance();
