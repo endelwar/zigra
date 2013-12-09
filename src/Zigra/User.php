@@ -36,11 +36,11 @@ class Zigra_User
         }
     }
 
-    public static function Singleton()
+    public static function Singleton($userclass)
     {
         if (!isset(self::$_instance)) {
             $className = __CLASS__;
-            self::$_instance = new $className;
+            self::$_instance = new $className($userclass);
         }
         return self::$_instance;
     }

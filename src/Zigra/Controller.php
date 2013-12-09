@@ -52,9 +52,9 @@ class Zigra_Controller
      *
      * @return Zigra_User The current Zigra_User implementation instance
      */
-    public function getUser()
+    public function getUser($userclass = null)
     {
-        return Zigra_User::Singleton();
+        return Zigra_User::Singleton($userclass);
     }
 
     /**
