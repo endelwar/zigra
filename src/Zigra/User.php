@@ -1,16 +1,20 @@
 <?php
 
-class Zigra_User extends User
+class Zigra_User
 {
 
     private static $_instance;
     private static $_user;
 
+    protected $userclass;
+
     const COOKIE_EXPIRE = 8640000; //60*60*24*90 seconds = 100 days by default
     const COOKIE_PATH = "/"; //Available in whole domain
 
-    function __construct()
+    function __construct($userclass)
     {
+        $this->userclass = $userclass;
+
         /* Prevent JavaScript from reaidng Session cookies */
         ini_set('session.cookie_httponly', true);
 
@@ -64,7 +68,8 @@ class Zigra_User extends User
     public function login($email, $password)
     {
         if ($email && $password) {
-            $user = User::findOneByEmail($email);
+            $userclass = $this->userclass;
+            $user = $userclass::findOneByEmail($email);
             if ($user) {
                 //utente trovato, verificare credenziali
                 if ($this->verify($password, $user->password) == true) {
