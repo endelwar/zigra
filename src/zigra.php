@@ -14,4 +14,3 @@ class Zigra extends Zigra_Core
 {
 
 }
-

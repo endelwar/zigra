@@ -2,12 +2,10 @@
 
 class Zigra_Controller
 {
-
-    protected
-        $request = null,
-        $params = null,
-        $tplVar = null,
-        $registry = null;
+    protected $request = null;
+    protected $params = null;
+    protected $tplVar = null;
+    protected $registry = null;
 
     public function __construct(Zigra_Request $request, Array $params)
     {
@@ -50,6 +48,8 @@ class Zigra_Controller
     /**
      * Retrieves the current Zigra_User object.
      *
+     * @param object $userclass User class that retrieves user data from database
+     *
      * @return Zigra_User The current Zigra_User implementation instance
      */
     public function getUser($userclass = null)
@@ -86,6 +86,7 @@ class Zigra_Controller
     {
         header("HTTP/1.1 404 Not Found");
         $this->registry->set('templatename', 'error-404.html.twig');
+        $this->registry->set('message', $message);
     }
 
     /**
@@ -165,9 +166,9 @@ class Zigra_Controller
     /**
      * Forwards current action to a new route.
      *
-     * @param string $routename  Name of route
-     * @param array  $params     Array of parameter for the route
-     * @param int    $statuscode HTTP status code
+     * @param string $routename Name of route
+     * @param array $params Array of parameter for the route
+     * @param int $statuscode HTTP status code
      *
      * @return void
      */
@@ -186,5 +187,4 @@ class Zigra_Controller
 
         die();
     }
-
 }

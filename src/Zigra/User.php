@@ -11,7 +11,7 @@ class Zigra_User
     const COOKIE_EXPIRE = 8640000; //60*60*24*90 seconds = 100 days by default
     const COOKIE_PATH = "/"; //Available in whole domain
 
-    function __construct($userclass)
+    public function __construct($userclass)
     {
         $this->userclass = $userclass;
 
@@ -182,5 +182,4 @@ class Zigra_User
 
         $result = $mailer->send($message);
     }
-
 }

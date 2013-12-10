@@ -8,7 +8,7 @@ class Zigra_Core
      *
      * @var string $path Zigra root directory
      */
-    private static $_path;
+    private static $path;
 
     /**
      * Set the path to your core Zigra libraries
@@ -19,7 +19,7 @@ class Zigra_Core
      */
     public static function setPath($path)
     {
-        self::$_path = $path;
+        self::$path = $path;
     }
 
     /**
@@ -29,11 +29,11 @@ class Zigra_Core
      */
     public static function getPath()
     {
-        if (!self::$_path) {
-            self::$_path = realpath(dirname(__FILE__) . '/..');
+        if (!self::$path) {
+            self::$path = realpath(dirname(__FILE__) . '/..');
         }
 
-        return self::$_path;
+        return self::$path;
     }
 
     /**
@@ -41,7 +41,7 @@ class Zigra_Core
      *
      * @return void
      */
-    static public function register()
+    public static function register()
     {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register(array(new self, 'autoload'));

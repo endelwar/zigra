@@ -54,6 +54,7 @@ class Zigra_I18n
             $_SERVER['HTTP_ACCEPT_LANGUAGE'],
             $lang_parse
         );
+        $langs = array();
         if (count($lang_parse[1])) {
             // create a list like "en" => 0.8
             $langs = array_combine($lang_parse[1], $lang_parse[4]);
@@ -115,5 +116,4 @@ class Zigra_I18n
             }
         }
     }
-
 }

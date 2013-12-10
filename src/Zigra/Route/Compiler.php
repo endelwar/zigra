@@ -48,5 +48,4 @@ class Zigra_Route_Compiler
         );
         return $tokens;
     }
-
 }

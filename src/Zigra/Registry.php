@@ -7,7 +7,6 @@ class Zigra_RegistryException extends Exception
     {
         parent::__construct($message);
     }
-
 }
 
 class Zigra_Registry implements IteratorAggregate
@@ -53,7 +52,7 @@ class Zigra_Registry implements IteratorAggregate
      *
      * Returns the variable "key" or "default" if not set
      *
-     * @param string $key     the variable's name
+     * @param string $key the variable's name
      * @param string $default optional default value if key not set
      *
      * @return mixed the variable's value or default
@@ -69,7 +68,7 @@ class Zigra_Registry implements IteratorAggregate
      *
      * Set a variable in the pool
      *
-     * @param string $key   the variable's name
+     * @param string $key the variable's name
      * @param string $value the variable's value
      *
      * @return void
@@ -79,12 +78,12 @@ class Zigra_Registry implements IteratorAggregate
         $this->pool[$key] = $value;
     }
 
-     /**
+    /**
      * add
      *
      * Add a variable in the $key array
      *
-     * @param string $key   the variable's name
+     * @param string $key the variable's name
      * @param string $value the variable's value
      *
      * @return void
@@ -149,8 +148,8 @@ class Zigra_Registry implements IteratorAggregate
      * Funzioni di utilità per accedere alle chiavi come se fossero
      * proprietà del registro.
      *
-     * @param string $key   the variable's name
-     * @param mixed  $value the variable's value
+     * @param string $key the variable's name
+     * @param mixed $value the variable's value
      *
      * @return void
      */
@@ -158,6 +157,4 @@ class Zigra_Registry implements IteratorAggregate
     {
         $this->set($key, $value);
     }
-
 }
-

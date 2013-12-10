@@ -58,6 +58,7 @@ class Zigra_Router
             }
         } else {
             // 404 route not found
+            // TODO: make this contruct indipendent from app
             $classFileName = 'app/controller/errorController.php';
             if (file_exists($classFileName)) {
                 include_once $classFileName;
@@ -80,7 +81,7 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param Zigra_Request $request         Request.
+     * @param Zigra_Request $request Request.
      * @param boolean $resetProperties If reset or not all singleton proprieties.
      *
      * @return boolean true when route is found or false if not found.
@@ -118,8 +119,7 @@ class Zigra_Router
                 return true;
             }
         }
-        self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $request->getController(
-        ) : self::$_controller;
+        self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $request->getController() : self::$_controller;
         self::$_action = (!isset(self::$_action) || $resetProperties) ? $request->getAction() : self::$_action;
         self::$_args = (!isset(self::$_args) || $resetProperties) ? $request->getArgs() : self::$_args;
         //var_dump(self::$_args);echo '<hr>';
@@ -130,11 +130,11 @@ class Zigra_Router
     /**
      * compile and Add route to mapped array
      *
-     * @param strign $name         name of the route
-     * @param string $pattern      pattern matching the route
-     * @param array $defaults     defaults parameters
+     * @param string $name name of the route
+     * @param string $pattern pattern matching the route
+     * @param array $defaults defaults parameters
      * @param array $requirements TODO write docs
-     * @param array $options      TODO write docs
+     * @param array $options TODO write docs
      *
      * @return void
      *
@@ -156,7 +156,7 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param string $name   Optional name of route to be used (if not set the route will be selected based on given params).
+     * @param string $name Optional name of route to be used (if not set the route will be selected based on given params).
      * @param array $params The arguments to be processed by the created url.
      *
      * @throws Exception if route name is not found
@@ -190,5 +190,4 @@ class Zigra_Router
         // return the result
         return $url;
     }
-
 }

@@ -223,5 +223,4 @@ class Zigra_I18n_Nls
         }
         return 'ltr';
     }
-
 }

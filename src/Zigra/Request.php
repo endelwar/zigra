@@ -1,6 +1,4 @@
 <?php
-
-
 class Zigra_Request
 {
 

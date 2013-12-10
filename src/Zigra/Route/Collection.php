@@ -23,5 +23,4 @@ class Zigra_Route_Collection
 
         $this->routes[$name] = $route;
     }
-
 }
