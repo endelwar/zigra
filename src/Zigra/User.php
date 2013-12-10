@@ -94,7 +94,7 @@ class Zigra_User
                 return false;
             }
         } else {
-            // riproponi login
+            // mancano dati, riproponi login
             return false;
         }
     }
