@@ -5,8 +5,7 @@ class Zigra_User
 
     private static $_instance;
     private static $_user;
-
-    protected $userclass;
+    private $userclass;
 
     const COOKIE_EXPIRE = 8640000; //60*60*24*90 seconds = 100 days by default
     const COOKIE_PATH = "/"; //Available in whole domain
