@@ -33,28 +33,32 @@ class Zigra_Router
         if ($routefound) {
             $className = self::$_controller;
             $classFileName = '../app/controller/' . $className . 'Controller.php';
-            if (file_exists($classFileName)) {
-                include_once $classFileName;
+            try {
+                if (file_exists($classFileName)) {
+                    include_once $classFileName;
 
-                $fullClassName = ucfirst($className) . 'Controller';
-                self::$_controller = new $fullClassName($request, self::$_args);
-                if (is_callable(array(self::$_controller, self::$_action))) {
-                    $registry = Zigra_Registry::getInstance();
-                    $registry->set('controller', $className);
-                    $registry->set('action', self::$_action);
+                    $fullClassName = ucfirst($className) . 'Controller';
+                    self::$_controller = new $fullClassName($request, self::$_args);
+                    if (is_callable(array(self::$_controller, self::$_action))) {
+                        $registry = Zigra_Registry::getInstance();
+                        $registry->set('controller', $className);
+                        $registry->set('action', self::$_action);
 
-                    call_user_func_array(array(self::$_controller, 'preExecute'), array($request));
-                    call_user_func_array(array(self::$_controller, self::$_action), array($request));
-                    call_user_func_array(array(self::$_controller, 'postExecute'), array($request));
+                        call_user_func_array(array(self::$_controller, 'preExecute'), array($request));
+                        call_user_func_array(array(self::$_controller, self::$_action), array($request));
+                        call_user_func_array(array(self::$_controller, 'postExecute'), array($request));
 
-                    return;
+                        return;
+                    } else {
+                        throw new Zigra_Exception('Impossibile richiamare il modulo: ' . $className . '->' . self::$_action);
+                    }
                 } else {
-                    throw new Zigra_Exception('Impossibile richiamare il modulo: ' . $className . '->' . self::$_action);
-                }
-            } else {
-                throw new Zigra_Exception('Impossibile trovare la classe ' . $className . ' (' . $classFileName . ')');
+                    throw new Zigra_Exception('Impossibile trovare la classe ' . $className . ' (' . $classFileName . ')');
 
-                //self::route(new Zigra_Request('error'), true);
+                    //self::route(new Zigra_Request('error'), true);
+                }
+            } catch (Zigra_Exception $e) {
+                Zigra_Exception::renderError($e->getCode(), $e->getMessage());
             }
         } else {
             // 404 route not found
