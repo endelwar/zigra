@@ -6,6 +6,7 @@ class Zigra_Request
     protected $_action;
     protected $_args;
     protected $_request;
+    protected $_method;
 
     public function __construct($urlPath = null)
     {
@@ -22,6 +23,24 @@ class Zigra_Request
         //var_dump($this->_action);
         $this->_args = (isset($parts[0])) ? $parts : array();
         //var_dump($this->_args);
+
+        switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
+            case 'GET':
+                $this->_method = 'GET';
+                break;
+            case 'POST':
+                $this->_method = 'POST';
+                break;
+            case 'PUT':
+                $this->_method = 'PUT';
+                break;
+            case 'HEAD':
+                $this->_method = 'HEAD';
+                break;
+            default:
+                $this->_method = null;
+        }
+
 
         //var_dump($this);
     }
@@ -44,5 +63,26 @@ class Zigra_Request
     public function getArgs()
     {
         return $this->_args;
+    }
+
+    public function getMethod()
+    {
+        return $this->_method;
+    }
+
+    public function isPost()
+    {
+        if ($this->_method == 'POST') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isGet()
+    {
+        if ($this->_method == 'GET') {
+            return true;
+        }
+        return false;
     }
 }
