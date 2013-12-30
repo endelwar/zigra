@@ -27,6 +27,8 @@ class Zigra_I18n_Nls
     public static function init($lang = null)
     {
         if (is_null($lang)) {
+            $obj = new Zigra_I18n_Nls();
+        } else {
             $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'nls' . DIRECTORY_SEPARATOR . $lang . '.nls.php';
 
             if (file($lang_file)) {
@@ -34,8 +36,6 @@ class Zigra_I18n_Nls
                 $obj = Zigra_I18n_Nls::fromArray($nls);
                 unset($nls);
             }
-        } else {
-            $obj = new Zigra_I18n_Nls();
         }
 
         return $obj;
