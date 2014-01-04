@@ -14,15 +14,16 @@ class Zigra_User
     {
         $this->userclass = $userclass;
 
-        /* Prevent JavaScript from reaidng Session cookies */
+        /* Prevent JavaScript from reading Session cookies */
         ini_set('session.cookie_httponly', true);
 
         /* Start Session */
         if (session_id() == '') {
+            session_set_cookie_params(3600); // Set session cookie duration to 1 hour
             session_start();
         }
 
-        /* Check if last session is fromt he same pc */
+        /* Check if last session is from the same pc */
         if (!isset($_SESSION['last_ip'])) {
             $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
         }
