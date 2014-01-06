@@ -2,10 +2,10 @@
 
 class Zigra_Router
 {
-
     protected static $_controller;
     protected static $_action;
     protected static $_args;
+    protected static $_defaults;
     protected static $_compiledRouteCollection;
     protected static $_routeCollection;
     private static $_instance;
@@ -38,7 +38,8 @@ class Zigra_Router
                     include_once $classFileName;
 
                     $fullClassName = ucfirst($className) . 'Controller';
-                    self::$_controller = new $fullClassName($request, self::$_args);
+                    $params = array_merge(self::$_defaults, self::$_args);
+                    self::$_controller = new $fullClassName($request, $params);
                     if (is_callable(array(self::$_controller, self::$_action))) {
                         $registry = Zigra_Registry::getInstance();
                         $registry->set('controller', $className);
@@ -118,6 +119,7 @@ class Zigra_Router
                 self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $route[0]['defaults']['controller'] : self::$_controller;
                 self::$_action = (!isset(self::$_action) || $resetProperties) ? $route[0]['defaults']['action'] : self::$_action;
                 self::$_args = (!isset(self::$_args) || $resetProperties) ? $args : self::$_args;
+                self::$_defaults = (!isset(self::$_defaults) || $resetProperties) ? $route[0]['defaults'] : self::$_defaults;
                 //var_dump(self::$_args);echo '<hr>';
 
                 return true;
