@@ -1,4 +1,5 @@
 <?php
+
 class Zigra_Exception extends Exception
 {
     public static function renderError($code, $message)
@@ -16,5 +17,16 @@ class Zigra_Exception extends Exception
     private static function renderFooter()
     {
         echo '</div></body></html>';
+    }
+
+    public static function displayException($e)
+    {
+        echo $e->getCode();
+        echo '<hr>';
+        echo $e->getMessage();
+        echo '<hr>';
+        echo $e->getLine();
+        echo '<hr>';
+        echo '<pre>' . $e->getTraceAsString() . '</pre>';
     }
 }
