@@ -1,6 +1,5 @@
 <?php
 
-class Zigra_Exception_Error404 extends Exception
+class Zigra_Exception_Error404 extends Zigra_Exception
 {
-
 }

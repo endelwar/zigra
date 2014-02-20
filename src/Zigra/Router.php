@@ -2,10 +2,10 @@
 
 class Zigra_Router
 {
-
     protected static $_controller;
     protected static $_action;
     protected static $_args;
+    protected static $_defaults;
     protected static $_compiledRouteCollection;
     protected static $_routeCollection;
     private static $_instance;
@@ -16,7 +16,7 @@ class Zigra_Router
         self::$_compiledRouteCollection = new Zigra_Route_Collection();
     }
 
-    public static function Singleton()
+    public static function singleton()
     {
         if (!isset(self::$_instance)) {
             $className = __CLASS__;
@@ -25,43 +25,48 @@ class Zigra_Router
         return self::$_instance;
     }
 
-    public static function Route(Zigra_Request $request, $resetProperties = false)
+    public static function route(Zigra_Request $request, $resetProperties = false)
     {
-        self::Singleton();
+        self::singleton();
 
         $routefound = self::_Process($request, $resetProperties);
         if ($routefound) {
             $className = self::$_controller;
-            $classFileName = 'app/controller/' . $className . 'Controller.php';
-            if (file_exists($classFileName)) {
-                require $classFileName;
+            $classFileName = '../app/controller/' . $className . 'Controller.php';
+            try {
+                if (file_exists($classFileName)) {
+                    include_once $classFileName;
 
-                $fullClassName = $className . 'Controller';
-                self::$_controller = new $fullClassName($request, self::$_args);
-                if (is_callable(array(self::$_controller, self::$_action))) {
-                    $registry = Zigra_Registry::getInstance();
-                    $registry->set('controller', $className);
-                    $registry->set('action', self::$_action);
+                    $fullClassName = ucfirst($className) . 'Controller';
+                    $params = array_merge(self::$_defaults, self::$_args);
+                    self::$_controller = new $fullClassName($request, $params);
+                    if (is_callable(array(self::$_controller, self::$_action))) {
+                        $registry = Zigra_Registry::getInstance();
+                        $registry->set('controller', $className);
+                        $registry->set('action', self::$_action);
 
+                        call_user_func_array(array(self::$_controller, 'preExecute'), array($request));
+                        call_user_func_array(array(self::$_controller, self::$_action), array($request));
+                        call_user_func_array(array(self::$_controller, 'postExecute'), array($request));
 
-                    call_user_func_array(array(self::$_controller, 'preExecute'), array($request));
-                    call_user_func_array(array(self::$_controller, self::$_action), array($request));
-                    call_user_func_array(array(self::$_controller, 'postExecute'), array($request));
-
-                    return;
+                        return;
+                    } else {
+                        throw new Zigra_Exception('Impossibile richiamare il modulo: ' . $className . '->' . self::$_action);
+                    }
                 } else {
-                    throw new Zigra_Exception('Impossibile richiamare il modulo: <pre>' . $className . '->' . self::$_action . '</pre>');
-                }
-            } else {
-                throw new Zigra_Exception('Impossibile trovare la classe <pre>' . $className . ' (' . $classFileName . ')</pre>');
+                    throw new Zigra_Exception('Impossibile trovare la classe ' . $className . ' (' . $classFileName . ')');
 
-                //self::Route(new Zigra_Request('error'), true);
+                    //self::route(new Zigra_Request('error'), true);
+                }
+            } catch (Zigra_Exception $e) {
+                Zigra_Exception::renderError($e->getCode(), $e->getMessage());
             }
         } else {
             // 404 route not found
+            // TODO: make this contruct indipendent from app
             $classFileName = 'app/controller/errorController.php';
             if (file_exists($classFileName)) {
-                require_once $classFileName;
+                include_once $classFileName;
                 $errorprocess = new errorController($request, self::$_args);
 
                 $registry = Zigra_Registry::getInstance();
@@ -81,8 +86,8 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param Zigra_Request $request   Request.
-     * @param boolean $resetProperties if reset or not all singleton proprieties.
+     * @param Zigra_Request $request Request.
+     * @param boolean $resetProperties If reset or not all singleton proprieties.
      *
      * @return boolean true when route is found or false if not found.
      */
@@ -91,7 +96,7 @@ class Zigra_Router
         $routes = array();
         $routes = self::$_compiledRouteCollection->routes;
         foreach ($routes as $route) {
-            preg_match($route[0]['regex'], $request->GetRequest(), $matches);
+            preg_match($route[0]['regex'], $request->getRequest(), $matches);
             //var_dump($route[0]['regex'], $request, $matches);
 
             if (count($matches)) {
@@ -114,30 +119,40 @@ class Zigra_Router
                 self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $route[0]['defaults']['controller'] : self::$_controller;
                 self::$_action = (!isset(self::$_action) || $resetProperties) ? $route[0]['defaults']['action'] : self::$_action;
                 self::$_args = (!isset(self::$_args) || $resetProperties) ? $args : self::$_args;
+                self::$_defaults = (!isset(self::$_defaults) || $resetProperties) ? $route[0]['defaults'] : self::$_defaults;
                 //var_dump(self::$_args);echo '<hr>';
 
                 return true;
             }
         }
-        self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $request->GetController(
-        ) : self::$_controller;
-        self::$_action = (!isset(self::$_action) || $resetProperties) ? $request->GetAction() : self::$_action;
-        self::$_args = (!isset(self::$_args) || $resetProperties) ? $request->GetArgs() : self::$_args;
+        self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $request->getController() : self::$_controller;
+        self::$_action = (!isset(self::$_action) || $resetProperties) ? $request->getAction() : self::$_action;
+        self::$_args = (!isset(self::$_args) || $resetProperties) ? $request->getArgs() : self::$_args;
         //var_dump(self::$_args);echo '<hr>';
 
         return false;
-
     }
 
-
-    public static function Map(
+    /**
+     * compile and Add route to mapped array
+     *
+     * @param string $name name of the route
+     * @param string $pattern pattern matching the route
+     * @param array $defaults defaults parameters
+     * @param array $requirements TODO write docs
+     * @param array $options TODO write docs
+     *
+     * @return void
+     *
+     * */
+    public static function map(
         $name,
         $pattern,
         array $defaults,
         array $requirements = array(),
         array $options = array()
     ) {
-        self::Singleton();
+        self::singleton();
         $route = new Zigra_Route($pattern, $defaults, $requirements, $options);
         $compiledRoute = $route->Compile();
         self::$_routeCollection->Add($name, $route);
@@ -147,15 +162,17 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param string $name   Optional name of route to be used (if not set the route will be selected based on given params).
+     * @param string $name Optional name of route to be used (if not set the route will be selected based on given params).
      * @param array $params The arguments to be processed by the created url.
+     *
+     * @throws Exception if route name is not found
      *
      * @return mixed string With created url or false on error.
      */
 
-    public static function Generate($name = '', array $params = array())
+    public static function generate($name = '', array $params = array())
     {
-        self::Singleton();
+        self::singleton();
 
         // reference to the route used for url creation
         $route = null;
@@ -170,7 +187,7 @@ class Zigra_Router
             // use this route
             $route = $routes[$name];
         } else {
-            throw new Exception('Impossibile trovare route chiamata "' . $name . '"');
+            throw new Exception('Cannot find route named "' . $name . '"');
         }
 
         // let the route do the actual url creation
@@ -179,5 +196,4 @@ class Zigra_Router
         // return the result
         return $url;
     }
-
 }

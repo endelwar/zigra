@@ -1,25 +1,29 @@
 <?php
 
-class Zigra_User extends User
+class Zigra_User
 {
 
     private static $_instance;
     private static $_user;
+    private $userclass;
 
     const COOKIE_EXPIRE = 8640000; //60*60*24*90 seconds = 100 days by default
     const COOKIE_PATH = "/"; //Available in whole domain
 
-    function __construct()
+    public function __construct($userclass)
     {
-        /* Prevent JavaScript from reaidng Session cookies */
+        $this->userclass = $userclass;
+
+        /* Prevent JavaScript from reading Session cookies */
         ini_set('session.cookie_httponly', true);
 
         /* Start Session */
         if (session_id() == '') {
+            session_set_cookie_params(3600); // Set session cookie duration to 1 hour
             session_start();
         }
 
-        /* Check if last session is fromt he same pc */
+        /* Check if last session is from the same pc */
         if (!isset($_SESSION['last_ip'])) {
             $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
         }
@@ -32,11 +36,11 @@ class Zigra_User extends User
         }
     }
 
-    public static function Singleton()
+    public static function Singleton($userclass)
     {
         if (!isset(self::$_instance)) {
             $className = __CLASS__;
-            self::$_instance = new $className;
+            self::$_instance = new $className($userclass);
         }
         return self::$_instance;
     }
@@ -64,7 +68,8 @@ class Zigra_User extends User
     public function login($email, $password)
     {
         if ($email && $password) {
-            $user = User::findOneByEmail($email);
+            $userclass = $this->userclass;
+            $user = $userclass::findOneByEmail($email);
             if ($user) {
                 //utente trovato, verificare credenziali
                 if ($this->verify($password, $user->password) == true) {
@@ -89,7 +94,7 @@ class Zigra_User extends User
                 return false;
             }
         } else {
-            // riproponi login
+            // mancano dati, riproponi login
             return false;
         }
     }
@@ -133,7 +138,7 @@ class Zigra_User extends User
           } */
 
         /* Redirect */
-        $url = Zigra_Router::Generate('homepage');
+        $url = Zigra_Router::generate('homepage');
         header("Location: " . $url);
     }
 
@@ -177,5 +182,4 @@ class Zigra_User extends User
 
         $result = $mailer->send($message);
     }
-
 }

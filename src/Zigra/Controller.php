@@ -2,12 +2,10 @@
 
 class Zigra_Controller
 {
-
-    protected
-        $request = null,
-        $params = null,
-        $tplVar = null,
-        $registry = null;
+    protected $request = null;
+    protected $params = null;
+    protected $tplVar = null;
+    protected $registry = null;
 
     public function __construct(Zigra_Request $request, Array $params)
     {
@@ -44,17 +42,19 @@ class Zigra_Controller
      */
     public function getRouter()
     {
-        return Zigra_Router::Singleton();
+        return Zigra_Router::singleton();
     }
 
     /**
      * Retrieves the current Zigra_User object.
      *
+     * @param object $userclass User class that retrieves user data from database
+     *
      * @return Zigra_User The current Zigra_User implementation instance
      */
-    public function getUser()
+    public function getUser($userclass)
     {
-        return Zigra_User::Singleton();
+        return Zigra_User::Singleton($userclass);
     }
 
     /**
@@ -79,12 +79,14 @@ class Zigra_Controller
      * Forwards current action to the default 404 error action.
      *
      * @param string $message Message of the generated exception
+     *
+     * @return void
      */
     public function forward404($message = null)
     {
-        //sfContext::getInstance()->getController()->forward(sfConfig::get('sf_error_404_module'), sfConfig::get('sf_error_404_action'));
         header("HTTP/1.1 404 Not Found");
         $this->registry->set('templatename', 'error-404.html.twig');
+        $this->registry->set('message', $message);
     }
 
     /**
@@ -164,13 +166,15 @@ class Zigra_Controller
     /**
      * Forwards current action to a new route.
      *
-     * @param string $routename  Name of route
-     * @param array  $params     Array of parameter for the route
-     * @param int    $statuscode HTTP status code
+     * @param string $routename Name of route
+     * @param array $params Array of parameter for the route
+     * @param int $statuscode HTTP status code
+     *
+     * @return void
      */
     public function forward($routename, $params = array(), $statuscode = null)
     {
-        $url = Zigra_Router::Generate($routename, $params);
+        $url = Zigra_Router::generate($routename, $params);
 
         if ($url) {
             if ((null !== $statuscode) && (array_key_exists($statuscode, self::$statusTexts))) {
@@ -183,5 +187,4 @@ class Zigra_Controller
 
         die();
     }
-
 }

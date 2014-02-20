@@ -8,17 +8,18 @@ class Zigra_Core
      *
      * @var string $path Zigra root directory
      */
-    private static $_path;
+    private static $path;
 
     /**
      * Set the path to your core Zigra libraries
      *
      * @param string $path The path to your Zigra libraries
+     *
      * @return void
      */
     public static function setPath($path)
     {
-        self::$_path = $path;
+        self::$path = $path;
     }
 
     /**
@@ -28,17 +29,19 @@ class Zigra_Core
      */
     public static function getPath()
     {
-        if (!self::$_path) {
-            self::$_path = realpath(dirname(__FILE__) . '/..');
+        if (!self::$path) {
+            self::$path = realpath(dirname(__FILE__) . '/..');
         }
 
-        return self::$_path;
+        return self::$path;
     }
 
     /**
      * Registers Zigra as an SPL autoloader.
+     *
+     * @return void
      */
-    static public function register()
+    public static function register()
     {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register(array(new self, 'autoload'));
@@ -48,16 +51,15 @@ class Zigra_Core
      * simple autoload function
      * returns true if the class was loaded, otherwise false
      *
-     * @param string $className
+     * @param string $className name of the class to load
      *
      * @return boolean
      */
     public static function autoload($className)
     {
-        if (0 !== stripos($className, 'Zigra') || class_exists($className, false) || interface_exists(
-                $className,
-                false
-            )
+        if (0 !== stripos($className, 'Zigra')
+            || class_exists($className, false)
+            || interface_exists($className, false)
         ) {
             return false;
         }
@@ -65,7 +67,7 @@ class Zigra_Core
         $class = self::getPath() . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
         if (file_exists($class)) {
-            require $class;
+            include $class;
 
             return true;
         }

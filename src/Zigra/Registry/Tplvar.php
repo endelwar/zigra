@@ -2,7 +2,6 @@
 
 class Zigra_Registry_Tplvar extends Zigra_Registry
 {
-
     protected static $instance;
 
     public static function getInstance()
@@ -18,5 +17,4 @@ class Zigra_Registry_Tplvar extends Zigra_Registry
     {
         $this->pool = array();
     }
-
 }
