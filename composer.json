@@ -1,7 +1,7 @@
 {
     "name": "endelwar/zigra",
     "type": "library",
-    "description": "my framework",
+    "description": "Zigra PHP Framework",
     "keywords": [
         "framework",
         "routing"
