@@ -6,7 +6,7 @@
         "framework",
         "routing"
     ],
-    "license": "proprietary",
+    "license": "MIT",
     "authors": [
         {
             "name": "Manuel Dalla Lana",
