@@ -59,7 +59,7 @@ class Zigra_I18n
             // create a list like "en" => 0.8
             $langs = array_combine($lang_parse[1], $lang_parse[4]);
 
-            // set default to 1 for any without q factor
+            // set default to 1 for any language without q factor
             foreach ($langs as $lang => $val) {
                 if ($val === '') {
                     $langs[$lang] = 1;
