@@ -1,15 +1,15 @@
 <?php
 return array(
-// Native language name
+    // Native language name
     'language' => array('de_DE' => 'Deutsch'),
     'englishlang' => array('de_DE' => 'German'),
-// Possible locale for language
+    // Possible locale for language
     'locale' => array('de_DE' => 'de_DE,de_DE.utf8,de_DE.utf-8,de_DE.UTF-8,de_DE@euro,deu,german,German_Germany.1252'),
-// Encoding of the language
+    // Encoding of the language
     'encoding' => array('de_DE' => 'UTF-8'),
-// Direction of the language
+    // Direction of the language
     'direction' => array('de_DE' => 'ltr'),
-// Possible aliases for language
+    // Possible aliases for language
     'alias' => array(
         'de' => 'de_DE',
         'deutsch' => 'de_DE',
