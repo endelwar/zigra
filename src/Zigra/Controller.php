@@ -76,20 +76,6 @@ class Zigra_Controller
     }
 
     /**
-     * Forwards current action to the default 404 error action.
-     *
-     * @param string $message Message of the generated exception
-     *
-     * @return void
-     */
-    public function forward404($message = null)
-    {
-        header("HTTP/1.1 404 Not Found");
-        $this->registry->set('templatename', 'error-404.html.twig');
-        $this->registry->set('message', $message);
-    }
-
-    /**
      * Status codes translation table.
      *
      * The list of codes is complete according to the
@@ -185,6 +171,34 @@ class Zigra_Controller
             $this->forward404();
         }
 
+        die();
+    }
+
+    /**
+     * Forwards current action to the default 404 error action.
+     *
+     * @param string $message Message of the generated exception
+     *
+     * @return void
+     */
+    public function forward404($message = null)
+    {
+        header("HTTP/1.1 404 " . self::$statusTexts[404]);
+        $this->registry->set('templatename', 'error-404.html.twig');
+        $this->registry->set('message', $message);
+    }
+
+    /**
+     * Redirect to specified url
+     *
+     * @param string $url url to be redirected
+     * @param int $statuscode HTTP status code
+     *
+     * @return void
+     */
+    public function redirect($url, $statuscode = 307)
+    {
+        header("Location: " . $url, true, $statuscode);
         die();
     }
 }
