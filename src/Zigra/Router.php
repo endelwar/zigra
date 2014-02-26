@@ -64,7 +64,7 @@ class Zigra_Router
         } else {
             // 404 route not found
             // TODO: make this contruct indipendent from app
-            $classFileName = 'app/controller/errorController.php';
+            $classFileName = '../app/controller/errorController.php';
             if (file_exists($classFileName)) {
                 include_once $classFileName;
                 $errorprocess = new errorController($request, self::$_args);
