@@ -47,18 +47,19 @@ class Zigra_User
 
     public function loggedIn()
     {
+        $status = false;
         if (isset($_SESSION['member_valid']) && $_SESSION['member_valid']) {
-            /* Return true */
-            $status = true;
-        } /* controlla COOKIE */
-        /* elseif (isset($_COOKIE['remember_me_id']) && isset($_COOKIE['remember_me_hash']))
+            if (isset($_SESSION['member_type']) && ($_SESSION['member_type'] == $this->userclass->getUserType())) {
+                $status = true;
+            }
+        }
+        /* controlla COOKIE */
+        /*
+         elseif (isset($_COOKIE['remember_me_id']) && isset($_COOKIE['remember_me_hash']))
           {
           //TODO codice per cookie
-          } */
-        else {
-            /* Return false */
-            $status = false;
-        }
+          }
+        */
 
         return $status;
     }
@@ -80,6 +81,7 @@ class Zigra_User
                     unset($_SESSION['member']['password']);
                     $_SESSION['member_id'] = $user->id;
                     $_SESSION['member_valid'] = true;
+                    $_SESSION['member_type'] = $user::USERTYPE;
 
                     /* User Remember me feature? */
                     //$this->createNewCookie($user->id);
