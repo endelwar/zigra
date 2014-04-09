@@ -116,4 +116,45 @@ class Zigra_I18n
             }
         }
     }
+
+    /**
+     * get i18n object from guessing or session,
+     *
+     * @param array $availableLangs all available languages
+     * @param string $defaultLang default language
+     *
+     * @return Zigra_I18n_Nls suitable lang object.
+     */
+    public static function getLanguage($availableLangs, $defaultLang)
+    {
+        $regs = array();
+        if (preg_match('%^/([a-z]{2})/?[\w-_/]*$%', $_SERVER['REQUEST_URI'], $regs)) {
+            $result = $regs[1];
+            $i18n = Zigra_I18n::matchLang($result);
+            if (!$i18n) {
+                $i18n = Zigra_I18n_Nls::init($defaultLang);
+            } else {
+                if (!in_array($i18n->key(), $availableLangs)) {
+                    $i18n = Zigra_I18n_Nls::init($defaultLang);
+                }
+            }
+            $_SESSION['language'] = $i18n->key();
+        } else {
+            if (isset($_SESSION['language'])) {
+                $i18n = Zigra_I18n_Nls::init($_SESSION['language']);
+            } else {
+                $i18n = Zigra_I18n::detectBrowserLanguage();
+                if (!$i18n) {
+                    $i18n = Zigra_I18n_Nls::init($defaultLang);
+                } else {
+                    if (!in_array($i18n->key(), $availableLangs)) {
+                        $i18n = Zigra_I18n_Nls::init($defaultLang);
+                    }
+                }
+
+                $_SESSION['language'] = $i18n->key();
+            }
+        }
+        return $i18n;
+    }
 }
