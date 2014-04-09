@@ -14,7 +14,8 @@ class Zigra_Route
         array $defaults = array(),
         array $requirements = array(),
         array $options = array()
-    ) {
+    )
+    {
         $this->SetPattern($pattern);
         $this->SetDefaults($defaults);
         $this->SetRequirements($requirements);
