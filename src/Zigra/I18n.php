@@ -120,11 +120,12 @@ class Zigra_I18n
     /**
      * get i18n object from guessing or session,
      *
+     * @param array $availableLangs all available languages
      * @param string $defaultLang default language
      *
      * @return Zigra_I18n_Nls suitable lang object.
      */
-    public static function getLanguage($defaultLang)
+    public static function getLanguage($availableLangs, $defaultLang)
     {
         $regs = array();
         if (preg_match('%^/([a-z]{2})/?[\w-_/]*$%', $_SERVER['REQUEST_URI'], $regs)) {
