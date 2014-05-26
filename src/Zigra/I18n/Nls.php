@@ -35,6 +35,8 @@ class Zigra_I18n_Nls
                 $nls = include $lang_file;
                 $obj = Zigra_I18n_Nls::fromArray($nls);
                 unset($nls);
+            } else {
+                trigger_error('Cannot load language file "' . $lang_file . '"', E_ERROR);
             }
         }
 
@@ -97,7 +99,7 @@ class Zigra_I18n_Nls
         }
 
         if ($obj->key == '') {
-            var_dump('Grave errore', $data, $obj);
+            trigger_error('Big Problems dude! $key in not where it should');
             die();
         }
         return $obj;

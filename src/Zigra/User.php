@@ -15,7 +15,7 @@ class Zigra_User
         $this->userclass = $userclass;
 
         /* Prevent JavaScript from reading Session cookies */
-        ini_set('session.cookie_httponly', true);
+        ini_set('session.cookie_httponly', '1');
 
         /* Start Session */
         if (session_id() == '') {
@@ -119,25 +119,11 @@ class Zigra_User
 
     public function logout()
     {
-        /* Log */
-        if (isset($_SESSION['member_id'])) {
-            $user_id = $_SESSION['member_id'];
-        }
-        /* else
-          {
-          $user_id = $_COOKIE['remember_me_id'];
-          } */
-
         /* Clear the SESSION */
         $_SESSION = array();
         /* Destroy the SESSION */
         session_unset();
         session_destroy();
-        /* Delete all old cookies and user_logged */
-        /* if (isset($_COOKIE['remember_me_id']))
-          {
-          $this->deleteCookie($_COOKIE['remember_me_id']);
-          } */
 
         /* Redirect */
         $url = Zigra_Router::generate('homepage');
@@ -161,7 +147,7 @@ class Zigra_User
     public static function generatePassword($length = 8)
     {
         $password = '';
-        $possiblechars = 'abcdefghilmnopqrstuvz0123456789';
+        $possiblechars = 'abcdefghijklmnopqrstuvwxyz0123456789';
         for ($i = 0; $i < $length; $i++) {
             $password .= substr($possiblechars, mt_rand(0, $length - 1), 1);
         }
@@ -171,17 +157,15 @@ class Zigra_User
 
     public static function emailPassword($email, $password)
     {
-        require_once 'lib/vendor/swift-mailer/lib/swift_required.php';
-
         $transport = Swift_SmtpTransport::newInstance('localhost', 25);
         $mailer = Swift_Mailer::newInstance($transport);
-        // TODO tradurre frase
-        // TODO parametrizzare tutto!!!!!
+        // TODO string translation
+        // TODO make everything a parameter
         $message = Swift_Message::newInstance('Zigra App - Email Password')
             ->setFrom(array('server@zigra.dev' => 'Zigra App'))
             ->setTo($email)
             ->setBody($password);
 
-        $result = $mailer->send($message);
+        $mailer->send($message);
     }
 }

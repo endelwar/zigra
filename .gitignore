@@ -1,5 +1,5 @@
 #directories
 .idea
-
+vendor
 #files
 composer.phar
