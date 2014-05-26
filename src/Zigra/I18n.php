@@ -104,6 +104,9 @@ class Zigra_I18n
         return false;
     }
 
+    /**
+     * @param string $lang
+     */
     public static function matchLang($lang)
     {
         self::_loadNls();
