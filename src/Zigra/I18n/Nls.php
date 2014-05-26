@@ -28,6 +28,7 @@ class Zigra_I18n_Nls
     {
         if (is_null($lang)) {
             $obj = new Zigra_I18n_Nls();
+            return $obj;
         } else {
             $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'nls' . DIRECTORY_SEPARATOR . $lang . '.nls.php';
 
@@ -35,12 +36,12 @@ class Zigra_I18n_Nls
                 $nls = include $lang_file;
                 $obj = Zigra_I18n_Nls::fromArray($nls);
                 unset($nls);
+                return $obj;
             } else {
                 trigger_error('Cannot load language file "' . $lang_file . '"', E_ERROR);
+                return false;
             }
         }
-
-        return $obj;
     }
 
     /**
