@@ -10,6 +10,9 @@ class Zigra_Route_Collection
         $this->routes = array();
     }
 
+    /**
+     * @param string $name
+     */
     public function Add($name, $route = null)
     {
         // return if we have an empty input

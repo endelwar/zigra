@@ -45,6 +45,9 @@ class Zigra_Request
         //var_dump($this);
     }
 
+    /**
+     * @return string
+     */
     public function getRequest()
     {
         return $this->_request;

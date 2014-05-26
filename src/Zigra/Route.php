@@ -9,6 +9,9 @@ class Zigra_Route
     public $_options;
     private $_compiledRoute = false;
 
+    /**
+     * @param string $pattern
+     */
     public function __construct(
         $pattern,
         array $defaults = array(),
@@ -72,6 +75,9 @@ class Zigra_Route
         return $this->_options;
     }
 
+    /**
+     * @param string $name
+     */
     public function GetOption($name)
     {
         return isset($this->_options[$name]) ? $this->_options[$name] : null;
