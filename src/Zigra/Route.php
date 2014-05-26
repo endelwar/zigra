@@ -25,6 +25,9 @@ class Zigra_Route
         $this->SetOptions($options);
     }
 
+    /**
+     * @param string $pattern
+     */
     public function SetPattern($pattern)
     {
         $this->_pattern = trim($pattern);
