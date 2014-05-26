@@ -17,8 +17,7 @@ class Zigra_Route
         array $defaults = array(),
         array $requirements = array(),
         array $options = array()
-    )
-    {
+    ) {
         $this->SetPattern($pattern);
         $this->SetDefaults($defaults);
         $this->SetRequirements($requirements);
@@ -105,7 +104,6 @@ class Zigra_Route
             $className = $this->GetOption('compiler_class');
             $routeCompiler = new $className;
 
-            $compiledRoute = array();
             $compiledRoute = $routeCompiler->Compile($this);
 
         } else {

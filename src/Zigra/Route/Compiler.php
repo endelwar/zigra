@@ -8,9 +8,9 @@ class Zigra_Route_Compiler
     {
         $pattern = $route->GetPattern();
         $requirements = $route->GetRequirements();
-        $options = $route->GetOptions();
+        //$options = $route->GetOptions();
         $defaults = $route->GetDefaults();
-        $len = strlen($pattern);
+        //$len = strlen($pattern);
         $tokens = array();
         $variables = array();
         $pos = 0;
