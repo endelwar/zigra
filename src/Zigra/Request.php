@@ -8,6 +8,8 @@ class Zigra_Request
     protected $_request;
     protected $_method;
 
+    public $valid_request_methods = array('GET', 'POST', 'PUT', 'HEAD');
+
     public function __construct($urlPath = null)
     {
         $this->_request = $urlPath !== null ? $urlPath : $_SERVER['REQUEST_URI'];
@@ -15,34 +17,15 @@ class Zigra_Request
         $parts = explode('/', $urlPath !== null ? $urlPath : $_SERVER['REQUEST_URI']);
         $parts = array_filter($parts);
 
-        //var_dump('parts 1', $parts);
-
         $this->_controller = (($c = array_shift($parts)) ? $c : 'index') . 'Controller';
-        //var_dump($this->_controller);
         $this->_action = (($c = array_shift($parts)) ? $c : 'index');
-        //var_dump($this->_action);
         $this->_args = (isset($parts[0])) ? $parts : array();
-        //var_dump($this->_args);
 
-        switch (strtoupper($_SERVER['REQUEST_METHOD'])) {
-            case 'GET':
-                $this->_method = 'GET';
-                break;
-            case 'POST':
-                $this->_method = 'POST';
-                break;
-            case 'PUT':
-                $this->_method = 'PUT';
-                break;
-            case 'HEAD':
-                $this->_method = 'HEAD';
-                break;
-            default:
-                $this->_method = null;
+        if (in_array(strtoupper($_SERVER['REQUEST_METHOD']), $this->valid_request_methods)) {
+            $this->_method = strtoupper($_SERVER['REQUEST_METHOD']);
+        } else {
+            $this->_method = null;
         }
-
-
-        //var_dump($this);
     }
 
     /**
