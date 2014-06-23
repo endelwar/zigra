@@ -36,6 +36,11 @@ class Zigra_User
         }
     }
 
+    public function destroy()
+    {
+        self::$_instance = null;
+    }
+
     public static function Singleton($userclass)
     {
         if (!isset(self::$_instance)) {
