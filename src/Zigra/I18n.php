@@ -19,12 +19,12 @@ class Zigra_I18n
             $nlsdir = __DIR__ . DIRECTORY_SEPARATOR . 'I18n' . DIRECTORY_SEPARATOR . 'nls';
             $files = glob($nlsdir . '/*nls.php');
             $nls = '';
-            if (is_array($files) && count($files)) {
-                for ($i = 0; $i < count($files); $i++) {
+            $filecount = count($files);
+            if (is_array($files) && $filecount) {
+                for ($i = 0; $i < $filecount; $i++) {
                     if (!is_file($files[$i])) {
                         continue;
                     }
-                    $fn = basename($files[$i]);
 
                     unset($nls);
                     $nls = include $files[$i];
