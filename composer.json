@@ -14,8 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.3.0",
-        "swiftmailer/swiftmailer": "@stable"
+        "php": ">=5.3.3",
+        "swiftmailer/swiftmailer": "5.2.*"
     },
     "autoload": {
         "psr-0": { "Zigra_": "src/" },
