@@ -22,6 +22,7 @@ class Zigra_Router
             $className = __CLASS__;
             self::$_instance = new $className;
         }
+
         return self::$_instance;
     }
 
@@ -96,11 +97,11 @@ class Zigra_Router
         $routes = array();
         $routes = self::$_compiledRouteCollection->routes;
         foreach ($routes as $route) {
-            preg_match($route[0]['regex'], $request->getRequest(), $matches);
-            //var_dump($route[0]['regex'], $request, $matches);
+            $request_parts = parse_url($request->getRequest());
+            preg_match($route[0]['regex'], $request_parts['path'], $matches);
+            //preg_match($route[0]['regex'], $request->getRequest(), $matches);
 
             if (count($matches)) {
-
                 //array_shift($matches);
                 //var_dump('matches', $matches);
 
@@ -120,14 +121,23 @@ class Zigra_Router
                 self::$_action = (!isset(self::$_action) || $resetProperties) ? $route[0]['defaults']['action'] : self::$_action;
                 self::$_args = (!isset(self::$_args) || $resetProperties) ? $args : self::$_args;
                 self::$_defaults = (!isset(self::$_defaults) || $resetProperties) ? $route[0]['defaults'] : self::$_defaults;
+
+                if (isset($request_parts['query'])) {
+                    parse_str($request_parts['query'], $query_args);
+                    self::$_args = array_merge(self::$_args, $query_args);
+                }
                 //var_dump(self::$_args);echo '<hr>';
+                //var_dump(self::$_defaults);echo '<hr>';
 
                 return true;
             }
         }
-        self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $request->getController() : self::$_controller;
+        self::$_controller = (!isset(self::$_controller) || $resetProperties)
+            ? $request->getController()
+            : self::$_controller;
         self::$_action = (!isset(self::$_action) || $resetProperties) ? $request->getAction() : self::$_action;
         self::$_args = (!isset(self::$_args) || $resetProperties) ? $request->getArgs() : self::$_args;
+
         //var_dump(self::$_args);echo '<hr>';
 
         return false;
