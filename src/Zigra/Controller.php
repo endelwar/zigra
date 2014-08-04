@@ -155,16 +155,20 @@ class Zigra_Controller
      * @param string $routename Name of route
      * @param array $params Array of parameter for the route
      * @param int $statuscode HTTP status code
+     * @param string $anchor string to append as hash anchor
      *
      * @return void
      */
-    public function forward($routename, $params = array(), $statuscode = null)
+    public function forward($routename, $params = array(), $statuscode = null, $anchor = null)
     {
         $url = Zigra_Router::generate($routename, $params);
 
         if ($url) {
             if ((null !== $statuscode) && (array_key_exists($statuscode, self::$statusTexts))) {
                 header('HTTP/1.1 ' . $statuscode . ' ' . self::$statusTexts[$statuscode], true);
+            }
+            if (null != $anchor) {
+                $url = $url . '#' . $anchor;
             }
             header("Location: " . $url);
         } else {
