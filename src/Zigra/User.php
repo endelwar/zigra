@@ -108,7 +108,7 @@ class Zigra_User
 
     /* Verify Password */
 
-    public function verify($password, $existingHash)
+    public static function verify($password, $existingHash)
     {
         /* Hash new password with old hash */
         $hash = crypt($password, $existingHash);
