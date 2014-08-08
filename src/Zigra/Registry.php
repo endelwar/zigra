@@ -20,7 +20,7 @@ class Zigra_Registry implements IteratorAggregate
      */
     protected $pool;
 
-    private function __construct()
+    public function __construct()
     {
         $this->pool = array();
     }

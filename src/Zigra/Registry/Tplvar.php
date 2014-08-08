@@ -13,7 +13,7 @@ class Zigra_Registry_Tplvar extends Zigra_Registry
         return self::$instance;
     }
 
-    private function __construct()
+    public function __construct()
     {
         $this->pool = array();
     }
