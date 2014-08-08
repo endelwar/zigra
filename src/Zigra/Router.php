@@ -8,7 +8,7 @@ class Zigra_Router
     protected static $_defaults;
     protected static $_compiledRouteCollection;
     protected static $_routeCollection;
-    private static $_instance;
+    private static $instance;
 
     private function __construct()
     {
@@ -18,19 +18,19 @@ class Zigra_Router
 
     public static function singleton()
     {
-        if (!isset(self::$_instance)) {
+        if (!isset(self::$instance)) {
             $className = __CLASS__;
-            self::$_instance = new $className;
+            self::$instance = new $className;
         }
 
-        return self::$_instance;
+        return self::$instance;
     }
 
     public static function route(Zigra_Request $request, $resetProperties = false)
     {
         self::singleton();
 
-        $routefound = self::_Process($request, $resetProperties);
+        $routefound = self::process($request, $resetProperties);
         if ($routefound) {
             $className = self::$_controller;
             $classFileName = '../app/controller/' . $className . 'Controller.php';
@@ -52,10 +52,14 @@ class Zigra_Router
 
                         return;
                     } else {
-                        throw new Zigra_Exception('Impossibile richiamare il modulo: ' . $className . '->' . self::$_action);
+                        throw new Zigra_Exception(
+                            'Impossibile richiamare il modulo: ' . $className . '->' . self::$_action
+                        );
                     }
                 } else {
-                    throw new Zigra_Exception('Impossibile trovare la classe ' . $className . ' (' . $classFileName . ')');
+                    throw new Zigra_Exception(
+                        'Impossibile trovare la classe ' . $className . ' (' . $classFileName . ')'
+                    );
 
                     //self::route(new Zigra_Request('error'), true);
                 }
@@ -92,7 +96,7 @@ class Zigra_Router
      *
      * @return boolean true when route is found or false if not found.
      */
-    private static function _Process(Zigra_Request $request, $resetProperties = false)
+    private static function process(Zigra_Request $request, $resetProperties = false)
     {
         $routes = array();
         $routes = self::$_compiledRouteCollection->routes;
@@ -113,10 +117,14 @@ class Zigra_Router
                     $args[$variable] = array_shift($matches);
                 }
 
-                self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $route[0]['defaults']['controller'] : self::$_controller;
-                self::$_action = (!isset(self::$_action) || $resetProperties) ? $route[0]['defaults']['action'] : self::$_action;
-                self::$_args = (!isset(self::$_args) || $resetProperties) ? $args : self::$_args;
-                self::$_defaults = (!isset(self::$_defaults) || $resetProperties) ? $route[0]['defaults'] : self::$_defaults;
+                self::$_controller = (!isset(self::$_controller) || $resetProperties)
+                    ? $route[0]['defaults']['controller'] : self::$_controller;
+                self::$_action = (!isset(self::$_action) || $resetProperties)
+                    ? $route[0]['defaults']['action'] : self::$_action;
+                self::$_args = (!isset(self::$_args) || $resetProperties)
+                    ? $args : self::$_args;
+                self::$_defaults = (!isset(self::$_defaults) || $resetProperties)
+                    ? $route[0]['defaults'] : self::$_defaults;
 
                 if (isset($request_parts['query'])) {
                     parse_str($request_parts['query'], $query_args);
@@ -164,7 +172,7 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param string $name Optional name of route to be used (if not set the route will be selected based on given params).
+     * @param string $name Optional name of route to be used (if not set the route will be selected on given params).
      * @param array $params The arguments to be processed by the created url.
      *
      * @throws Exception if route name is not found
