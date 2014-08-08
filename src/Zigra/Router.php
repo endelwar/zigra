@@ -102,21 +102,17 @@ class Zigra_Router
             //preg_match($route[0]['regex'], $request->getRequest(), $matches);
 
             if (count($matches)) {
-                //array_shift($matches);
-                //var_dump('matches', $matches);
-
-                //rimuovi id numerici dall'array
+                //remove numeric index from array
                 foreach ($matches as $k => &$v) {
                     if (is_numeric($k)) {
                         unset($matches[$k]);
                     }
                 }
                 $args = array();
-                //var_dump('route 0', $route[0]['variables']);
                 foreach ($route[0]['variables'] as $variable) {
                     $args[$variable] = array_shift($matches);
                 }
-                //var_dump('args', $args);
+
                 self::$_controller = (!isset(self::$_controller) || $resetProperties) ? $route[0]['defaults']['controller'] : self::$_controller;
                 self::$_action = (!isset(self::$_action) || $resetProperties) ? $route[0]['defaults']['action'] : self::$_action;
                 self::$_args = (!isset(self::$_args) || $resetProperties) ? $args : self::$_args;
@@ -126,8 +122,6 @@ class Zigra_Router
                     parse_str($request_parts['query'], $query_args);
                     self::$_args = array_merge(self::$_args, $query_args);
                 }
-                //var_dump(self::$_args);echo '<hr>';
-                //var_dump(self::$_defaults);echo '<hr>';
 
                 return true;
             }
@@ -137,8 +131,6 @@ class Zigra_Router
             : self::$_controller;
         self::$_action = (!isset(self::$_action) || $resetProperties) ? $request->getAction() : self::$_action;
         self::$_args = (!isset(self::$_args) || $resetProperties) ? $request->getArgs() : self::$_args;
-
-        //var_dump(self::$_args);echo '<hr>';
 
         return false;
     }
