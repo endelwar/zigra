@@ -15,8 +15,7 @@ class Zigra_Registry implements IteratorAggregate
     protected static $instance = null;
 
     /**
-     * Array che conterrà le coppie chiave => valore salvate
-     * nel registro.
+     * @var array $pool
      */
     protected $pool;
 
@@ -35,10 +34,8 @@ class Zigra_Registry implements IteratorAggregate
         return self::$instance;
     }
 
-
     /**
-     * Restituisce l’iteratore che per comodità è uno di quelli
-     * implementati nella SPL.
+     * Return Iterator.
      *
      * @return ArrayIterator
      */
@@ -56,54 +53,57 @@ class Zigra_Registry implements IteratorAggregate
      * @param string $default optional default value if key not set
      *
      * @return mixed the variable's value or default
-     * */
-
+     */
     public function get($key, $default = null)
     {
         return $this->has($key) ? $this->pool[$key] : $default;
     }
 
     /**
-     * set
-     *
      * Set a variable in the pool
      *
      * @param string $key the variable's name
      * @param string $value the variable's value
      *
      * @return void
-     * */
-    public function set($key, $value)
+     * @throws InvalidArgumentException when $value is not defined
+     */
+    public function set($key, $value = null)
     {
-        $this->pool[$key] = $value;
+        if (func_num_args() >= 2) {
+            $this->pool[$key] = $value;
+        } else {
+            throw new InvalidArgumentException('Missing required value for key');
+        }
     }
 
     /**
-     * add
-     *
      * Add a variable in the $key array
      *
      * @param string $key the variable's name
      * @param string $value the variable's value
      *
      * @return void
-     * */
-    public function add($key, $value)
+     * @throws InvalidArgumentException when $value is not defined
+     */
+    public function add($key, $value = null)
     {
-        if ($this->has($key) && is_array($this->pool[$key])) {
-            $this->pool[$key][] = $value;
+        if (func_num_args() >= 2) {
+            if ($this->has($key) && is_array($this->pool[$key])) {
+                $this->pool[$key][] = $value;
+            }
+        } else {
+            throw new InvalidArgumentException('Missing required value for key');
         }
     }
 
     /**
-     * has
-     *
      * Check if variable exists
      *
      * @param string $key the variable's name
      *
      * @return boolean
-     * */
+     */
     public function has($key)
     {
         return array_key_exists($key, $this->pool);
@@ -132,9 +132,7 @@ class Zigra_Registry implements IteratorAggregate
     }
 
     /**
-     * Funzioni di utilità per accedere alle chiavi come se fossero
-     * proprietà del registro.
-     *
+     * Get key's value as if key is an object property
      * @param string $key the variable's name
      *
      * @return mixed
@@ -145,8 +143,7 @@ class Zigra_Registry implements IteratorAggregate
     }
 
     /**
-     * Funzioni di utilità per accedere alle chiavi come se fossero
-     * proprietà del registro.
+     * Set key's value as if key is an object property
      *
      * @param string $key the variable's name
      * @param mixed $value the variable's value
