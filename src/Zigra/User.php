@@ -43,8 +43,11 @@ class Zigra_User
 
     public static function Singleton($userclass)
     {
+        $className = __CLASS__;
         if (!isset(self::$_instance)) {
-            $className = __CLASS__;
+            self::$_instance = new $className($userclass);
+        }
+        if (strtolower(get_class(self::$_instance->userclass)) !== strtolower($userclass)) {
             self::$_instance = new $className($userclass);
         }
         return self::$_instance;
