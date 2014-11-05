@@ -7,12 +7,17 @@ class Zigra_Controller
     protected $tplVar = null;
     protected $registry = null;
 
-    public function __construct(Zigra_Request $request, Array $params)
+    public function __construct(Zigra_Request $request, Array $params, $session_manager = null)
     {
         $this->request = $request;
         $this->params = $params;
-        $this->registry = Zigra_Registry::getInstance();
-        $this->tplVar = Zigra_Registry_Tplvar::getInstance();
+        if ($session_manager) {
+            $this->registry = $session_manager->getSegment('zigra\registry');
+            $this->tplVar = $session_manager->getSegment('zigra\tplvar');
+        } else {
+            $this->registry = Zigra_Registry::getInstance();
+            $this->tplVar = Zigra_Registry_Tplvar::getInstance();
+        }
     }
 
     /**
@@ -33,6 +38,21 @@ class Zigra_Controller
     public function getParams()
     {
         return $this->params;
+    }
+
+    /**
+     * Retrieves a single param from the route.
+     *
+     * @param string $key
+     * @return Mixed The route param
+     */
+    public function getParam($key)
+    {
+        if (isset($this->params[$key])) {
+            return $this->params[$key];
+        }
+
+        return null;
     }
 
     /**

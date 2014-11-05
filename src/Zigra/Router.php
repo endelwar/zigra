@@ -26,7 +26,7 @@ class Zigra_Router
         return self::$instance;
     }
 
-    public static function route(Zigra_Request $request, $resetProperties = false)
+    public static function route(Zigra_Request $request, $resetProperties = false, $session_manager = null)
     {
         self::singleton();
 
@@ -42,7 +42,11 @@ class Zigra_Router
                     $params = array_merge(self::$_defaults, self::$_args);
                     self::$_controller = new $fullClassName($request, $params);
                     if (is_callable(array(self::$_controller, self::$_action))) {
-                        $registry = Zigra_Registry::getInstance();
+                        if ($session_manager) {
+                            $registry = $session_manager->getSegment('zigra\registry');
+                        } else {
+                            $registry = Zigra_Registry::getInstance();
+                        }
                         $registry->set('controller', $className);
                         $registry->set('action', self::$_action);
 
@@ -74,7 +78,11 @@ class Zigra_Router
                 include_once $classFileName;
                 $errorprocess = new errorController($request, self::$_args);
 
-                $registry = Zigra_Registry::getInstance();
+                if ($session_manager) {
+                    $registry = $session_manager->getSegment('zigra\registry');
+                } else {
+                    $registry = Zigra_Registry::getInstance();
+                }
                 $registry->set('controller', 'error');
                 $registry->set('action', 'error404');
 
