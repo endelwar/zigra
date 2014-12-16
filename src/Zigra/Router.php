@@ -106,7 +106,6 @@ class Zigra_Router
      */
     private static function process(Zigra_Request $request, $resetProperties = false)
     {
-        $routes = array();
         $routes = self::$_compiledRouteCollection->routes;
         foreach ($routes as $route) {
             $request_parts = parse_url($request->getRequest());
