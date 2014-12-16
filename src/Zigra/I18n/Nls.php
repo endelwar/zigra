@@ -64,11 +64,6 @@ class Zigra_I18n_Nls
             }
         }
 
-        // get the display value
-        if (isset($data['language'][$obj->key])) {
-            $obj->display = $data['language'][$obj->key];
-        }
-
         // get the isocode? (ISO 639)
         if (isset($data['isocode'][$obj->key])) {
             $obj->isocode = $data['isocode'][$obj->key];
@@ -79,19 +74,12 @@ class Zigra_I18n_Nls
             }
         }
 
-        // get the locale
-        if (isset($data['locale'][$obj->key])) {
-            $obj->locale = $data['locale'][$obj->key];
-        }
-
-        // get the encoding
-        if (isset($data['encoding'][$obj->key])) {
-            $obj->encoding = $data['encoding'][$obj->key];
-        }
-
-        // get the direction
-        if (isset($data['direction'][$obj->key])) {
-            $obj->direction = $data['direction'][$obj->key];
+        $fields = array('language', 'locale', 'encoding', 'direction');
+        foreach ($fields as $field) {
+            // get the field value
+            if (isset($data[$field][$obj->key])) {
+                $obj->$field = $data[$field][$obj->key];
+            }
         }
 
         // get aliases
@@ -113,13 +101,11 @@ class Zigra_I18n_Nls
      */
     public function matches($str)
     {
-        if ($str == $this->name()) {
-            return true;
-        }
-        if ($str == $this->isocode()) {
-            return true;
-        }
-        if ($str == $this->fullname()) {
+        if (
+            ($str == $this->name()) ||
+            ($str == $this->isocode()) ||
+            ($str == $this->fullname())
+        ) {
             return true;
         }
         $aliases = $this->aliases();
@@ -161,9 +147,10 @@ class Zigra_I18n_Nls
      */
     public function display()
     {
-        if ($this->display) {
-            return $this->display;
+        if (!$this->display) {
+            return null;
         }
+        return $this->display;
     }
 
     /**
@@ -190,9 +177,10 @@ class Zigra_I18n_Nls
      */
     public function fullname()
     {
-        if ($this->fullname) {
-            return $this->fullname;
+        if (!$this->fullname) {
+            return null;
         }
+        return $this->fullname;
     }
 
     /**
