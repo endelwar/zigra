@@ -184,29 +184,25 @@ class Zigra_Router
      *
      * @throws Exception if route name is not found
      *
-     * @return mixed string With created url or false on error.
+     * @return string|false Generated url or false on error.
      */
 
     public static function generate($name = '', array $params = array())
     {
         self::singleton();
 
-        // reference to the route used for url creation
-        $route = null;
         $routes = self::$_routeCollection->routes;
 
-        if ($name) {
-            // a certain route should be used
-            if (!isset($routes[$name])) {
-                // this route does not exist, so we abort here
-                return false;
-            }
-            // use this route
-            $route = $routes[$name];
-        } else {
+        if (!$name) {
             throw new Exception('Cannot find route named "' . $name . '"');
         }
-
+        // a certain route should be used
+        if (!isset($routes[$name])) {
+            // this route does not exist, so we abort here
+            return false;
+        }
+        // use this route
+        $route = $routes[$name];
         // let the route do the actual url creation
         $url = $route->generate($params);
 
