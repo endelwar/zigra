@@ -77,7 +77,7 @@ class Zigra_I18n
      * Cross reference the browser preferred language with those
      * that are available (via NLS Files). To find the first suitable language.
      *
-     * @return Zigra_I18n_Nls First suitable lang object or false.
+     * @return Zigra_I18n_Nls|false First suitable lang object or false.
      */
     public static function detectBrowserLanguage()
     {
