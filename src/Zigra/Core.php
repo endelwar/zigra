@@ -2,7 +2,6 @@
 
 class Zigra_Core
 {
-
     /**
      * Path to Zigra root
      *

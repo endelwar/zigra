@@ -2,7 +2,6 @@
 
 class Zigra_Route
 {
-
     private $_pattern;
     private $_defaults;
     private $_requirements;

@@ -2,7 +2,6 @@
 
 class Zigra_Request
 {
-
     protected $_controller;
     protected $_action;
     protected $_args;

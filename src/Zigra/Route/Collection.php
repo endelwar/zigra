@@ -2,7 +2,6 @@
 
 class Zigra_Route_Collection
 {
-
     public $routes;
 
     public function __construct()

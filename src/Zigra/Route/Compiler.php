@@ -2,8 +2,6 @@
 
 class Zigra_Route_Compiler
 {
-
-    //'#\/tellme\/users\/[\w\d_]+\/[\w\d_]+#'
     public function Compile(Zigra_Route $route)
     {
         $pattern = $route->GetPattern();
