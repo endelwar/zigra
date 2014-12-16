@@ -113,10 +113,7 @@ class Zigra_User
 
     public static function verify($password, $existingHash)
     {
-        /* Hash new password with old hash */
-        $hash = crypt($password, $existingHash);
-        /* Do Hashs match? */
-        if ($hash === $existingHash) {
+        if (password_verify($password, $existingHash)) {
             return true;
         } else {
             return false;
@@ -145,11 +142,7 @@ class Zigra_User
 
     public static function generateHashedPassword($password)
     {
-        global $salt_string;
-        $rounds = mt_rand(5000, 99999);
-        $hashedPassword = crypt($password, '$6$rounds=' . $rounds . '$' . $salt_string . '$');
-
-        return $hashedPassword;
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     public static function generatePassword($length = 8)
