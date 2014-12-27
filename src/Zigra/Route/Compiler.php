@@ -39,8 +39,7 @@ class Zigra_Route_Compiler
             'pattern' => $pattern,
             'regex' => $regex,
             'variables' => $variables,
-            'defaults' => $defaults,
-
+            'defaults' => $defaults
         );
         return $tokens;
     }
