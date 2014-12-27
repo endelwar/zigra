@@ -16,14 +16,13 @@ class Zigra_Route_Compiler
         if (count($matches)) {
             // named variables found
             foreach ($matches as $match) {
-                if ($var = $match[1][0]) {
-                    $requirement = '[^\/]+';
-                    if (isset($requirements[$var])) {
-                        $requirement = $requirements[$var];
-                    }
-                    $variables[] = $match[1][0];
-                    $regex = str_replace($match[0][0], '(?P<' . $var . '>' . $requirement . ')', $regex);
+                $var = $match[1][0];
+                $requirement = '[^\/]+';
+                if (isset($requirements[$var])) {
+                    $requirement = $requirements[$var];
                 }
+                $variables[] = $match[1][0];
+                $regex = str_replace($match[0][0], '(?P<' . $var . '>' . $requirement . ')', $regex);
             }
         }
         $regex = '#^' . $regex . '$#x';
