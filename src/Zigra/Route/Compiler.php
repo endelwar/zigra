@@ -25,7 +25,7 @@ class Zigra_Route_Compiler
                         $regex .= '(?P<' . $var . '>' . $requirements[$var] . ')\/';
                     } else {
                         //$regex .= '([\w\d_]+)\/';
-                        $regex .= '(?P<' . $var . '>[\w\d\=_-]+)\/';
+                        $regex .= '(?P<' . $var . '>[^\/]+)\/';
                     }
                     $variables[] = $match[1][0];
                 }
