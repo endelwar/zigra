@@ -11,7 +11,7 @@ class Zigra_Route_Compiler
         $tokens = array();
         $variables = array();
         $pos = 0;
-        $regex = '#';
+        $regex = '#^';
 
         preg_match_all('#.\{([\w\d\=_-]+)\}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         if (count($matches)) {
