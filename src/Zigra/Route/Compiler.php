@@ -15,13 +15,14 @@ class Zigra_Route_Compiler
 
         preg_match_all('#.\{([\w\d\=_-]+)\}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         if (count($matches)) {
+            // named variables found
             foreach ($matches as $match) {
                 if ($text = substr($pattern, $pos, $match[0][1] - $pos)) {
                     $regex .= str_replace('/', '\/', $text) . '\/';
                 }
                 if ($var = $match[1][0]) {
                     if (isset($requirements[$var])) {
-                        $regex .= '(' . $requirements[$var] . ')\/';
+                        $regex .= '(?P<' . $var . '>' . $requirements[$var] . ')\/';
                     } else {
                         //$regex .= '([\w\d_]+)\/';
                         $regex .= '(?P<' . $var . '>[\w\d\=_-]+)\/';
