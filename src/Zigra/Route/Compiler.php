@@ -10,38 +10,30 @@ class Zigra_Route_Compiler
         $defaults = $route->GetDefaults();
         $tokens = array();
         $variables = array();
-        $pos = 0;
-        $regex = '#^';
 
-        preg_match_all('#.\{([\w\d\=_-]+)\}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        preg_match_all('#\{([\w\d\=_-]+)\}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        $regex = str_replace('/', '\/', $pattern);
         if (count($matches)) {
             // named variables found
             foreach ($matches as $match) {
-                if ($text = substr($pattern, $pos, $match[0][1] - $pos)) {
-                    $regex .= str_replace('/', '\/', $text) . '\/';
-                }
                 if ($var = $match[1][0]) {
+                    $requirement = '[^\/]+';
                     if (isset($requirements[$var])) {
-                        $regex .= '(?P<' . $var . '>' . $requirements[$var] . ')\/';
-                    } else {
-                        //$regex .= '([\w\d_]+)\/';
-                        $regex .= '(?P<' . $var . '>[^\/]+)\/';
+                        $requirement = $requirements[$var];
                     }
                     $variables[] = $match[1][0];
+                    $regex = str_replace($match[0][0], '(?P<' . $var . '>' . $requirement . ')', $regex);
                 }
-                $pos = $match[0][1] + strlen($match[0][0]);
             }
-            $regex = rtrim($regex, '\/') . '$#x';
-        } else {
-            $regex .= str_replace('/', '\/', $pattern) . '$#x';
         }
-
+        $regex = '#^' . $regex . '$#x';
         $tokens[] = array(
             'pattern' => $pattern,
             'regex' => $regex,
             'variables' => $variables,
             'defaults' => $defaults
         );
+
         return $tokens;
     }
 }
