@@ -22,7 +22,7 @@ class Zigra_I18n_Nls
      *
      * @param string $lang language iso code
      *
-     * @return Zigra_I18n_Nls
+     * @return Zigra_I18n_Nls|null
      */
     public static function init($lang = null)
     {
@@ -39,7 +39,7 @@ class Zigra_I18n_Nls
                 return $obj;
             } else {
                 trigger_error('Cannot load language file "' . $lang_file . '"', E_ERROR);
-                return false;
+                return null;
             }
         }
     }
