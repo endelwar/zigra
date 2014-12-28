@@ -143,17 +143,16 @@ class Zigra_Route
         $compiledRoute = $this->Compile();
 
         if (count($compiledRoute[0]['variables']) != count($params)) {
-            throw new InvalidArgumentException('Zigra_Route->generate: dai, passami qualche parametro in più, tipo ' . count(
-                    $compiledRoute[0]['variables']
-                ) . ' in tutto!');
+            throw new InvalidArgumentException(
+                'Zigra_Route->generate: missing ' . count($compiledRoute[0]['variables']) . ' parameters'
+            );
         } else {
-            // il numero dei parametri è giusto, verifichiamo che siano quelli giusti
+            // right number of parameters, let's verify that they are the right ones
             $paramdiff = array_diff_key(array_flip($compiledRoute[0]['variables']), $params);
             if (!empty($paramdiff)) {
-                throw new InvalidArgumentException('Zigra_Route->generate: i nomi dei parametri non sono corretti, manca: ' . implode(
-                        ', ',
-                        array_flip($paramdiff)
-                    )
+                throw new InvalidArgumentException(
+                    'Zigra_Route->generate: wrong parameters name, missing: ' .
+                    implode(', ', array_flip($paramdiff))
                 );
             } else {
                 $parameters = array();
@@ -166,7 +165,6 @@ class Zigra_Route
 
                 return $url;
             }
-
         }
     }
 }
