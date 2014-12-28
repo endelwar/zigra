@@ -63,7 +63,7 @@ class Zigra_Route
     {
         $this->_requirements = array();
         foreach ($requirements as $key => $value) {
-            $this->_requirements[$key] = $this->_SanitizeRequirement($key, $value);
+            $this->_requirements[$key] = $this->_SanitizeRequirement($value);
         }
     }
 
@@ -97,7 +97,11 @@ class Zigra_Route
         return isset($this->_options[$name]) ? $this->_options[$name] : null;
     }
 
-    private function _SanitizeRequirement($key, $regex)
+    /**
+     * @param string $regex
+     * @return string
+     */
+    private function _SanitizeRequirement($regex)
     {
         if ($regex[0] == '^') {
             $regex = substr($regex, 1);
