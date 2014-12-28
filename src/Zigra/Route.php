@@ -10,6 +10,9 @@ class Zigra_Route
 
     /**
      * @param string $pattern
+     * @param array $defaults
+     * @param array $requirements
+     * @param array $options
      */
     public function __construct(
         $pattern,
@@ -40,6 +43,9 @@ class Zigra_Route
         return $this->_pattern;
     }
 
+    /**
+     * @param array $defaults
+     */
     public function SetDefaults(array $defaults)
     {
         $this->_defaults = $defaults;
@@ -50,6 +56,9 @@ class Zigra_Route
         return $this->_defaults;
     }
 
+    /**
+     * @param array $requirements
+     */
     public function SetRequirements(array $requirements)
     {
         $this->_requirements = array();
@@ -63,6 +72,9 @@ class Zigra_Route
         return $this->_requirements;
     }
 
+    /**
+     * @param array $options
+     */
     public function SetOptions(array $options)
     {
         $this->_options = array_merge(
@@ -78,6 +90,7 @@ class Zigra_Route
 
     /**
      * @param string $name
+     * @return string|null
      */
     public function GetOption($name)
     {
@@ -119,7 +132,7 @@ class Zigra_Route
      *
      * @throws InvalidArgumentException If required params are missing.
      *
-     * @return string Url.
+     * @return string $url Generated url.
      */
     public function Generate($params)
     {
