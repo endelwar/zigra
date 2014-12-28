@@ -114,7 +114,8 @@ class Zigra_Router
 
             if (count($matches)) {
                 //remove numeric index from array
-                $matches = array_filter($matches, 'is_string');
+                $matches_filter = array_filter(array_keys($matches), 'is_string');
+                $matches = array_intersect_key($matches, array_flip($matches_filter));
                 $args = array();
                 foreach ($route[0]['variables'] as $variable) {
                     $args[$variable] = array_shift($matches);
