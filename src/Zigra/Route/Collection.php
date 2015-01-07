@@ -11,8 +11,9 @@ class Zigra_Route_Collection
 
     /**
      * @param string $name
+     * @param Zigra_Route $route
      */
-    public function Add($name, $route = null)
+    public function add($name, $route = null)
     {
         // return if we have an empty input
         if (empty($name)) {

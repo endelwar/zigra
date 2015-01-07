@@ -74,7 +74,7 @@ class Zigra_Controller
      */
     public function getUser($userclass)
     {
-        return Zigra_User::Singleton($userclass);
+        return Zigra_User::singleton($userclass);
     }
 
     /**

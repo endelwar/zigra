@@ -2,7 +2,7 @@
 
 class Zigra_User
 {
-    protected static $_instance;
+    protected static $instance;
     protected static $_user;
     protected $userclass;
 
@@ -37,19 +37,19 @@ class Zigra_User
 
     public function destroy()
     {
-        self::$_instance = null;
+        self::$instance = null;
     }
 
-    public static function Singleton($userclass)
+    public static function singleton($userclass)
     {
         $className = __CLASS__;
-        if (!isset(self::$_instance)) {
-            self::$_instance = new $className($userclass);
+        if (!isset(self::$instance)) {
+            self::$instance = new $className($userclass);
         }
-        if (strtolower(get_class(self::$_instance->userclass)) !== strtolower($userclass)) {
-            self::$_instance = new $className($userclass);
+        if (strtolower(get_class(self::$instance->userclass)) !== strtolower($userclass)) {
+            self::$instance = new $className($userclass);
         }
-        return self::$_instance;
+        return self::$instance;
     }
 
     public function loggedIn()
@@ -71,8 +71,11 @@ class Zigra_User
         return $status;
     }
 
-    /* Login */
-
+    /**
+     * @param string $email
+     * @param string $password
+     * @return bool
+     */
     public function login($email, $password)
     {
         if ($email && $password) {
@@ -108,8 +111,12 @@ class Zigra_User
         }
     }
 
-    /* Verify Password */
-
+    /**
+     * Verify Password
+     * @param string $password
+     * @param string $existingHash
+     * @return bool
+     */
     public static function verify($password, $existingHash)
     {
         if (password_verify($password, $existingHash)) {
@@ -119,18 +126,25 @@ class Zigra_User
         }
     }
 
-    /* Logout */
-
-    public function logout()
+    /**
+     * Logout
+     * @param string|null $routeName
+     * @param array $routeParams
+     * @throws Exception
+     */
+    public function logout($routeName = null, $routeParams = array())
     {
-        /* Clear the SESSION */
+        // Clear the SESSION
         $_SESSION = array();
-        /* Destroy the SESSION */
+        // Destroy the SESSION
         session_unset();
         session_destroy();
 
-        /* Redirect */
-        $url = Zigra_Router::generate('homepage');
+        // Redirect
+        if (null == $routeName) {
+            $routeName = 'homepage';
+        }
+        $url = Zigra_Router::generate($routeName, $routeParams);
         header("Location: " . $url);
     }
 

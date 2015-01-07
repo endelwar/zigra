@@ -6,15 +6,15 @@ class Zigra_I18n
     /**
      * @ignore
      */
-    private static $_nls;
+    private static $nls;
 
     /**
      * @ignore
      */
-    private static function _loadNls()
+    private static function loadNls()
     {
-        if (!is_array(self::$_nls)) {
-            self::$_nls = array();
+        if (!is_array(self::$nls)) {
+            self::$nls = array();
 
             $nlsdir = __DIR__ . DIRECTORY_SEPARATOR . 'I18n' . DIRECTORY_SEPARATOR . 'nls';
             $files = glob($nlsdir . '/*nls.php');
@@ -31,7 +31,7 @@ class Zigra_I18n
                     if (isset($nls)) {
                         $obj = Zigra_I18n_Nls::fromArray($nls);
                         unset($nls);
-                        self::$_nls[$obj->key()] = $obj;
+                        self::$nls[$obj->key()] = $obj;
                     }
                 }
             }
@@ -86,16 +86,15 @@ class Zigra_I18n
             return false;
         }
 
-        self::_loadNls();
+        self::loadNls();
 
         foreach ($langs as $onelang => $weight) {
-            if (isset(self::$_nls[$onelang])) {
-                return self::$_nls[$onelang];
+            if (isset(self::$nls[$onelang])) {
+                return self::$nls[$onelang];
             }
 
-            foreach (self::$_nls as $key => $obj) {
+            foreach (self::$nls as $key => $obj) {
                 if ($obj->matches($onelang)) {
-                    //return $obj->name();
                     return $obj;
                 }
             }
@@ -109,11 +108,11 @@ class Zigra_I18n
      */
     public static function matchLang($lang)
     {
-        self::_loadNls();
-        if (isset(self::$_nls[$lang])) {
-            return self::$_nls[$lang];
+        self::loadNls();
+        if (isset(self::$nls[$lang])) {
+            return self::$nls[$lang];
         }
-        foreach (self::$_nls as $key => $obj) {
+        foreach (self::$nls as $key => $obj) {
             if ($obj->matches($lang)) {
                 return $obj;
             }
@@ -141,7 +140,6 @@ class Zigra_I18n
                     $i18n = Zigra_I18n_Nls::init($defaultLang);
                 }
             }
-            $_SESSION['language'] = $i18n->key();
         } else {
             if (isset($_SESSION['language'])) {
                 $i18n = Zigra_I18n_Nls::init($_SESSION['language']);
@@ -154,10 +152,9 @@ class Zigra_I18n
                         $i18n = Zigra_I18n_Nls::init($defaultLang);
                     }
                 }
-
-                $_SESSION['language'] = $i18n->key();
             }
         }
+        $_SESSION['language'] = $i18n->key();
         return $i18n;
     }
 }

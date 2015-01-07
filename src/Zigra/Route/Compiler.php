@@ -2,12 +2,12 @@
 
 class Zigra_Route_Compiler
 {
-    public function Compile(Zigra_Route $route)
+    public function compile(Zigra_Route $route)
     {
-        $pattern = $route->GetPattern();
-        $requirements = $route->GetRequirements();
-        //$options = $route->GetOptions();
-        $defaults = $route->GetDefaults();
+        $pattern = $route->getPattern();
+        $requirements = $route->getRequirements();
+        //$options = $route->getOptions();
+        $defaults = $route->getDefaults();
         $tokens = array();
         $variables = array();
 

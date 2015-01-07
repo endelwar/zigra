@@ -18,6 +18,9 @@
         "swiftmailer/swiftmailer": ">=5.2.1",
         "ircmaxell/password-compat": "1.0.*"
     },
+    "suggest": {
+        "aura/session": "Allows more advanced management of session"
+    },
     "autoload": {
         "psr-0": { "Zigra_": "src/" },
         "classmap": [

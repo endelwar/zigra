@@ -2,6 +2,10 @@
 
 class Zigra_Exception extends Exception
 {
+    /**
+     * @param string $code
+     * @param string $message
+     */
     public static function renderError($code, $message)
     {
         self::renderHeader();
@@ -19,7 +23,10 @@ class Zigra_Exception extends Exception
         echo '</div></body></html>';
     }
 
-    public static function displayException($e)
+    /**
+     * @param Exception $e
+     */
+    public static function displayException(Exception $e)
     {
         echo $e->getCode();
         echo '<hr>';

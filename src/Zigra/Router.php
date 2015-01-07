@@ -168,9 +168,9 @@ class Zigra_Router
     ) {
         self::singleton();
         $route = new Zigra_Route($pattern, $defaults, $requirements, $options);
-        $compiledRoute = $route->Compile();
-        self::$_routeCollection->Add($name, $route);
-        self::$_compiledRouteCollection->Add($name, $compiledRoute);
+        $compiledRoute = $route->compile();
+        self::$_routeCollection->add($name, $route);
+        self::$_compiledRouteCollection->add($name, $compiledRoute);
     }
 
     /**

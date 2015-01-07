@@ -2,11 +2,11 @@
 
 class Zigra_Route
 {
-    private $_pattern;
-    private $_defaults;
-    private $_requirements;
-    public $_options;
-    private $_compiledRoute = false;
+    protected $pattern;
+    protected $defaults;
+    protected $requirements;
+    public $options;
+    protected $compiledRoute = false;
 
     /**
      * @param string $pattern
@@ -20,88 +20,88 @@ class Zigra_Route
         array $requirements = array(),
         array $options = array()
     ) {
-        $this->SetPattern($pattern);
-        $this->SetDefaults($defaults);
-        $this->SetRequirements($requirements);
-        $this->SetOptions($options);
+        $this->setPattern($pattern);
+        $this->setDefaults($defaults);
+        $this->setRequirements($requirements);
+        $this->setOptions($options);
     }
 
     /**
      * @param string $pattern
      */
-    public function SetPattern($pattern)
+    public function setPattern($pattern)
     {
-        $this->_pattern = trim($pattern);
+        $this->pattern = trim($pattern);
 
-        if ($this->_pattern[0] !== '/' || empty($this->_pattern)) {
-            $this->_pattern = '/' . $this->_pattern;
+        if ($this->pattern[0] !== '/' || empty($this->pattern)) {
+            $this->pattern = '/' . $this->pattern;
         }
     }
 
-    public function GetPattern()
+    public function getPattern()
     {
-        return $this->_pattern;
+        return $this->pattern;
     }
 
     /**
      * @param array $defaults
      */
-    public function SetDefaults(array $defaults)
+    public function setDefaults(array $defaults)
     {
-        $this->_defaults = $defaults;
+        $this->defaults = $defaults;
     }
 
-    public function GetDefaults()
+    public function getDefaults()
     {
-        return $this->_defaults;
+        return $this->defaults;
     }
 
     /**
      * @param array $requirements
      */
-    public function SetRequirements(array $requirements)
+    public function setRequirements(array $requirements)
     {
-        $this->_requirements = array();
+        $this->requirements = array();
         foreach ($requirements as $key => $value) {
-            $this->_requirements[$key] = $this->_SanitizeRequirement($value);
+            $this->requirements[$key] = $this->sanitizeRequirement($value);
         }
     }
 
-    public function GetRequirements()
+    public function getRequirements()
     {
-        return $this->_requirements;
+        return $this->requirements;
     }
 
     /**
      * @param array $options
      */
-    public function SetOptions(array $options)
+    public function setOptions(array $options)
     {
-        $this->_options = array_merge(
+        $this->options = array_merge(
             array('compiler_class' => 'Zigra_Route_Compiler'),
             $options
         );
     }
 
-    public function GetOptions()
+    public function getOptions()
     {
-        return $this->_options;
+        return $this->options;
     }
 
     /**
      * @param string $name
      * @return string|null
      */
-    public function GetOption($name)
+    public function getOption($name)
     {
-        return isset($this->_options[$name]) ? $this->_options[$name] : null;
+        return isset($this->options[$name]) ? $this->options[$name] : null;
     }
 
     /**
      * @param string $regex
      * @return string
      */
-    private function _SanitizeRequirement($regex)
+    private function sanitizeRequirement($regex)
     {
         if ($regex[0] == '^') {
             $regex = substr($regex, 1);
@@ -114,16 +114,16 @@ class Zigra_Route
         return $regex;
     }
 
-    public function Compile()
+    public function compile()
     {
-        if (!$this->_compiledRoute) {
-            $className = $this->GetOption('compiler_class');
+        if (!$this->compiledRoute) {
+            $className = $this->getOption('compiler_class');
             $routeCompiler = new $className;
 
-            $compiledRoute = $routeCompiler->Compile($this);
+            $compiledRoute = $routeCompiler->compile($this);
 
         } else {
-            $compiledRoute = $this->_compiledRoute;
+            $compiledRoute = $this->compiledRoute;
         }
 
         return $compiledRoute;
@@ -138,9 +138,9 @@ class Zigra_Route
      *
      * @return string $url Generated url.
      */
-    public function Generate($params)
+    public function generate($params)
     {
-        $compiledRoute = $this->Compile();
+        $compiledRoute = $this->compile();
 
         if (count($compiledRoute[0]['variables']) != count($params)) {
             throw new InvalidArgumentException(
