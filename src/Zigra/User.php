@@ -93,6 +93,8 @@ class Zigra_User
                     $_SESSION['member_valid'] = true;
                     $_SESSION['member_type'] = $user::USERTYPE;
 
+                    $_SESSION['userObj'] = $user;
+
                     /* User Remember me feature? */
                     //$this->createNewCookie($user->id);
 
