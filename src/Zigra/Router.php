@@ -16,6 +16,9 @@ class Zigra_Router
         self::$_compiledRouteCollection = new Zigra_Route_Collection();
     }
 
+    /**
+     * @return $this
+     */
     public static function singleton()
     {
         if (!isset(self::$instance)) {
@@ -26,73 +29,94 @@ class Zigra_Router
         return self::$instance;
     }
 
+    /**
+     * @param Zigra_Request $request
+     * @param bool $resetProperties
+     * @param null $session_manager
+     */
     public static function route(Zigra_Request $request, $resetProperties = false, $session_manager = null)
     {
         self::singleton();
 
         $routefound = self::process($request, $resetProperties);
         if ($routefound) {
-            $className = self::$_controller;
-            $classFileName = '../app/controller/' . $className . 'Controller.php';
-            try {
-                if (file_exists($classFileName)) {
-                    include_once $classFileName;
-
-                    $fullClassName = ucfirst($className) . 'Controller';
-                    $params = array_merge(self::$_defaults, self::$_args);
-                    self::$_controller = new $fullClassName($request, $params);
-                    if (is_callable(array(self::$_controller, self::$_action))) {
-                        if ($session_manager) {
-                            $registry = $session_manager->getSegment('zigra\registry');
-                        } else {
-                            $registry = Zigra_Registry::getInstance();
-                        }
-                        $registry->set('controller', $className);
-                        $registry->set('action', self::$_action);
-
-                        call_user_func_array(array(self::$_controller, 'preExecute'), array($request));
-                        call_user_func_array(array(self::$_controller, self::$_action), array($request));
-                        call_user_func_array(array(self::$_controller, 'postExecute'), array($request));
-
-                        return;
-                    } else {
-                        throw new Zigra_Exception(
-                            'Impossibile richiamare il modulo: ' . $className . '->' . self::$_action
-                        );
-                    }
-                } else {
-                    throw new Zigra_Exception(
-                        'Impossibile trovare la classe ' . $className . ' (' . $classFileName . ')'
-                    );
-
-                    //self::route(new Zigra_Request('error'), true);
-                }
-            } catch (Zigra_Exception $e) {
-                Zigra_Exception::renderError($e->getCode(), $e->getMessage());
-            }
+            self::callControllerAction(
+                self::$_controller,
+                self::$_action,
+                $request,
+                array_merge(self::$_defaults, self::$_args),
+                $session_manager
+            );
         } else {
             // 404 route not found
-            // TODO: make this contruct indipendent from app
-            $classFileName = '../app/controller/errorController.php';
+            self::callControllerAction(
+                'error',
+                'error404',
+                $request,
+                array_merge(self::$_defaults, self::$_args),
+                $session_manager,
+                true
+            );
+        }
+    }
+
+    /**
+     * @param $className
+     * @param $action
+     * @param Zigra_Request $request
+     * @param array $params
+     * @param null $session_manager
+     * @param bool $isError
+     */
+    private static function callControllerAction(
+        $className,
+        $action,
+        Zigra_Request $request,
+        array $params,
+        $session_manager = null,
+        $isError = false
+    ) {
+        // TODO: make this contruct indipendent from app path
+        $classFileName = '../app/controller/' . $className . 'Controller.php';
+        try {
             if (file_exists($classFileName)) {
                 include_once $classFileName;
-                $errorprocess = new errorController($request, self::$_args);
 
-                if ($session_manager) {
-                    $registry = $session_manager->getSegment('zigra\registry');
+                $fullClassName = ucfirst($className) . 'Controller';
+                $controller = new $fullClassName($request, $params);
+                if (is_callable(array($controller, $action))) {
+                    if ($session_manager) {
+                        $registry = $session_manager->getSegment('zigra\registry');
+                    } else {
+                        $registry = Zigra_Registry::getInstance();
+                    }
+                    $registry->set('controller', $className);
+                    $registry->set('action', $action);
+
+                    call_user_func_array(array($controller, 'preExecute'), array($request));
+                    call_user_func_array(array($controller, $action), array($request));
+                    call_user_func_array(array($controller, 'postExecute'), array($request));
+
+                    return;
                 } else {
-                    $registry = Zigra_Registry::getInstance();
+                    throw new Zigra_Exception(
+                        'Cannot call module: ' . $className . '->' . $action
+                    );
                 }
-                $registry->set('controller', 'error');
-                $registry->set('action', 'error404');
-
-                call_user_func_array(array($errorprocess, 'error404'), array($request));
             } else {
-                header('HTTP/1.0 404 Not Found');
-                echo "<h1>404 Not Found</h1>";
-                echo "The page that you have requested could not be found.";
-                exit();
+                if ($isError == false) {
+                    throw new Zigra_Exception(
+                        'Cannot find class ' . $className . ' (' . $classFileName . ')'
+                    );
+                } else {
+                    header('HTTP/1.0 404 Not Found');
+                    echo "<h1>404 Not Found</h1>";
+                    echo "The page that you have requested could not be found.";
+                    exit();
+                }
             }
+        } catch (Zigra_Exception $e) {
+            Zigra_Exception::renderError($e->getCode(), $e->getMessage());
         }
     }
 
@@ -110,7 +134,6 @@ class Zigra_Router
         foreach ($routes as $route) {
             $request_parts = parse_url($request->getRequest());
             preg_match($route[0]['regex'], $request_parts['path'], $matches);
-            //preg_match($route[0]['regex'], $request->getRequest(), $matches);
 
             if (count($matches)) {
                 //remove numeric index from array
@@ -143,12 +166,13 @@ class Zigra_Router
             : self::$_controller;
         self::$_action = (!isset(self::$_action) || $resetProperties) ? $request->getAction() : self::$_action;
         self::$_args = (!isset(self::$_args) || $resetProperties) ? $request->getArgs() : self::$_args;
+        self::$_defaults = array();
 
         return false;
     }
 
     /**
-     * compile and Add route to mapped array
+     * compile and add route to mapped array
      *
      * @param string $name name of the route
      * @param string $pattern pattern matching the route

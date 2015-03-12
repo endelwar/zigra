@@ -15,6 +15,9 @@ class Zigra_Registry implements IteratorAggregate
         $this->pool = array();
     }
 
+    /**
+     * @return $this
+     */
     public static function getInstance()
     {
         if (self::$instance == null) {
