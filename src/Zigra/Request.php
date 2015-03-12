@@ -71,4 +71,15 @@ class Zigra_Request
         }
         return false;
     }
+
+    public function isAjax()
+    {
+        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+            return false;
+        }
+        if (strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) == 'XMLHTTPREQUEST') {
+            return true;
+        }
+        return false;
+    }
 }
