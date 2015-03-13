@@ -142,9 +142,13 @@ class Zigra_Route
     {
         $compiledRoute = $this->compile();
 
-        if (count($compiledRoute[0]['variables']) != count($params)) {
+        if (count($compiledRoute[0]['variables']) == 0 && count($params) > 0) {
+            throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
+        } elseif (count($compiledRoute[0]['variables']) != count($params)) {
             throw new InvalidArgumentException(
-                'Zigra_Route->generate: missing ' . count($compiledRoute[0]['variables']) . ' parameters'
+                'Zigra_Route->generate: missing ' .
+                count($compiledRoute[0]['variables']) - count($params) .
+                ' parameters'
             );
         } else {
             // right number of parameters, let's verify that they are the right ones
