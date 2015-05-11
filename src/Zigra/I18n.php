@@ -132,11 +132,11 @@ class Zigra_I18n
         $regs = array();
         if (preg_match('%^/([a-z]{2})/?[\w-_/]*$%', $_SERVER['REQUEST_URI'], $regs)) {
             $result = $regs[1];
-            $i18n = Zigra_I18n::matchLang($result);
+            $i18n = self::matchLang($result);
             if (!$i18n) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
             } else {
-                if (!in_array($i18n->key(), $availableLangs)) {
+                if (!in_array($i18n->key(), $availableLangs, true)) {
                     $i18n = Zigra_I18n_Nls::init($defaultLang);
                 }
             }
@@ -144,17 +144,18 @@ class Zigra_I18n
             if (isset($_SESSION['language'])) {
                 $i18n = Zigra_I18n_Nls::init($_SESSION['language']);
             } else {
-                $i18n = Zigra_I18n::detectBrowserLanguage();
+                $i18n = self::detectBrowserLanguage();
                 if (!$i18n) {
                     $i18n = Zigra_I18n_Nls::init($defaultLang);
                 } else {
-                    if (!in_array($i18n->key(), $availableLangs)) {
+                    if (!in_array($i18n->key(), $availableLangs, true)) {
                         $i18n = Zigra_I18n_Nls::init($defaultLang);
                     }
                 }
             }
         }
         $_SESSION['language'] = $i18n->key();
+
         return $i18n;
     }
 }

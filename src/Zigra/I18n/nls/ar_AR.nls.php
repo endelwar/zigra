@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('ar_AR' => 'العربية'),
@@ -17,6 +18,6 @@ return array(
         'ar_SY' => 'ar_AR',
         'ar_SA' => 'ar_AR',
         'ar_AR.ISO8859-6' => 'ar_AR',
-        'ar_AR.windows-1256' => 'ar_AR'
-    )
+        'ar_AR.windows-1256' => 'ar_AR',
+    ),
 );

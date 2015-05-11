@@ -7,7 +7,7 @@ class Zigra_User
     protected $userclass;
 
     const COOKIE_EXPIRE = 8640000; //60*60*24*90 seconds = 100 days by default
-    const COOKIE_PATH = "/"; //Available in whole domain
+    const COOKIE_PATH = '/'; //Available in whole domain
 
     public function __construct($userclass)
     {
@@ -17,7 +17,7 @@ class Zigra_User
         ini_set('session.cookie_httponly', '1');
 
         /* Start Session */
-        if (session_id() == '') {
+        if (session_id() === '') {
             session_set_cookie_params(3600); // Set session cookie duration to 1 hour
             session_start();
         }
@@ -49,6 +49,7 @@ class Zigra_User
         if (strtolower(get_class(self::$instance->userclass)) !== strtolower($userclass)) {
             self::$instance = new $className($userclass);
         }
+
         return self::$instance;
     }
 
@@ -56,7 +57,7 @@ class Zigra_User
     {
         $status = false;
         if (isset($_SESSION['member_valid']) && $_SESSION['member_valid']) {
-            if (isset($_SESSION['member_type']) && ($_SESSION['member_type'] == $this->userclass->getUserType())) {
+            if (isset($_SESSION['member_type']) && ($_SESSION['member_type'] === $this->userclass->getUserType())) {
                 $status = true;
             }
         }
@@ -83,7 +84,7 @@ class Zigra_User
             $user = $userclass::findOneByEmail($email);
             if ($user) {
                 //utente trovato, verificare credenziali
-                if ($this->verify($password, $user->password) == true) {
+                if ($this->verify($password, $user->password) === true) {
                     /* If correct create session */
                     session_regenerate_id();
                     self::$_user = $user;
@@ -143,11 +144,11 @@ class Zigra_User
         session_destroy();
 
         // Redirect
-        if (null == $routeName) {
+        if (null === $routeName) {
             $routeName = 'homepage';
         }
         $url = Zigra_Router::generate($routeName, $routeParams);
-        header("Location: " . $url);
+        header('Location: ' . $url);
     }
 
     public function getuserobj()

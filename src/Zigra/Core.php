@@ -43,7 +43,7 @@ class Zigra_Core
     public static function register()
     {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
-        spl_autoload_register(array(new self, 'autoload'));
+        spl_autoload_register(array(new self(), 'autoload'));
     }
 
     /**
@@ -52,7 +52,7 @@ class Zigra_Core
      *
      * @param string $className name of the class to load
      *
-     * @return boolean
+     * @return bool
      */
     public static function autoload($className)
     {

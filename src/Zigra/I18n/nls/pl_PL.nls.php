@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('pl_PL' => 'Polski'),
@@ -13,6 +14,6 @@ return array(
     'alias' => array(
         'pl' => 'pl_PL',
         'polish' => 'pl_PL',
-        'pl_PL.ISO8859-2' => 'pl_PL'
-    )
+        'pl_PL.ISO8859-2' => 'pl_PL',
+    ),
 );

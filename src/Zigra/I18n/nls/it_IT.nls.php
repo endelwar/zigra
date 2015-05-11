@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('it_IT' => 'Italiano'),
@@ -16,6 +17,6 @@ return array(
         'ita' => 'it_IT',
         'italian' => 'it_IT',
         'it_IT.ISO8859-1' => 'it_IT',
-        'it_IT.ISO8859-15' => 'it_IT'
-    )
+        'it_IT.ISO8859-15' => 'it_IT',
+    ),
 );

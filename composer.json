@@ -1,30 +1,30 @@
 {
-    "name": "endelwar/zigra",
-    "type": "library",
-    "description": "Zigra PHP Framework",
-    "keywords": [
-        "framework",
-        "routing"
-    ],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Manuel Dalla Lana",
-            "email": "endelwar@aregar.it"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.7",
-        "swiftmailer/swiftmailer": ">=5.2.1",
-        "ircmaxell/password-compat": "1.0.*"
-    },
-    "suggest": {
-        "aura/session": "Allows more advanced management of session"
-    },
-    "autoload": {
-        "psr-0": { "Zigra_": "src/" },
-        "classmap": [
-            "src/zigra.php"
-        ]
+  "name": "endelwar/zigra",
+  "type": "library",
+  "description": "Zigra PHP Framework",
+  "keywords": [
+    "framework",
+    "routing"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Manuel Dalla Lana",
+      "email": "endelwar@aregar.it"
     }
+  ],
+  "require": {
+    "php": ">=5.3.7",
+    "swiftmailer/swiftmailer": ">=5.2.1",
+    "ircmaxell/password-compat": "1.0.*"
+  },
+  "suggest": {
+    "aura/session": "Allows more advanced management of session"
+  },
+  "autoload": {
+    "psr-0": {"Zigra_": "src/"},
+    "classmap": [
+      "src/Zigra.php"
+    ]
+  }
 }

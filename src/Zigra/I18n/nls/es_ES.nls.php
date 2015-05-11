@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('es_ES' => 'Espa&ntilde,ol'),
@@ -17,6 +18,6 @@ return array(
         'es_AR' => 'es_ES',
         'es_PE' => 'es_ES',
         'es_MX' => 'es_ES',
-        'es_US.ISO8859-1' => 'es_ES'
-    )
+        'es_US.ISO8859-1' => 'es_ES',
+    ),
 );

@@ -23,7 +23,7 @@ class Zigra_Router
     {
         if (!isset(self::$instance)) {
             $className = __CLASS__;
-            self::$instance = new $className;
+            self::$instance = new $className();
         }
 
         return self::$instance;
@@ -104,14 +104,14 @@ class Zigra_Router
                     );
                 }
             } else {
-                if ($isError == false) {
+                if ($isError === false) {
                     throw new Zigra_Exception(
                         'Cannot find class ' . $className . ' (' . $classFileName . ')'
                     );
                 } else {
                     header('HTTP/1.0 404 Not Found');
-                    echo "<h1>404 Not Found</h1>";
-                    echo "The page that you have requested could not be found.";
+                    echo '<h1>404 Not Found</h1>';
+                    echo 'The page that you have requested could not be found.';
                     exit();
                 }
             }
@@ -124,9 +124,9 @@ class Zigra_Router
      * Generate a short url for given arguments.
      *
      * @param Zigra_Request $request Request.
-     * @param boolean $resetProperties If reset or not all singleton proprieties.
+     * @param bool $resetProperties If reset or not all singleton proprieties.
      *
-     * @return boolean true when route is found or false if not found.
+     * @return bool true when route is found or false if not found.
      */
     private static function process(Zigra_Request $request, $resetProperties = false)
     {
@@ -181,7 +181,6 @@ class Zigra_Router
      * @param array $options TODO write docs
      *
      * @return void
-     *
      * */
     public static function map(
         $name,

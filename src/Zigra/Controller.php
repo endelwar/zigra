@@ -52,7 +52,7 @@ class Zigra_Controller
             return $this->params[$key];
         }
 
-        return null;
+        return;
     }
 
     /**
@@ -187,10 +187,10 @@ class Zigra_Controller
             if ((null !== $statuscode) && (array_key_exists($statuscode, self::$statusTexts))) {
                 header('HTTP/1.1 ' . $statuscode . ' ' . self::$statusTexts[$statuscode], true);
             }
-            if (null != $anchor) {
+            if (null !== $anchor) {
                 $url = $url . '#' . $anchor;
             }
-            header("Location: " . $url);
+            header('Location: ' . $url);
         } else {
             $this->forward404();
         }
@@ -207,7 +207,7 @@ class Zigra_Controller
      */
     public function forward404($message = null)
     {
-        header("HTTP/1.1 404 " . self::$statusTexts[404]);
+        header('HTTP/1.1 404 ' . self::$statusTexts[404]);
         $this->registry->set('templatename', 'error-404.html.twig');
         $this->registry->set('message', $message);
     }
@@ -222,7 +222,7 @@ class Zigra_Controller
      */
     public function redirect($url, $statuscode = 307)
     {
-        header("Location: " . $url, true, $statuscode);
+        header('Location: ' . $url, true, $statuscode);
         die();
     }
 }

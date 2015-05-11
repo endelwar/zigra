@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('ro_RO' => 'Română'),
@@ -16,6 +17,6 @@ return array(
         'rom' => 'ro_RO',
         'romanian' => 'ro_RO',
         'ro_RO.ISO8859-2' => 'ro_RO',
-        'ro_RO.ISO8859-16' => 'ro_RO'
-    )
+        'ro_RO.ISO8859-16' => 'ro_RO',
+    ),
 );

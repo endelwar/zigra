@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('pt_BR' => 'Português do Brasil'),
@@ -12,6 +13,6 @@ return array(
     // Possible aliases for language
     'alias' => array(
         'pt-BR' => 'pt_BR',
-        'pt_BR' => 'pt_BR'
-    )
+        'pt_BR' => 'pt_BR',
+    ),
 );

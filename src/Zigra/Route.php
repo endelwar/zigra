@@ -103,11 +103,11 @@ class Zigra_Route
      */
     private function sanitizeRequirement($regex)
     {
-        if ($regex[0] == '^') {
+        if ($regex[0] === '^') {
             $regex = substr($regex, 1);
         }
 
-        if (substr($regex, -1) == '$') {
+        if (substr($regex, -1) === '$') {
             $regex = substr($regex, 0, -1);
         }
 
@@ -118,10 +118,9 @@ class Zigra_Route
     {
         if (!$this->compiledRoute) {
             $className = $this->getOption('compiler_class');
-            $routeCompiler = new $className;
+            $routeCompiler = new $className();
 
             $compiledRoute = $routeCompiler->compile($this);
-
         } else {
             $compiledRoute = $this->compiledRoute;
         }
@@ -142,9 +141,9 @@ class Zigra_Route
     {
         $compiledRoute = $this->compile();
 
-        if (count($compiledRoute[0]['variables']) == 0 && count($params) > 0) {
+        if (count($compiledRoute[0]['variables']) === 0 && count($params) > 0) {
             throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
-        } elseif (count($compiledRoute[0]['variables']) != count($params)) {
+        } elseif (count($compiledRoute[0]['variables']) !== count($params)) {
             throw new InvalidArgumentException(
                 'Zigra_Route->generate: missing ' .
                 count($compiledRoute[0]['variables']) - count($params) .

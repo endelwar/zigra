@@ -21,7 +21,7 @@ class Zigra_Request
         $this->_action = (($c = array_shift($parts)) ? $c : 'index');
         $this->_args = (isset($parts[0])) ? $parts : array();
 
-        if (in_array(strtoupper($_SERVER['REQUEST_METHOD']), $this->valid_request_methods)) {
+        if (in_array(strtoupper($_SERVER['REQUEST_METHOD']), $this->valid_request_methods, true)) {
             $this->_method = strtoupper($_SERVER['REQUEST_METHOD']);
         }
     }
@@ -56,17 +56,19 @@ class Zigra_Request
 
     public function isPost()
     {
-        if ($this->_method == 'POST') {
+        if ($this->_method === 'POST') {
             return true;
         }
+
         return false;
     }
 
     public function isGet()
     {
-        if ($this->_method == 'GET') {
+        if ($this->_method === 'GET') {
             return true;
         }
+
         return false;
     }
 
@@ -75,9 +77,10 @@ class Zigra_Request
         if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return false;
         }
-        if (strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) == 'XMLHTTPREQUEST') {
+        if (strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) === 'XMLHTTPREQUEST') {
             return true;
         }
+
         return false;
     }
 }

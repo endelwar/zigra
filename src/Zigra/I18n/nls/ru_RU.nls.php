@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('ru_RU' => 'Русский'),
@@ -13,6 +14,6 @@ return array(
     'alias' => array(
         'ru' => 'ru_RU',
         'russian' => 'ru_RU',
-        'rus' => 'ru_RU'
-    )
+        'rus' => 'ru_RU',
+    ),
 );

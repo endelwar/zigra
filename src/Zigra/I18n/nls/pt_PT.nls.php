@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('pt_PT' => 'Português de Portugal'),
@@ -15,6 +16,6 @@ return array(
         'portuguese' => 'pt_PT',
         'port' => 'pt_PT',
         'pt-PT' => 'pt_PT',
-        'pt_PT' => 'pt_PT'
-    )
+        'pt_PT' => 'pt_PT',
+    ),
 );

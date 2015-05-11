@@ -20,9 +20,9 @@ class Zigra_Registry implements IteratorAggregate
      */
     public static function getInstance()
     {
-        if (self::$instance == null) {
+        if (self::$instance === null) {
             $c = __CLASS__;
-            self::$instance = new $c;
+            self::$instance = new $c();
         }
 
         return self::$instance;
@@ -59,8 +59,8 @@ class Zigra_Registry implements IteratorAggregate
      * @param string $key the variable's name
      * @param string $value the variable's value
      *
-     * @return void
      * @throws InvalidArgumentException when $value is not defined
+     * @return void
      */
     public function set($key, $value = null)
     {
@@ -77,8 +77,8 @@ class Zigra_Registry implements IteratorAggregate
      * @param string $key the variable's name
      * @param string $value the variable's value
      *
-     * @return void
      * @throws InvalidArgumentException when $value is not defined
+     * @return void
      */
     public function add($key, $value = null)
     {
@@ -96,7 +96,7 @@ class Zigra_Registry implements IteratorAggregate
      *
      * @param string $key the variable's name
      *
-     * @return boolean
+     * @return bool
      */
     public function has($key)
     {

@@ -4,7 +4,6 @@
  * Class Zigra_I18n_Nls
  *
  * @author Manuel Dalla Lana <endelwar@aregar.it>
- *
  */
 class Zigra_I18n_Nls
 {
@@ -27,19 +26,22 @@ class Zigra_I18n_Nls
     public static function init($lang = null)
     {
         if (is_null($lang)) {
-            $obj = new Zigra_I18n_Nls();
+            $obj = new self();
+
             return $obj;
         } else {
             $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'nls' . DIRECTORY_SEPARATOR . $lang . '.nls.php';
 
             if (file($lang_file)) {
                 $nls = include $lang_file;
-                $obj = Zigra_I18n_Nls::fromArray($nls);
+                $obj = self::fromArray($nls);
                 unset($nls);
+
                 return $obj;
             } else {
                 trigger_error('Cannot load language file "' . $lang_file . '"', E_ERROR);
-                return null;
+
+                return;
             }
         }
     }
@@ -53,7 +55,7 @@ class Zigra_I18n_Nls
      */
     public static function fromArray($data)
     {
-        $obj = new Zigra_I18n_Nls();
+        $obj = new self();
 
         // name and key
         if (isset($data['englishlang'])) {
@@ -87,10 +89,11 @@ class Zigra_I18n_Nls
             $obj->aliases = array_keys($data['alias']);
         }
 
-        if ($obj->key == '') {
+        if ($obj->key === '') {
             trigger_error('Big Problems dude! $key in not where it should');
             die();
         }
+
         return $obj;
     }
 
@@ -102,9 +105,9 @@ class Zigra_I18n_Nls
     public function matches($str)
     {
         if (
-            ($str == $this->name()) ||
-            ($str == $this->isocode()) ||
-            ($str == $this->fullname())
+            ($str === $this->name()) ||
+            ($str === $this->isocode()) ||
+            ($str === $this->fullname())
         ) {
             return true;
         }
@@ -115,11 +118,12 @@ class Zigra_I18n_Nls
         if (is_array($aliases) && count($aliases)) {
             $aliases_nr = count($aliases);
             for ($i = 0; $i < $aliases_nr; $i++) {
-                if (strtolower($aliases[$i]) == strtolower($str)) {
+                if (strtolower($aliases[$i]) === strtolower($str)) {
                     return true;
                 }
             }
         }
+
         return false;
     }
 
@@ -139,6 +143,7 @@ class Zigra_I18n_Nls
         if (!$this->isocode) {
             return substr($this->fullname, 0, 2);
         }
+
         return $this->isocode;
     }
 
@@ -148,8 +153,9 @@ class Zigra_I18n_Nls
     public function display()
     {
         if (!$this->display) {
-            return null;
+            return;
         }
+
         return $this->display;
     }
 
@@ -169,6 +175,7 @@ class Zigra_I18n_Nls
         if (!$this->encoding) {
             return 'UTF-8';
         }
+
         return $this->encoding;
     }
 
@@ -178,8 +185,9 @@ class Zigra_I18n_Nls
     public function fullname()
     {
         if (!$this->fullname) {
-            return null;
+            return;
         }
+
         return $this->fullname;
     }
 
@@ -192,6 +200,7 @@ class Zigra_I18n_Nls
             if (is_array($this->aliases)) {
                 return $this->aliases;
             }
+
             return explode(',', $this->aliases);
         }
     }
@@ -212,6 +221,7 @@ class Zigra_I18n_Nls
         if ($this->direction) {
             return $this->direction;
         }
+
         return 'ltr';
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('zh_TW' => '&    // 32321;&    // 39636;&    // 20013;&    // 25991;'),
@@ -12,6 +13,6 @@ return array(
     // Possible aliases for language
     'alias' => array(
         'chinese' => 'zh_TW',
-        'zh_TW.Big5' => 'zh_TW'
-    )
+        'zh_TW.Big5' => 'zh_TW',
+    ),
 );

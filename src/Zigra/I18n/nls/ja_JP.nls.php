@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('ja_JP' => '日本語'),
@@ -15,6 +16,6 @@ return array(
         'japanese' => 'ja_JP',
         'ja_JP.EUC-JP' => 'ja_JP',
         'ja_JP.Shift_JIS' => 'ja_JP',
-        'ja_JP.UTF-8' => 'ja_JP'
-    )
+        'ja_JP.UTF-8' => 'ja_JP',
+    ),
 );

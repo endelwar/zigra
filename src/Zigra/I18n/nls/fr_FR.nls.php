@@ -1,4 +1,5 @@
 <?php
+
 return array(
     // Native language name
     'language' => array('fr_FR' => 'Fran&#231;ais'),
@@ -18,6 +19,6 @@ return array(
         'fr_CA' => 'fr_FR',
         'fr_LU' => 'fr_FR',
         'fr_CH' => 'fr_FR',
-        'fr_FR.ISO8859-1' => 'fr_FR'
+        'fr_FR.ISO8859-1' => 'fr_FR',
     ),
 );
