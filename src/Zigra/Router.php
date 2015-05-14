@@ -83,7 +83,7 @@ class Zigra_Router
                 include_once $classFileName;
 
                 $fullClassName = ucfirst($className) . 'Controller';
-                $controller = new $fullClassName($request, $params);
+                $controller = new $fullClassName($request, $params, $session_manager);
                 if (is_callable(array($controller, $action))) {
                     if ($session_manager) {
                         $registry = $session_manager->getSegment('zigra\registry');
@@ -181,7 +181,7 @@ class Zigra_Router
      * @param array $options TODO write docs
      *
      * @return void
-     * */
+     */
     public static function map(
         $name,
         $pattern,
