@@ -11,7 +11,7 @@ class Zigra_Route_Compiler
         $tokens = array();
         $variables = array();
 
-        preg_match_all('#\{([\w\d\=_-]+)\}#', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
+        preg_match_all('@\{([\w\d\=_-]+)\}@', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         $regex = str_replace('/', '\/', $pattern);
         if (count($matches)) {
             // named variables found
@@ -25,7 +25,7 @@ class Zigra_Route_Compiler
                 $regex = str_replace($match[0][0], '(?P<' . $var . '>' . $requirement . ')', $regex);
             }
         }
-        $regex = '#^' . $regex . '$#x';
+        $regex = '@^' . $regex . '$@x';
         $tokens[] = array(
             'pattern' => $pattern,
             'regex' => $regex,
