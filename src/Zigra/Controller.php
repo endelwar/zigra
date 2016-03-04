@@ -7,7 +7,13 @@ class Zigra_Controller
     protected $tplVar = null;
     protected $registry = null;
 
-    public function __construct(Zigra_Request $request, Array $params, $session_manager = null)
+    /**
+     * Zigra_Controller constructor.
+     * @param Zigra_Request $request
+     * @param array $params
+     * @param null $session_manager
+     */
+    public function __construct(Zigra_Request $request, array $params, $session_manager = null)
     {
         $this->request = $request;
         $this->params = $params;
@@ -33,7 +39,7 @@ class Zigra_Controller
     /**
      * Retrieves the route params.
      *
-     * @return Array The route params
+     * @return array The route params
      */
     public function getParams()
     {
@@ -173,7 +179,7 @@ class Zigra_Controller
      * Forwards current action to a new route.
      *
      * @param string $routename Name of route
-     * @param array $params Array of parameter for the route
+     * @param array $params array of parameter for the route
      * @param int $statuscode HTTP status code
      * @param string $anchor string to append as hash anchor
      *
