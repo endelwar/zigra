@@ -133,6 +133,9 @@ class Zigra_Router
         $routes = self::$_compiledRouteCollection->routes;
         foreach ($routes as $route) {
             $request_parts = parse_url($request->getRequest());
+            if (!isset($request_parts['path'])) {
+                $request_parts['path'] = null;
+            }
             preg_match($route[0]['regex'], $request_parts['path'], $matches);
 
             if (count($matches)) {
