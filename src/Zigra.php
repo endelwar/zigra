@@ -10,6 +10,6 @@ require_once 'Zigra/Core.php';
  * @license Proprietary
  * @since   0.1.0
  */
-class zigra extends Zigra_Core
+class Zigra extends Zigra_Core
 {
 }
