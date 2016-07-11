@@ -1,5 +1,5 @@
 {
-  "name": "endelwar/zigra",
+  "name": "pepeverde/zigra",
   "type": "library",
   "description": "Zigra PHP Framework",
   "keywords": [
@@ -10,7 +10,7 @@
   "authors": [
     {
       "name": "Manuel Dalla Lana",
-      "email": "endelwar@aregar.it"
+      "email": "manuel@pepeverde.agency"
     }
   ],
   "require": {
