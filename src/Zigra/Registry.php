@@ -2,7 +2,6 @@
 
 class Zigra_Registry implements IteratorAggregate
 {
-
     protected static $instance = null;
 
     /**
