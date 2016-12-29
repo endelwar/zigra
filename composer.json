@@ -15,14 +15,16 @@
   ],
   "require": {
     "php": ">=5.3.7",
-    "swiftmailer/swiftmailer": "~5.4",
+    "swiftmailer/swiftmailer": ">=5.4.5",
     "ircmaxell/password-compat": "1.0.*"
   },
   "suggest": {
     "aura/session": "Allows more advanced management of session"
   },
   "autoload": {
-    "psr-0": {"Zigra_": "src/"},
+    "psr-0": {
+      "Zigra_": "src/"
+    },
     "classmap": [
       "src/Zigra.php"
     ]
