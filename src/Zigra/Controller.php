@@ -183,8 +183,8 @@ class Zigra_Controller
      * @param int $statuscode HTTP status code
      * @param string $anchor string to append as hash anchor
      *
-     * @return void
      * @throws \Exception
+     * @return void
      */
     public function forward($routename, $params = array(), $statuscode = null, $anchor = null)
     {
@@ -210,8 +210,8 @@ class Zigra_Controller
      *
      * @param string $message Message of the generated exception
      *
-     * @return void
      * @throws \InvalidArgumentException
+     * @return void
      */
     public function forward404($message = null)
     {
