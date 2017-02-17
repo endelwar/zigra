@@ -33,7 +33,7 @@ class Zigra_Route
     {
         $this->pattern = trim($pattern);
 
-        if ($this->pattern[0] !== '/' || empty($this->pattern)) {
+        if (empty($this->pattern) || $this->pattern[0] !== '/') {
             $this->pattern = '/' . $this->pattern;
         }
     }
@@ -141,7 +141,7 @@ class Zigra_Route
     {
         $compiledRoute = $this->compile();
 
-        if (count($compiledRoute[0]['variables']) === 0 && count($params) > 0) {
+        if (count($params) > 0 && count($compiledRoute[0]['variables']) === 0) {
             throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
         } elseif (count($compiledRoute[0]['variables']) !== count($params)) {
             throw new InvalidArgumentException(
@@ -164,9 +164,8 @@ class Zigra_Route
                     $parameters[] = '{' . $key . '}';
                     $values[] = $value;
                 }
-                $url = str_replace($parameters, $values, $compiledRoute[0]['pattern']);
 
-                return $url;
+                return str_replace($parameters, $values, $compiledRoute[0]['pattern']);
             }
         }
     }

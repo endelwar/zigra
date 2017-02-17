@@ -15,11 +15,9 @@
   ],
   "require": {
     "php": ">=5.3.7",
-    "swiftmailer/swiftmailer": ">=5.4.5",
-    "ircmaxell/password-compat": "1.0.*"
-  },
-  "suggest": {
-    "aura/session": "Allows more advanced management of session"
+    "swiftmailer/swiftmailer": "~5.4.6",
+    "ircmaxell/password-compat": "~1.0.4",
+    "aura/session": "^2.1"
   },
   "autoload": {
     "psr-0": {

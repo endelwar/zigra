@@ -12,6 +12,7 @@ class Zigra_Route_Collection
     /**
      * @param string $name
      * @param Zigra_Route $route
+     * @throws \InvalidArgumentException
      */
     public function add($name, $route = null)
     {
@@ -20,7 +21,7 @@ class Zigra_Route_Collection
             throw new InvalidArgumentException('Zigra_Route_Collection->Add: $name was empty!');
         }
 
-        if (is_null($route)) {
+        if (null === $route) {
             throw new InvalidArgumentException('Zigra_Route_Collection->Add: $route was null!');
         }
 

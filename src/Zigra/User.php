@@ -56,12 +56,15 @@ class Zigra_User
     public function loggedIn()
     {
         $status = false;
-        if (isset($_SESSION['member_valid']) && $_SESSION['member_valid']) {
-            if (isset($_SESSION['member_type']) && ($_SESSION['member_type'] === $this->userclass->getUserType())) {
-                $status = true;
-            }
+        if (
+            isset($_SESSION['member_valid'], $_SESSION['member_type']) &&
+            $_SESSION['member_valid'] &&
+            $_SESSION['member_type'] === $this->userclass->getUserType()
+        ) {
+            $status = true;
         }
         /* controlla COOKIE */
+
         /*
          elseif (isset($_COOKIE['remember_me_id']) && isset($_COOKIE['remember_me_hash']))
           {
@@ -84,7 +87,7 @@ class Zigra_User
             $user = $userclass::findOneByEmail($email);
             if ($user) {
                 //utente trovato, verificare credenziali
-                if ($this->verify($password, $user->password) === true) {
+                if (static::verify($password, $user->password) === true) {
                     /* If correct create session */
                     session_regenerate_id();
                     self::$_user = $user;
@@ -97,6 +100,7 @@ class Zigra_User
                     $_SESSION['userObj'] = $user;
 
                     /* User Remember me feature? */
+
                     //$this->createNewCookie($user->id);
 
                     return true;
@@ -124,9 +128,9 @@ class Zigra_User
     {
         if (password_verify($password, $existingHash)) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -135,7 +139,7 @@ class Zigra_User
      * @param array $routeParams
      * @throws Exception
      */
-    public function logout($routeName = null, $routeParams = array())
+    public function logout($routeName = null, array $routeParams = array())
     {
         // Clear the SESSION
         $_SESSION = array();

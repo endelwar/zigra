@@ -2,7 +2,7 @@
 
 class Zigra_Registry implements IteratorAggregate
 {
-    protected static $instance = null;
+    protected static $instance;
 
     /**
      * @var array $pool
@@ -141,6 +141,7 @@ class Zigra_Registry implements IteratorAggregate
      * @param string $key the variable's name
      * @param mixed $value the variable's value
      *
+     * @throws \InvalidArgumentException
      * @return void
      */
     public function __set($key, $value)

@@ -50,7 +50,7 @@ class Zigra_I18n
         }
 
         preg_match_all(
-            '/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[0-9]+))?/i',
+            '/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[\d]+))?/i',
             $_SERVER['HTTP_ACCEPT_LANGUAGE'],
             $lang_parse
         );
@@ -105,6 +105,7 @@ class Zigra_I18n
 
     /**
      * @param string $lang
+     * @return mixed
      */
     public static function matchLang($lang)
     {
@@ -117,6 +118,8 @@ class Zigra_I18n
                 return $obj;
             }
         }
+
+        return false;
     }
 
     /**

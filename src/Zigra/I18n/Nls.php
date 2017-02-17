@@ -7,13 +7,21 @@
  */
 class Zigra_I18n_Nls
 {
+    /** @var string $isocode */
     protected $isocode;
+    /** @var string $locale */
     protected $locale;
+    /** @var string $fullname */
     protected $fullname;
+    /** @var string $encoding */
     protected $encoding;
+    /** @var array $aliases */
     protected $aliases;
+    /** @var string $display */
     protected $display;
+    /** @var string $key */
     protected $key;
+    /** @var string $direction */
     protected $direction;
 
     /**
@@ -25,7 +33,7 @@ class Zigra_I18n_Nls
      */
     public static function init($lang = null)
     {
-        if (is_null($lang)) {
+        if (null === $lang) {
             $obj = new self();
 
             return $obj;
@@ -41,7 +49,7 @@ class Zigra_I18n_Nls
             } else {
                 trigger_error('Cannot load language file "' . $lang_file . '"', E_ERROR);
 
-                return;
+                return null;
             }
         }
     }
@@ -153,7 +161,7 @@ class Zigra_I18n_Nls
     public function display()
     {
         if (!$this->display) {
-            return;
+            return null;
         }
 
         return $this->display;
@@ -185,7 +193,7 @@ class Zigra_I18n_Nls
     public function fullname()
     {
         if (!$this->fullname) {
-            return;
+            return null;
         }
 
         return $this->fullname;
@@ -203,6 +211,8 @@ class Zigra_I18n_Nls
 
             return explode(',', $this->aliases);
         }
+
+        return array();
     }
 
     /**

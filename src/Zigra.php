@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Zigra/Core.php';
+require_once __DIR__ . '/Zigra/Core.php';
 /**
  * This class only exists for backwards compatability. All code was moved to
  * Zigra_Core and this class extends Zigra_Core
