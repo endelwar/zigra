@@ -2,10 +2,10 @@
 
 class Zigra_Controller
 {
-    protected $request = null;
-    protected $params = null;
-    protected $tplVar = null;
-    protected $registry = null;
+    protected $request;
+    protected $params;
+    protected $tplVar;
+    protected $registry;
 
     /**
      * Zigra_Controller constructor.
@@ -50,7 +50,7 @@ class Zigra_Controller
      * Retrieves a single param from the route.
      *
      * @param string $key
-     * @return Mixed The route param
+     * @return mixed The route param
      */
     public function getParam($key)
     {
@@ -58,7 +58,7 @@ class Zigra_Controller
             return $this->params[$key];
         }
 
-        return;
+        return null;
     }
 
     /**
@@ -184,13 +184,14 @@ class Zigra_Controller
      * @param string $anchor string to append as hash anchor
      *
      * @return void
+     * @throws \Exception
      */
     public function forward($routename, $params = array(), $statuscode = null, $anchor = null)
     {
         $url = Zigra_Router::generate($routename, $params);
 
         if ($url) {
-            if ((null !== $statuscode) && (array_key_exists($statuscode, self::$statusTexts))) {
+            if ((null !== $statuscode) && array_key_exists($statuscode, self::$statusTexts)) {
                 header('HTTP/1.1 ' . $statuscode . ' ' . self::$statusTexts[$statuscode], true);
             }
             if (null !== $anchor) {
@@ -210,6 +211,7 @@ class Zigra_Controller
      * @param string $message Message of the generated exception
      *
      * @return void
+     * @throws \InvalidArgumentException
      */
     public function forward404($message = null)
     {

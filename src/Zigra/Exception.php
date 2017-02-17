@@ -29,7 +29,7 @@ class Zigra_Exception extends Exception
 
     public static function isCommandLineInterface()
     {
-        return (php_sapi_name() === 'cli');
+        return PHP_SAPI === 'cli';
     }
 
     /**

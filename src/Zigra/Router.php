@@ -67,6 +67,7 @@ class Zigra_Router
      * @param array $params
      * @param null $session_manager
      * @param bool $isError
+     * @throws \InvalidArgumentException
      */
     private static function callControllerAction(
         $className,
@@ -205,7 +206,7 @@ class Zigra_Router
      * @param string $name Optional name of route to be used (if not set the route will be selected on given params).
      * @param array $params The arguments to be processed by the created url.
      *
-     * @throws Exception if route name is not found
+     * @throws InvalidArgumentException if route name is not found
      *
      * @return string|false Generated url or false on error.
      */
@@ -217,7 +218,7 @@ class Zigra_Router
         $routes = self::$_routeCollection->routes;
 
         if (!$name) {
-            throw new Exception('Cannot find route named "' . $name . '"');
+            throw new InvalidArgumentException('Cannot find route named "' . $name . '"');
         }
         // a certain route should be used
         if (!isset($routes[$name])) {
@@ -226,10 +227,8 @@ class Zigra_Router
         }
         // use this route
         $route = $routes[$name];
-        // let the route do the actual url creation
-        $url = $route->generate($params);
 
-        // return the result
-        return $url;
+        // let the route do the actual url creation
+        return $route->generate($params);
     }
 }

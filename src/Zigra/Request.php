@@ -6,7 +6,7 @@ class Zigra_Request
     protected $_action;
     protected $_args;
     protected $_request;
-    protected $_method = null;
+    protected $_method;
 
     public $valid_request_methods = array('GET', 'POST', 'PUT', 'HEAD');
 
@@ -19,7 +19,7 @@ class Zigra_Request
 
         $this->_controller = (($c = array_shift($parts)) ? $c : 'index') . 'Controller';
         $this->_action = (($c = array_shift($parts)) ? $c : 'index');
-        $this->_args = (isset($parts[0])) ? $parts : array();
+        $this->_args = isset($parts[0]) ? $parts : array();
 
         if (in_array(strtoupper($_SERVER['REQUEST_METHOD']), $this->valid_request_methods, true)) {
             $this->_method = strtoupper($_SERVER['REQUEST_METHOD']);
@@ -56,20 +56,12 @@ class Zigra_Request
 
     public function isPost()
     {
-        if ($this->_method === 'POST') {
-            return true;
-        }
-
-        return false;
+        return $this->_method === 'POST';
     }
 
     public function isGet()
     {
-        if ($this->_method === 'GET') {
-            return true;
-        }
-
-        return false;
+        return $this->_method === 'GET';
     }
 
     public function isAjax()
