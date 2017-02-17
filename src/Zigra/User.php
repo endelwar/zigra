@@ -62,7 +62,6 @@ class Zigra_User
             $_SESSION['member_type'] === $this->userclass->getUserType()
         ) {
             $status = true;
-
         }
         /* controlla COOKIE */
 

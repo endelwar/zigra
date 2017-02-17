@@ -141,8 +141,8 @@ class Zigra_Registry implements IteratorAggregate
      * @param string $key the variable's name
      * @param mixed $value the variable's value
      *
-     * @return void
      * @throws \InvalidArgumentException
+     * @return void
      */
     public function __set($key, $value)
     {
