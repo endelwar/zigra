@@ -25,7 +25,7 @@ class Zigra_Route_Compiler
                 $regex = str_replace($match[0][0], '(?P<' . $var . '>' . $requirement . ')', $regex);
             }
         }
-        $regex = '@^' . $regex . '$@x';
+        $regex = '@^' . $regex . '$@';
         $tokens[] = array(
             'pattern' => $pattern,
             'regex' => $regex,
