@@ -87,23 +87,25 @@ class Zigra_Router
 
                 $fullClassName = ucfirst($controllerName) . 'Controller';
                 $controller = new $fullClassName($request, $params, $session_manager);
-                if (is_callable(array($controller, $action))) {
-                    if ($session_manager) {
-                        $registry = $session_manager->getSegment('zigra\registry');
-                    } else {
-                        $registry = Zigra_Registry::getInstance();
-                    }
-                    $registry->set('controller', $controllerName);
-                    $registry->set('action', $action);
-
-                    $controller->preExecute($request);
-                    $controller->$action($request);
-                    $controller->postExecute($request);
+                if (!is_callable(array($controller, $action))) {
+                    throw new Zigra_Exception(
+                        'Cannot call module: ' . $controllerName . '->' . $action
+                    );
                 }
 
-                throw new Zigra_Exception(
-                    'Cannot call module: ' . $controllerName . '->' . $action
-                );
+                if ($session_manager) {
+                    $registry = $session_manager->getSegment('zigra\registry');
+                } else {
+                    $registry = Zigra_Registry::getInstance();
+                }
+                $registry->set('controller', $controllerName);
+                $registry->set('action', $action);
+
+                $controller->preExecute($request);
+                $controller->$action($request);
+                $controller->postExecute($request);
+
+                return true;
             }
 
             // are we coming from a declared error?
