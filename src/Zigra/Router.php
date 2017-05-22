@@ -8,6 +8,7 @@ class Zigra_Router
     protected static $_defaults;
     protected static $_compiledRouteCollection;
     protected static $_routeCollection;
+    private static $matchedRoute;
     private static $instance;
 
     private function __construct()
@@ -132,7 +133,7 @@ class Zigra_Router
     private static function process(Zigra_Request $request, $resetProperties = false)
     {
         $routes = self::$_compiledRouteCollection->routes;
-        foreach ($routes as $route) {
+        foreach ($routes as $routeName => $route) {
             $request_parts = parse_url($request->getRequest());
             if (!isset($request_parts['path'])) {
                 $request_parts['path'] = null;
@@ -148,6 +149,7 @@ class Zigra_Router
                     $args[$variable] = array_shift($matches);
                 }
 
+                self::$matchedRoute = $routeName;
                 self::$_controller = (!isset(self::$_controller) || $resetProperties)
                     ? $route[0]['defaults']['controller'] : self::$_controller;
                 self::$_action = (!isset(self::$_action) || $resetProperties)
@@ -173,6 +175,16 @@ class Zigra_Router
         self::$_defaults = array();
 
         return false;
+    }
+
+    /**
+     * return the route name matched by the router
+     *
+     * @return string|null
+     */
+    public static function getMatchedRouteName()
+    {
+        return self::$matchedRoute;
     }
 
     /**
