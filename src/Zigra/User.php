@@ -43,7 +43,7 @@ class Zigra_User
     public static function singleton($userclass)
     {
         $className = __CLASS__;
-        if (!isset(self::$instance)) {
+        if (null === self::$instance) {
             self::$instance = new $className($userclass);
         }
         if (strtolower(get_class(self::$instance->userclass)) !== strtolower($userclass)) {
@@ -63,8 +63,8 @@ class Zigra_User
         ) {
             $status = true;
         }
-        /* controlla COOKIE */
 
+        // check COOKIE
         /*
          elseif (isset($_COOKIE['remember_me_id']) && isset($_COOKIE['remember_me_hash']))
           {
@@ -86,34 +86,49 @@ class Zigra_User
             $userclass = $this->userclass;
             $user = $userclass::findOneByEmail($email);
             if ($user) {
-                //utente trovato, verificare credenziali
+                // User found, verify password
                 if (static::verify($password, $user->password) === true) {
-                    /* If correct create session */
-                    session_regenerate_id();
-                    self::$_user = $user;
-                    $_SESSION['member'] = $user->toArray();
-                    unset($_SESSION['member']['password']);
-                    $_SESSION['member_id'] = $user->id;
-                    $_SESSION['member_valid'] = true;
-                    $_SESSION['member_type'] = $user::USERTYPE;
-
-                    $_SESSION['userObj'] = $user;
-
-                    /* User Remember me feature? */
-
-                    //$this->createNewCookie($user->id);
+                    $this->setAsLoggedIn($user);
 
                     return true;
-                } else {
-                    // password sbagliata
-                    return false;
                 }
-            } else {
-                // utente non trovato, riproponi login
+
+                // Wrong password
                 return false;
             }
-        } else {
-            // mancano dati, riproponi login
+
+            // User not found, show login again
+            return false;
+        }
+
+        // Missing data, show login again
+        return false;
+    }
+
+    /**
+     * @param \Doctrine_Record $user
+     * @return bool
+     */
+    public function setAsLoggedIn($user)
+    {
+        try {
+            /* If correct create session */
+            session_regenerate_id();
+            self::$_user = $user;
+            $_SESSION['member'] = $user->toArray();
+            unset($_SESSION['member']['password']);
+            $_SESSION['member_id'] = $user->id;
+            $_SESSION['member_valid'] = true;
+            $_SESSION['member_type'] = $user::USERTYPE;
+
+            $_SESSION['userObj'] = $user;
+
+            /* User Remember me feature? */
+
+            //$this->createNewCookie($user->id);
+
+            return true;
+        } catch (Exception $e) {
             return false;
         }
     }

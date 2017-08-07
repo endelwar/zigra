@@ -69,6 +69,7 @@ class Zigra_Router
      * @param array $params
      * @param null $session_manager
      * @param bool $isError
+     * @return bool
      * @throws \InvalidArgumentException
      */
     private static function callControllerAction(
@@ -241,6 +242,7 @@ class Zigra_Router
             return false;
         }
         // use this route
+        /** @var Zigra_Route $route */
         $route = $routes[$name];
 
         // let the route do the actual url creation
