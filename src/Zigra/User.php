@@ -6,10 +6,7 @@ class Zigra_User
     protected static $_user;
     protected $userclass;
 
-    const COOKIE_EXPIRE = 8640000; //60*60*24*90 seconds = 100 days by default
-    const COOKIE_PATH = '/'; //Available in whole domain
-
-    public function __construct($userclass)
+    public function __construct($userclass, Aura\Session\Session $sessionManager)
     {
         $this->userclass = $userclass;
 
@@ -17,9 +14,8 @@ class Zigra_User
         ini_set('session.cookie_httponly', '1');
 
         /* Start Session */
-        if (session_id() === '') {
-            session_set_cookie_params(3600); // Set session cookie duration to 1 hour
-            session_start();
+        if ($sessionManager->isStarted() === false) {
+            $sessionManager->start();
         }
 
         /* Check if last session is from the same pc */
@@ -27,11 +23,7 @@ class Zigra_User
             $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
         }
         if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']) {
-            /* Clear the SESSION */
-            $_SESSION = array();
-            /* Destroy the SESSION */
-            session_unset();
-            session_destroy();
+            $sessionManager->destroy();
         }
     }
 
@@ -42,12 +34,14 @@ class Zigra_User
 
     public static function singleton($userclass)
     {
-        $className = __CLASS__;
+        $session_factory = new \Aura\Session\SessionFactory();
+        $sessionManager = $session_factory->newInstance($_COOKIE);
+        $sessionManager->resume();
         if (null === self::$instance) {
-            self::$instance = new $className($userclass);
+            self::$instance = new self($userclass, $sessionManager);
         }
         if (strtolower(get_class(self::$instance->userclass)) !== strtolower($userclass)) {
-            self::$instance = new $className($userclass);
+            self::$instance = new self($userclass, $sessionManager);
         }
 
         return self::$instance;
