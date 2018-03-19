@@ -79,7 +79,8 @@ class Zigra_Router
         array $params,
         $session_manager = null,
         $isError = false
-    ) {
+    )
+    {
         // TODO: make this contruct indipendent from app path
         $classFileName = '../app/controller/' . $controllerName . 'Controller.php';
         try {
@@ -165,7 +166,7 @@ class Zigra_Router
 
                 if (isset($request_parts['query'])) {
                     parse_str($request_parts['query'], $query_args);
-                    self::$_args = array_merge(self::$_args, $query_args);
+                    self::$_args = array_merge($query_args, self::$_args);
                 }
 
                 return true;
@@ -209,7 +210,8 @@ class Zigra_Router
         array $defaults,
         array $requirements = array(),
         array $options = array()
-    ) {
+    )
+    {
         self::singleton();
         $route = new Zigra_Route($pattern, $defaults, $requirements, $options);
         self::$_routeCollection->add($name, $route);
