@@ -6,7 +6,7 @@ class Zigra_Route_Collection
 
     public function __construct()
     {
-        $this->routes = array();
+        $this->routes = [];
     }
 
     /**

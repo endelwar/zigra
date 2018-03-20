@@ -145,10 +145,10 @@ class Zigra_User
      * @param array $routeParams
      * @throws Exception
      */
-    public function logout($routeName = null, array $routeParams = array())
+    public function logout($routeName = null, array $routeParams = [])
     {
         // Clear the SESSION
-        $_SESSION = array();
+        $_SESSION = [];
         // Destroy the SESSION
         session_unset();
         session_destroy();
@@ -189,7 +189,7 @@ class Zigra_User
         // TODO string translation
         // TODO make everything a parameter
         $message = Swift_Message::newInstance('Zigra App - Email Password')
-            ->setFrom(array('server@zigra.dev' => 'Zigra App'))
+            ->setFrom(['server@zigra.dev' => 'Zigra App'])
             ->setTo($email)
             ->setBody($password);
 

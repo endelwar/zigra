@@ -5,13 +5,13 @@ class Zigra_Registry implements IteratorAggregate
     protected static $instance;
 
     /**
-     * @var array $pool
+     * @var array
      */
     protected $pool;
 
     public function __construct()
     {
-        $this->pool = array();
+        $this->pool = [];
     }
 
     /**
@@ -59,7 +59,6 @@ class Zigra_Registry implements IteratorAggregate
      * @param string $value the variable's value
      *
      * @throws InvalidArgumentException when $value is not defined
-     * @return void
      */
     public function set($key, $value = null)
     {
@@ -77,7 +76,6 @@ class Zigra_Registry implements IteratorAggregate
      * @param string $value the variable's value
      *
      * @throws InvalidArgumentException when $value is not defined
-     * @return void
      */
     public function add($key, $value = null)
     {
@@ -105,7 +103,6 @@ class Zigra_Registry implements IteratorAggregate
     /**
      * Retrieves an array of parameter names.
      *
-     * @access public
      * @return array An indexed array of parameter names
      */
     public function getNames()
@@ -116,7 +113,6 @@ class Zigra_Registry implements IteratorAggregate
     /**
      * Retrieves an array of parameters.
      *
-     * @access public
      * @return array An associative array of parameters
      */
     public function getAll()
@@ -142,7 +138,6 @@ class Zigra_Registry implements IteratorAggregate
      * @param mixed $value the variable's value
      *
      * @throws \InvalidArgumentException
-     * @return void
      */
     public function __set($key, $value)
     {

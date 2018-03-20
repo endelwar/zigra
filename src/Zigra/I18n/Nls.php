@@ -37,21 +37,19 @@ class Zigra_I18n_Nls
             $obj = new self();
 
             return $obj;
-        } else {
-            $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'nls' . DIRECTORY_SEPARATOR . $lang . '.nls.php';
-
-            if (file($lang_file)) {
-                $nls = include $lang_file;
-                $obj = self::fromArray($nls);
-                unset($nls);
-
-                return $obj;
-            } else {
-                trigger_error('Cannot load language file "' . $lang_file . '"', E_ERROR);
-
-                return null;
-            }
         }
+        $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'nls' . DIRECTORY_SEPARATOR . $lang . '.nls.php';
+
+        if (file($lang_file)) {
+            $nls = include $lang_file;
+            $obj = self::fromArray($nls);
+            unset($nls);
+
+            return $obj;
+        }
+        trigger_error('Cannot load language file "' . $lang_file . '"', E_ERROR);
+
+        return null;
     }
 
     /**
@@ -84,7 +82,7 @@ class Zigra_I18n_Nls
             }
         }
 
-        $fields = array('language', 'locale', 'encoding', 'direction');
+        $fields = ['language', 'locale', 'encoding', 'direction'];
         foreach ($fields as $field) {
             // get the field value
             if (isset($data[$field][$obj->key])) {
@@ -212,7 +210,7 @@ class Zigra_I18n_Nls
             return explode(',', $this->aliases);
         }
 
-        return array();
+        return [];
     }
 
     /**

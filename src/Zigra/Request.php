@@ -8,7 +8,7 @@ class Zigra_Request
     protected $_request;
     protected $_method;
 
-    public $valid_request_methods = array('GET', 'POST', 'PUT', 'HEAD');
+    public $valid_request_methods = ['GET', 'POST', 'PUT', 'HEAD'];
 
     public function __construct($urlPath = null)
     {
@@ -19,7 +19,7 @@ class Zigra_Request
 
         $this->_controller = (($c = array_shift($parts)) ? $c : 'index') . 'Controller';
         $this->_action = (($c = array_shift($parts)) ? $c : 'index');
-        $this->_args = isset($parts[0]) ? $parts : array();
+        $this->_args = isset($parts[0]) ? $parts : [];
 
         if (in_array(strtoupper($_SERVER['REQUEST_METHOD']), $this->valid_request_methods, true)) {
             $this->_method = strtoupper($_SERVER['REQUEST_METHOD']);
