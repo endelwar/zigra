@@ -136,7 +136,7 @@ class Zigra_I18n_Nls
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function name()
     {
@@ -156,7 +156,7 @@ class Zigra_I18n_Nls
     }
 
     /**
-     * @return mixed
+     * @return null|string
      */
     public function display()
     {
@@ -168,7 +168,7 @@ class Zigra_I18n_Nls
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function locale()
     {
@@ -188,7 +188,7 @@ class Zigra_I18n_Nls
     }
 
     /**
-     * @return mixed
+     * @return null|string
      */
     public function fullname()
     {
@@ -216,7 +216,7 @@ class Zigra_I18n_Nls
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function key()
     {

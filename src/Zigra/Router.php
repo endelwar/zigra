@@ -69,7 +69,7 @@ class Zigra_Router
      * @param array $params
      * @param null $session_manager
      * @param bool $isError
-     * @return bool
+     * @return boolean|null
      * @throws \InvalidArgumentException
      */
     private static function callControllerAction(
