@@ -10,9 +10,6 @@ class Zigra_User
     {
         $this->userclass = $userclass;
 
-        /* Prevent JavaScript from reading Session cookies */
-        ini_set('session.cookie_httponly', '1');
-
         /* Start Session */
         if ($sessionManager->isStarted() === false) {
             $sessionManager->start();
