@@ -5,14 +5,16 @@ class Zigra_User
     protected static $instance;
     protected static $_user;
     protected $userclass;
+    /** @var \Aura\Session\Session */
+    private static $sessionManager;
 
     public function __construct($userclass, Aura\Session\Session $sessionManager)
     {
         $this->userclass = $userclass;
-
+        self::$sessionManager = $sessionManager;
         /* Start Session */
-        if ($sessionManager->isStarted() === false) {
-            $sessionManager->start();
+        if (self::$sessionManager->isStarted() === false) {
+            self::$sessionManager->start();
         }
 
         /* Check if last session is from the same pc */
@@ -20,7 +22,7 @@ class Zigra_User
             $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
         }
         if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']) {
-            $sessionManager->destroy();
+            self::$sessionManager->destroy();
         }
     }
 
@@ -31,14 +33,16 @@ class Zigra_User
 
     public static function singleton($userclass)
     {
-        $session_factory = new \Aura\Session\SessionFactory();
-        $sessionManager = $session_factory->newInstance($_COOKIE);
-        $sessionManager->resume();
+        if (null === self::$sessionManager) {
+            $session_factory = new \Aura\Session\SessionFactory();
+            self::$sessionManager = $session_factory->newInstance($_COOKIE);
+        }
+        self::$sessionManager->resume();
         if (null === self::$instance) {
-            self::$instance = new self($userclass, $sessionManager);
+            self::$instance = new self($userclass, self::$sessionManager);
         }
         if (strtolower(get_class(self::$instance->userclass)) !== strtolower($userclass)) {
-            self::$instance = new self($userclass, $sessionManager);
+            self::$instance = new self($userclass, self::$sessionManager);
         }
 
         return self::$instance;
@@ -104,7 +108,7 @@ class Zigra_User
     {
         try {
             /* If correct create session */
-            session_regenerate_id();
+            self::$sessionManager->regenerateId();
             self::$_user = $user;
             $_SESSION['member'] = $user->toArray();
             unset($_SESSION['member']['password']);
@@ -147,11 +151,8 @@ class Zigra_User
      */
     public function logout($routeName = null, array $routeParams = [])
     {
-        // Clear the SESSION
-        $_SESSION = [];
         // Destroy the SESSION
-        session_unset();
-        session_destroy();
+        self::$sessionManager->destroy();
 
         // Redirect
         if (null === $routeName) {
