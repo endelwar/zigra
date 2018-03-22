@@ -1,18 +1,18 @@
 <?php
 
-return array(
+return [
     // Native language name
-    'language' => array('pt_BR' => 'Português do Brasil'),
-    'englishlang' => array('pt_BR' => 'Brazilian Portuguese'),
+    'language' => ['pt_BR' => 'Português do Brasil'],
+    'englishlang' => ['pt_BR' => 'Brazilian Portuguese'],
     // Possible locale for language
-    'locale' => array('pt_BR' => 'pt_BR,pt_BR.utf8,pt_BR.UTF-8,pt_BR.utf-8,portuguese-brazil,Portuguese_Brazil.1252'),
+    'locale' => ['pt_BR' => 'pt_BR,pt_BR.utf8,pt_BR.UTF-8,pt_BR.utf-8,portuguese-brazil,Portuguese_Brazil.1252'],
     // Encoding of the language
-    'encoding' => array('pt_BR' => 'UTF-8'),
+    'encoding' => ['pt_BR' => 'UTF-8'],
     // Direction of the language
-    'direction' => array('pt_BR' => 'ltr'),
+    'direction' => ['pt_BR' => 'ltr'],
     // Possible aliases for language
-    'alias' => array(
+    'alias' => [
         'pt-BR' => 'pt_BR',
         'pt_BR' => 'pt_BR',
-    ),
-);
+    ],
+];

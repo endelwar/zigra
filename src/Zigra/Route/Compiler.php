@@ -8,8 +8,8 @@ class Zigra_Route_Compiler
         $requirements = $route->getRequirements();
         //$options = $route->getOptions();
         $defaults = $route->getDefaults();
-        $tokens = array();
-        $variables = array();
+        $tokens = [];
+        $variables = [];
 
         preg_match_all('@\{([\w\d\=_-]+)\}@', $pattern, $matches, PREG_OFFSET_CAPTURE | PREG_SET_ORDER);
         $regex = str_replace('/', '\/', $pattern);
@@ -26,12 +26,12 @@ class Zigra_Route_Compiler
             }
         }
         $regex = '@^' . $regex . '$@';
-        $tokens[] = array(
+        $tokens[] = [
             'pattern' => $pattern,
             'regex' => $regex,
             'variables' => $variables,
             'defaults' => $defaults,
-        );
+        ];
 
         return $tokens;
     }

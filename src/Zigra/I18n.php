@@ -2,7 +2,6 @@
 
 class Zigra_I18n
 {
-
     /**
      * @ignore
      */
@@ -14,7 +13,7 @@ class Zigra_I18n
     private static function loadNls()
     {
         if (!is_array(self::$nls)) {
-            self::$nls = array();
+            self::$nls = [];
 
             $nlsdir = __DIR__ . DIRECTORY_SEPARATOR . 'I18n' . DIRECTORY_SEPARATOR . 'nls';
             $files = glob($nlsdir . '/*nls.php');
@@ -41,7 +40,7 @@ class Zigra_I18n
     /**
      * Return the list of languages understood by the current browser (if any).
      *
-     * @return array of Strings representing the languages the browser supports.
+     * @return array of Strings representing the languages the browser supports
      */
     public static function getBrowserLanguages()
     {
@@ -54,7 +53,7 @@ class Zigra_I18n
             $_SERVER['HTTP_ACCEPT_LANGUAGE'],
             $lang_parse
         );
-        $langs = array();
+        $langs = [];
         if (count($lang_parse[1])) {
             // create a list like "en" => 0.8
             $langs = array_combine($lang_parse[1], $lang_parse[4]);
@@ -77,7 +76,7 @@ class Zigra_I18n
      * Cross reference the browser preferred language with those
      * that are available (via NLS Files). To find the first suitable language.
      *
-     * @return Zigra_I18n_Nls|false First suitable lang object or false.
+     * @return Zigra_I18n_Nls|false first suitable lang object or false
      */
     public static function detectBrowserLanguage()
     {
@@ -128,11 +127,11 @@ class Zigra_I18n
      * @param array $availableLangs all available languages
      * @param string $defaultLang default language
      *
-     * @return Zigra_I18n_Nls suitable lang object.
+     * @return Zigra_I18n_Nls suitable lang object
      */
     public static function getLanguage($availableLangs, $defaultLang)
     {
-        $regs = array();
+        $regs = [];
         if (preg_match('%^/([a-z]{2})/?[\w-_/]*$%', $_SERVER['REQUEST_URI'], $regs)) {
             $result = $regs[1];
             $i18n = self::matchLang($result);

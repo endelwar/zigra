@@ -69,8 +69,8 @@ class Zigra_Router
      * @param array $params
      * @param null $session_manager
      * @param bool $isError
-     * @return bool
      * @throws \InvalidArgumentException
+     * @return bool|null
      */
     private static function callControllerAction(
         $controllerName,
@@ -88,7 +88,7 @@ class Zigra_Router
 
                 $fullClassName = ucfirst($controllerName) . 'Controller';
                 $controller = new $fullClassName($request, $params, $session_manager);
-                if (!is_callable(array($controller, $action))) {
+                if (!is_callable([$controller, $action])) {
                     throw new Zigra_Exception(
                         'Cannot call module: ' . $controllerName . '->' . $action
                     );
@@ -129,10 +129,10 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param Zigra_Request $request Request.
-     * @param bool $resetProperties If reset or not all singleton proprieties.
+     * @param Zigra_Request $request request
+     * @param bool $resetProperties if reset or not all singleton proprieties
      *
-     * @return bool true when route is found or false if not found.
+     * @return bool true when route is found or false if not found
      */
     private static function process(Zigra_Request $request, $resetProperties = false)
     {
@@ -148,7 +148,7 @@ class Zigra_Router
                 //remove numeric index from array
                 $matches_filter = array_filter(array_keys($matches), 'is_string');
                 $matches = array_intersect_key($matches, array_flip($matches_filter));
-                $args = array();
+                $args = [];
                 foreach ($route[0]['variables'] as $variable) {
                     $args[$variable] = array_shift($matches);
                 }
@@ -165,7 +165,7 @@ class Zigra_Router
 
                 if (isset($request_parts['query'])) {
                     parse_str($request_parts['query'], $query_args);
-                    self::$_args = array_merge(self::$_args, $query_args);
+                    self::$_args = array_merge($query_args, self::$_args);
                 }
 
                 return true;
@@ -176,7 +176,7 @@ class Zigra_Router
             : self::$_controller;
         self::$_action = (!isset(self::$_action) || $resetProperties) ? $request->getAction() : self::$_action;
         self::$_args = (!isset(self::$_args) || $resetProperties) ? $request->getArgs() : self::$_args;
-        self::$_defaults = array();
+        self::$_defaults = [];
 
         return false;
     }
@@ -200,15 +200,14 @@ class Zigra_Router
      * @param array $requirements TODO write docs
      * @param array $options TODO write docs
      *
-     * @return void
      * @throws \InvalidArgumentException
      */
     public static function map(
         $name,
         $pattern,
         array $defaults,
-        array $requirements = array(),
-        array $options = array()
+        array $requirements = [],
+        array $options = []
     ) {
         self::singleton();
         $route = new Zigra_Route($pattern, $defaults, $requirements, $options);
@@ -219,15 +218,14 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param string $name Optional name of route to be used (if not set the route will be selected on given params).
-     * @param array $params The arguments to be processed by the created url.
+     * @param string $name optional name of route to be used (if not set the route will be selected on given params)
+     * @param array $params the arguments to be processed by the created url
      *
      * @throws InvalidArgumentException if route name is not found
      *
-     * @return string|false Generated url or false on error.
+     * @return string|false generated url or false on error
      */
-
-    public static function generate($name = '', array $params = array())
+    public static function generate($name = '', array $params = [])
     {
         self::singleton();
 

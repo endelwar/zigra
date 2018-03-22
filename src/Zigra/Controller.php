@@ -11,7 +11,7 @@ class Zigra_Controller
      * Zigra_Controller constructor.
      * @param Zigra_Request $request
      * @param array $params
-     * @param null $session_manager
+     * @param Aura\Session\Session $session_manager
      */
     public function __construct(Zigra_Request $request, array $params, $session_manager = null)
     {
@@ -112,7 +112,7 @@ class Zigra_Controller
      *
      * @var array
      */
-    public static $statusTexts = array(
+    public static $statusTexts = [
         100 => 'Continue',
         101 => 'Switching Protocols',
         102 => 'Processing', // RFC2518
@@ -173,7 +173,7 @@ class Zigra_Controller
         508 => 'Loop Detected', // RFC5842
         510 => 'Not Extended', // RFC2774
         511 => 'Network Authentication Required', // RFC6585
-    );
+    ];
 
     /**
      * Forwards current action to a new route.
@@ -184,9 +184,8 @@ class Zigra_Controller
      * @param string $anchor string to append as hash anchor
      *
      * @throws \Exception
-     * @return void
      */
-    public function forward($routename, $params = array(), $statuscode = null, $anchor = null)
+    public function forward($routename, $params = [], $statuscode = null, $anchor = null)
     {
         $url = Zigra_Router::generate($routename, $params);
 
@@ -211,7 +210,6 @@ class Zigra_Controller
      * @param string $message Message of the generated exception
      *
      * @throws \InvalidArgumentException
-     * @return void
      */
     public function forward404($message = null)
     {
@@ -225,8 +223,6 @@ class Zigra_Controller
      *
      * @param string $url url to be redirected
      * @param int $statuscode HTTP status code
-     *
-     * @return void
      */
     public function redirect($url, $statuscode = 307)
     {

@@ -16,9 +16,9 @@ class Zigra_Route
      */
     public function __construct(
         $pattern,
-        array $defaults = array(),
-        array $requirements = array(),
-        array $options = array()
+        array $defaults = [],
+        array $requirements = [],
+        array $options = []
     ) {
         $this->setPattern($pattern);
         $this->setDefaults($defaults);
@@ -61,7 +61,7 @@ class Zigra_Route
      */
     public function setRequirements(array $requirements)
     {
-        $this->requirements = array();
+        $this->requirements = [];
         foreach ($requirements as $key => $value) {
             $this->requirements[$key] = $this->sanitizeRequirement($value);
         }
@@ -78,7 +78,7 @@ class Zigra_Route
     public function setOptions(array $options)
     {
         $this->options = array_merge(
-            array('compiler_class' => 'Zigra_Route_Compiler'),
+            ['compiler_class' => 'Zigra_Route_Compiler'],
             $options
         );
     }
@@ -131,11 +131,11 @@ class Zigra_Route
     /**
      * Create url for given arguments.
      *
-     * @param array $params Argument values for url parameters in this route.
+     * @param array $params argument values for url parameters in this route
      *
-     * @throws InvalidArgumentException If required params are missing.
+     * @throws InvalidArgumentException if required params are missing
      *
-     * @return string $url Generated url.
+     * @return string $url generated url
      */
     public function generate($params)
     {
@@ -149,24 +149,22 @@ class Zigra_Route
                 count($compiledRoute[0]['variables']) - count($params) .
                 ' parameters'
             );
-        } else {
-            // right number of parameters, let's verify that they are the right ones
-            $paramdiff = array_diff_key(array_flip($compiledRoute[0]['variables']), $params);
-            if (!empty($paramdiff)) {
-                throw new InvalidArgumentException(
+        }
+        // right number of parameters, let's verify that they are the right ones
+        $paramdiff = array_diff_key(array_flip($compiledRoute[0]['variables']), $params);
+        if (!empty($paramdiff)) {
+            throw new InvalidArgumentException(
                     'Zigra_Route->generate: wrong parameters name, missing: ' .
                     implode(', ', array_flip($paramdiff))
                 );
-            } else {
-                $parameters = array();
-                $values = array();
-                foreach ($params as $key => $value) {
-                    $parameters[] = '{' . $key . '}';
-                    $values[] = $value;
-                }
-
-                return str_replace($parameters, $values, $compiledRoute[0]['pattern']);
-            }
         }
+        $parameters = [];
+        $values = [];
+        foreach ($params as $key => $value) {
+            $parameters[] = '{' . $key . '}';
+            $values[] = $value;
+        }
+
+        return str_replace($parameters, $values, $compiledRoute[0]['pattern']);
     }
 }

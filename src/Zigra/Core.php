@@ -5,7 +5,7 @@ class Zigra_Core
     /**
      * Path to Zigra root
      *
-     * @var string $path Zigra root directory
+     * @var string Zigra root directory
      */
     private static $path;
 
@@ -13,8 +13,6 @@ class Zigra_Core
      * Set the path to your core Zigra libraries
      *
      * @param string $path The path to your Zigra libraries
-     *
-     * @return void
      */
     public static function setPath($path)
     {
@@ -37,13 +35,11 @@ class Zigra_Core
 
     /**
      * Registers Zigra as an SPL autoloader.
-     *
-     * @return void
      */
     public static function register()
     {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
-        spl_autoload_register(array(new self(), 'autoload'));
+        spl_autoload_register([new self(), 'autoload']);
     }
 
     /**

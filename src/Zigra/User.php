@@ -5,21 +5,16 @@ class Zigra_User
     protected static $instance;
     protected static $_user;
     protected $userclass;
+    /** @var \Aura\Session\Session */
+    private static $sessionManager;
 
-    const COOKIE_EXPIRE = 8640000; //60*60*24*90 seconds = 100 days by default
-    const COOKIE_PATH = '/'; //Available in whole domain
-
-    public function __construct($userclass)
+    public function __construct($userclass, Aura\Session\Session $sessionManager)
     {
         $this->userclass = $userclass;
-
-        /* Prevent JavaScript from reading Session cookies */
-        ini_set('session.cookie_httponly', '1');
-
+        self::$sessionManager = $sessionManager;
         /* Start Session */
-        if (session_id() === '') {
-            session_set_cookie_params(3600); // Set session cookie duration to 1 hour
-            session_start();
+        if (self::$sessionManager->isStarted() === false) {
+            self::$sessionManager->start();
         }
 
         /* Check if last session is from the same pc */
@@ -27,11 +22,7 @@ class Zigra_User
             $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
         }
         if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']) {
-            /* Clear the SESSION */
-            $_SESSION = array();
-            /* Destroy the SESSION */
-            session_unset();
-            session_destroy();
+            self::$sessionManager->destroy();
         }
     }
 
@@ -42,12 +33,16 @@ class Zigra_User
 
     public static function singleton($userclass)
     {
-        $className = __CLASS__;
+        if (null === self::$sessionManager) {
+            $session_factory = new \Aura\Session\SessionFactory();
+            self::$sessionManager = $session_factory->newInstance($_COOKIE);
+        }
+        self::$sessionManager->resume();
         if (null === self::$instance) {
-            self::$instance = new $className($userclass);
+            self::$instance = new self($userclass, self::$sessionManager);
         }
         if (strtolower(get_class(self::$instance->userclass)) !== strtolower($userclass)) {
-            self::$instance = new $className($userclass);
+            self::$instance = new self($userclass, self::$sessionManager);
         }
 
         return self::$instance;
@@ -113,7 +108,7 @@ class Zigra_User
     {
         try {
             /* If correct create session */
-            session_regenerate_id();
+            self::$sessionManager->regenerateId();
             self::$_user = $user;
             $_SESSION['member'] = $user->toArray();
             unset($_SESSION['member']['password']);
@@ -154,13 +149,10 @@ class Zigra_User
      * @param array $routeParams
      * @throws Exception
      */
-    public function logout($routeName = null, array $routeParams = array())
+    public function logout($routeName = null, array $routeParams = [])
     {
-        // Clear the SESSION
-        $_SESSION = array();
         // Destroy the SESSION
-        session_unset();
-        session_destroy();
+        self::$sessionManager->destroy();
 
         // Redirect
         if (null === $routeName) {
@@ -198,7 +190,7 @@ class Zigra_User
         // TODO string translation
         // TODO make everything a parameter
         $message = Swift_Message::newInstance('Zigra App - Email Password')
-            ->setFrom(array('server@zigra.dev' => 'Zigra App'))
+            ->setFrom(['server@zigra.dev' => 'Zigra App'])
             ->setTo($email)
             ->setBody($password);
 
