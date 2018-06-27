@@ -40,12 +40,12 @@ class Zigra_I18n
     /**
      * Return the list of languages understood by the current browser (if any).
      *
-     * @return array of Strings representing the languages the browser supports
+     * @return array Array of Strings representing the languages the browser supports
      */
     public static function getBrowserLanguages()
     {
         if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-            return false;
+            return [];
         }
 
         preg_match_all(
@@ -81,7 +81,7 @@ class Zigra_I18n
     public static function detectBrowserLanguage()
     {
         $langs = self::getBrowserLanguages();
-        if (!is_array($langs) || !count($langs)) {
+        if (count($langs) < 1) {
             return false;
         }
 
