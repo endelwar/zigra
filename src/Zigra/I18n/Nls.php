@@ -15,7 +15,7 @@ class Zigra_I18n_Nls
     protected $fullname;
     /** @var string $encoding */
     protected $encoding;
-    /** @var array $aliases */
+    /** @var array|string $aliases */
     protected $aliases;
     /** @var string $display */
     protected $display;
@@ -118,12 +118,8 @@ class Zigra_I18n_Nls
             return true;
         }
         $aliases = $this->aliases();
-        if (!is_array($aliases)) {
-            $aliases = explode(',', $aliases);
-        }
         if (is_array($aliases) && count($aliases)) {
-            $aliases_nr = count($aliases);
-            for ($i = 0; $i < $aliases_nr; $i++) {
+            foreach ($aliases as $i) {
                 if (strtolower($aliases[$i]) === strtolower($str)) {
                     return true;
                 }

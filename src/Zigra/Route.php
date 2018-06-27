@@ -19,7 +19,8 @@ class Zigra_Route
         array $defaults = [],
         array $requirements = [],
         array $options = []
-    ) {
+    )
+    {
         $this->setPattern($pattern);
         $this->setDefaults($defaults);
         $this->setRequirements($requirements);
@@ -143,20 +144,23 @@ class Zigra_Route
 
         if (count($params) > 0 && count($compiledRoute[0]['variables']) === 0) {
             throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
-        } elseif (count($compiledRoute[0]['variables']) !== count($params)) {
+        }
+
+        if (count($compiledRoute[0]['variables']) !== count($params)) {
             throw new InvalidArgumentException(
                 'Zigra_Route->generate: missing ' .
                 count($compiledRoute[0]['variables']) - count($params) .
                 ' parameters'
             );
         }
+
         // right number of parameters, let's verify that they are the right ones
         $paramdiff = array_diff_key(array_flip($compiledRoute[0]['variables']), $params);
         if (!empty($paramdiff)) {
             throw new InvalidArgumentException(
-                    'Zigra_Route->generate: wrong parameters name, missing: ' .
-                    implode(', ', array_flip($paramdiff))
-                );
+                'Zigra_Route->generate: wrong parameters name, missing: ' .
+                implode(', ', array_flip($paramdiff))
+            );
         }
         $parameters = [];
         $values = [];

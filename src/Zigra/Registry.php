@@ -15,13 +15,12 @@ class Zigra_Registry implements IteratorAggregate
     }
 
     /**
-     * @return $this
+     * @return Zigra_Registry
      */
     public static function getInstance()
     {
         if (self::$instance === null) {
-            $c = __CLASS__;
-            self::$instance = new $c();
+            self::$instance = new static();
         }
 
         return self::$instance;
