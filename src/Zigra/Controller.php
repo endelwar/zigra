@@ -185,7 +185,7 @@ class Zigra_Controller
      *
      * @throws \Exception
      */
-    public function forward($routename, $params = [], $statuscode = null, $anchor = null)
+    public function forward($routename, array $params = [], $statuscode = null, $anchor = null)
     {
         $url = Zigra_Router::generate($routename, $params);
 

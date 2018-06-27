@@ -27,7 +27,7 @@ class Zigra_Core
     public static function getPath()
     {
         if (!self::$path) {
-            self::$path = realpath(__DIR__ . '/..');
+            self::$path = dirname(__DIR__) . '';
         }
 
         return self::$path;

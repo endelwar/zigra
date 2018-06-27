@@ -18,13 +18,12 @@ class Zigra_Router
     }
 
     /**
-     * @return $this
+     * @return Zigra_Router
      */
     public static function singleton()
     {
-        if (!isset(self::$instance)) {
-            $className = __CLASS__;
-            self::$instance = new $className();
+        if (self::$instance === null) {
+            self::$instance = new static();
         }
 
         return self::$instance;
@@ -63,8 +62,8 @@ class Zigra_Router
     }
 
     /**
-     * @param $controllerName
-     * @param $action
+     * @param string $controllerName
+     * @param string $action
      * @param Zigra_Request $request
      * @param array $params
      * @param null $session_manager
@@ -87,6 +86,7 @@ class Zigra_Router
                 include_once $classFileName;
 
                 $fullClassName = ucfirst($controllerName) . 'Controller';
+                /** @var Zigra_Controller $controller */
                 $controller = new $fullClassName($request, $params, $session_manager);
                 if (!is_callable([$controller, $action])) {
                     throw new Zigra_Exception(
@@ -102,9 +102,9 @@ class Zigra_Router
                 $registry->set('controller', $controllerName);
                 $registry->set('action', $action);
 
-                $controller->preExecute($request);
+                $controller->preExecute();
                 $controller->$action($request);
-                $controller->postExecute($request);
+                $controller->postExecute();
 
                 return true;
             }
@@ -154,13 +154,13 @@ class Zigra_Router
                 }
 
                 self::$matchedRoute = $routeName;
-                self::$_controller = (!isset(self::$_controller) || $resetProperties)
+                self::$_controller = (self::$_controller === null || $resetProperties)
                     ? $route[0]['defaults']['controller'] : self::$_controller;
-                self::$_action = (!isset(self::$_action) || $resetProperties)
+                self::$_action = (self::$_action === null || $resetProperties)
                     ? $route[0]['defaults']['action'] : self::$_action;
-                self::$_args = (!isset(self::$_args) || $resetProperties)
+                self::$_args = (self::$_args === null || $resetProperties)
                     ? $args : self::$_args;
-                self::$_defaults = (!isset(self::$_defaults) || $resetProperties)
+                self::$_defaults = (self::$_defaults === null || $resetProperties)
                     ? $route[0]['defaults'] : self::$_defaults;
 
                 if (isset($request_parts['query'])) {
@@ -171,11 +171,11 @@ class Zigra_Router
                 return true;
             }
         }
-        self::$_controller = (!isset(self::$_controller) || $resetProperties)
+        self::$_controller = (self::$_controller === null || $resetProperties)
             ? $request->getController()
             : self::$_controller;
-        self::$_action = (!isset(self::$_action) || $resetProperties) ? $request->getAction() : self::$_action;
-        self::$_args = (!isset(self::$_args) || $resetProperties) ? $request->getArgs() : self::$_args;
+        self::$_action = (self::$_action === null || $resetProperties) ? $request->getAction() : self::$_action;
+        self::$_args = (self::$_args === null || $resetProperties) ? $request->getArgs() : self::$_args;
         self::$_defaults = [];
 
         return false;
