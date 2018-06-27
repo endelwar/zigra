@@ -102,9 +102,9 @@ class Zigra_Router
                 $registry->set('controller', $controllerName);
                 $registry->set('action', $action);
 
-                $controller->preExecute($request);
+                $controller->preExecute();
                 $controller->$action($request);
-                $controller->postExecute($request);
+                $controller->postExecute();
 
                 return true;
             }
