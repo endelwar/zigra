@@ -12,6 +12,7 @@
  * @method has($key)
  * @method getAll()
  * @method getKeys()
+ * @method clear()
  */
 class Zigra_Registry
 {
@@ -52,8 +53,8 @@ class Zigra_Registry
             case 'getKeys':
             case 'clear':
                 $privateMethod = 'private' . ucfirst($name);
+
                 return call_user_func_array([static::class, $privateMethod], $arguments);
-                break;
             default:
                 throw new \RuntimeException('Method not implemented');
         }
@@ -78,8 +79,8 @@ class Zigra_Registry
             case 'clear':
                 $instance = static::getInstance();
                 $privateMethod = 'private' . ucfirst($name);
+
                 return call_user_func_array([$instance, $privateMethod], $arguments);
-                break;
             default:
                 throw new \RuntimeException('Method not implemented');
         }
