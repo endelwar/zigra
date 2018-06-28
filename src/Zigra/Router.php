@@ -73,8 +73,7 @@ class Zigra_Router
         array $params,
         $session_manager = null,
         $isError = false
-    )
-    {
+    ) {
         // TODO: make this contruct indipendent from app path
         $classFileName = '../app/controller/' . $controllerName . 'Controller.php';
         try {
@@ -204,8 +203,7 @@ class Zigra_Router
         array $defaults,
         array $requirements = [],
         array $options = []
-    )
-    {
+    ) {
         self::singleton();
         $route = new Zigra_Route($pattern, $defaults, $requirements, $options);
         self::$_routeCollection->add($name, $route);

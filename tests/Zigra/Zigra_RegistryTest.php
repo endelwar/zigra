@@ -6,7 +6,6 @@ use Zigra_Registry;
 
 class Zigra_RegistryTest extends \PHPUnit_Framework_TestCase
 {
-
     public function setUp()
     {
         Zigra_Registry::clear();
@@ -95,7 +94,7 @@ class Zigra_RegistryTest extends \PHPUnit_Framework_TestCase
         Zigra_Registry::set('foo', 'bar');
         Zigra_Registry::set('foo2', 42);
         Zigra_Registry::set('foo3', 3.14);
-        $this->assertEquals(['foo', 'foo2', 'foo3',], Zigra_Registry::getKeys());
+        $this->assertEquals(['foo', 'foo2', 'foo3'], Zigra_Registry::getKeys());
     }
 
     /**
@@ -124,5 +123,4 @@ class Zigra_RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($registry1, $registry2);
         $this->assertSame($registry1, $registry2);
     }
-
 }
