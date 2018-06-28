@@ -6,6 +6,7 @@
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
+         addUncoveredFilesFromWhitelist="true"
          bootstrap="tests/Bootstrap.php">
 
     <testsuites>
@@ -16,11 +17,7 @@
 
     <filter>
         <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
+            <directory>src</directory>
         </whitelist>
     </filter>
 
@@ -28,4 +25,5 @@
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="true"/>
         <log type="coverage-clover" target="build/logs/clover.xml"/>
     </logging>
+
 </phpunit>
