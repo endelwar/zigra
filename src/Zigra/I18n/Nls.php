@@ -118,8 +118,10 @@ class Zigra_I18n_Nls
             return true;
         }
         $aliases = $this->aliases();
+
         if (is_array($aliases) && count($aliases)) {
-            foreach ($aliases as $i) {
+            $aliases_nr = count($aliases);
+            for ($i = 0; $i < $aliases_nr; $i++) {
                 if (strtolower($aliases[$i]) === strtolower($str)) {
                     return true;
                 }
