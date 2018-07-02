@@ -43,7 +43,7 @@ class Zigra_RegistryTest extends \PHPUnit_Framework_TestCase
 
         Zigra_Registry::set('myNullValue', null);
         $nullValue = Zigra_Registry::get('myNullValue');
-        $this->assertEquals(null, $nullValue);
+        $this->assertNull($nullValue);
     }
 
     /**
