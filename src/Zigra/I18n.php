@@ -92,10 +92,8 @@ class Zigra_I18n
                 return self::$nls[$onelang];
             }
 
-            /**
-             * @var int $key
-             * @var Zigra_I18n_Nls $obj
-             */
+            /** @var int $key */
+            /** @var Zigra_I18n_Nls $obj */
             foreach (self::$nls as $key => $obj) {
                 if ($obj->matches($onelang)) {
                     return $obj;
@@ -141,16 +139,16 @@ class Zigra_I18n
             $i18n = self::matchLang($result);
             if (!$i18n) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
-            } else if (!in_array($i18n->key(), $availableLangs, true)) {
+            } elseif (!in_array($i18n->key(), $availableLangs, true)) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
             }
-        } else if (isset($_SESSION['language'])) {
+        } elseif (isset($_SESSION['language'])) {
             $i18n = Zigra_I18n_Nls::init($_SESSION['language']);
         } else {
             $i18n = self::detectBrowserLanguage();
             if (!$i18n) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
-            } else if (!in_array($i18n->key(), $availableLangs, true)) {
+            } elseif (!in_array($i18n->key(), $availableLangs, true)) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
             }
         }

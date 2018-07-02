@@ -38,27 +38,22 @@ class Zigra_Router
     public static function route(Zigra_Request $request, $resetProperties = false, $session_manager = null)
     {
         self::singleton();
-
+        $controller = 'error';
+        $action = 'error404';
         $routefound = self::process($request, $resetProperties);
+
         if ($routefound) {
-            self::callControllerAction(
-                self::$_controller,
-                self::$_action,
-                $request,
-                array_merge(self::$_defaults, self::$_args),
-                $session_manager
-            );
-        } else {
-            // 404 route not found
-            self::callControllerAction(
-                'error',
-                'error404',
-                $request,
-                array_merge(self::$_defaults, self::$_args),
-                $session_manager,
-                true
-            );
+            $controller = self::$_controller;
+            $action = self::$_action;
         }
+
+        self::callControllerAction(
+            $controller,
+            $action,
+            $request,
+            array_merge(self::$_defaults, self::$_args),
+            $session_manager
+        );
     }
 
     /**
