@@ -46,14 +46,6 @@ class Zigra_RegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($nullValue);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetWithoutSecondArgoument()
-    {
-        Zigra_Registry::set('myNullValue');
-    }
-
     public function testAdd()
     {
         Zigra_Registry::set('foo', ['bar']);
@@ -61,14 +53,6 @@ class Zigra_RegistryTest extends \PHPUnit_Framework_TestCase
         Zigra_Registry::add('foo', 3.14);
 
         $this->assertEquals(['foo' => ['bar', 42, 3.14]], Zigra_Registry::getAll());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testAddWithoutSecondArgoument()
-    {
-        Zigra_Registry::add('noSecondArg');
     }
 
     public function testHas()
@@ -95,23 +79,6 @@ class Zigra_RegistryTest extends \PHPUnit_Framework_TestCase
         Zigra_Registry::set('foo2', 42);
         Zigra_Registry::set('foo3', 3.14);
         $this->assertEquals(['foo', 'foo2', 'foo3'], Zigra_Registry::getKeys());
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testNotExistStatictMethod()
-    {
-        Zigra_Registry::notExists('foo', 'bar');
-    }
-
-    /**
-     * @expectedException \RuntimeException
-     */
-    public function testNotExistMethod()
-    {
-        $registryInstance = Zigra_Registry::getInstance();
-        $registryInstance->notExists('foo', 'bar');
     }
 
     public function testRegistrySingletonSameness()
