@@ -95,7 +95,7 @@ class Zigra_I18n_Nls
             $obj->aliases = array_keys($data['alias']);
         }
 
-        if ($obj->key === '') {
+        if ('' === $obj->key) {
             trigger_error('Big Problems dude! $key in not where it should');
             die();
         }

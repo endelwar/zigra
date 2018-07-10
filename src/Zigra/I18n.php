@@ -27,7 +27,7 @@ class Zigra_I18n
 
                     unset($nls);
                     $nls = include $files[$i];
-                    if ($nls !== null) {
+                    if (null !== $nls) {
                         $obj = Zigra_I18n_Nls::fromArray($nls);
                         unset($nls);
                         self::$nls[$obj->key()] = $obj;
@@ -60,7 +60,7 @@ class Zigra_I18n
 
             // set default to 1 for any language without q factor
             foreach ($langs as $lang => $val) {
-                if ($val === '') {
+                if ('' === $val) {
                     $langs[$lang] = 1;
                 }
             }

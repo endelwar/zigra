@@ -22,7 +22,7 @@ class Zigra_Router
      */
     public static function singleton()
     {
-        if (self::$instance === null) {
+        if (null === self::$instance) {
             self::$instance = new static();
         }
 
@@ -105,7 +105,7 @@ class Zigra_Router
             }
 
             // are we coming from a declared error?
-            if ($isError === false) {
+            if (false === $isError) {
                 throw new Zigra_Exception(
                     'Cannot find class ' . $controllerName . ' (' . $classFileName . ')'
                 );
@@ -149,13 +149,13 @@ class Zigra_Router
                 }
 
                 self::$matchedRoute = $routeName;
-                self::$_controller = (self::$_controller === null || $resetProperties)
+                self::$_controller = (null === self::$_controller || $resetProperties)
                     ? $route[0]['defaults']['controller'] : self::$_controller;
-                self::$_action = (self::$_action === null || $resetProperties)
+                self::$_action = (null === self::$_action || $resetProperties)
                     ? $route[0]['defaults']['action'] : self::$_action;
-                self::$_args = (self::$_args === null || $resetProperties)
+                self::$_args = (null === self::$_args || $resetProperties)
                     ? $args : self::$_args;
-                self::$_defaults = (self::$_defaults === null || $resetProperties)
+                self::$_defaults = (null === self::$_defaults || $resetProperties)
                     ? $route[0]['defaults'] : self::$_defaults;
 
                 if (isset($request_parts['query'])) {
@@ -166,11 +166,11 @@ class Zigra_Router
                 return true;
             }
         }
-        self::$_controller = (self::$_controller === null || $resetProperties)
+        self::$_controller = (null === self::$_controller || $resetProperties)
             ? $request->getController()
             : self::$_controller;
-        self::$_action = (self::$_action === null || $resetProperties) ? $request->getAction() : self::$_action;
-        self::$_args = (self::$_args === null || $resetProperties) ? $request->getArgs() : self::$_args;
+        self::$_action = (null === self::$_action || $resetProperties) ? $request->getAction() : self::$_action;
+        self::$_args = (null === self::$_args || $resetProperties) ? $request->getArgs() : self::$_args;
         self::$_defaults = [];
 
         return false;

@@ -13,7 +13,7 @@ class Zigra_User
         $this->userclass = $userclass;
         self::$sessionManager = $sessionManager;
         /* Start Session */
-        if (self::$sessionManager->isStarted() === false) {
+        if (false === self::$sessionManager->isStarted()) {
             self::$sessionManager->start();
         }
 
@@ -82,7 +82,7 @@ class Zigra_User
             $user = $userclass::findOneByEmail($email);
             if ($user) {
                 // User found, verify password
-                if (static::verify($password, $user->password) === true) {
+                if (true === static::verify($password, $user->password)) {
                     $this->setAsLoggedIn($user);
 
                     return true;
@@ -177,7 +177,7 @@ class Zigra_User
         $password = '';
         $possiblechars = 'abcdefghijklmnopqrstuvwxyz0123456789';
         for ($i = 0; $i < $length; $i++) {
-            $password .= substr($possiblechars, mt_rand(0, $length - 1), 1);
+            $password .= mb_substr($possiblechars, mt_rand(0, $length - 1), 1);
         }
 
         return $password;
