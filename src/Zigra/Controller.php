@@ -11,7 +11,7 @@ class Zigra_Controller
      * Zigra_Controller constructor.
      * @param Zigra_Request $request
      * @param array $params
-     * @param Aura\Session\Session $session_manager
+     * @param null|Aura\Session\Session $session_manager
      */
     public function __construct(Zigra_Request $request, array $params, $session_manager = null)
     {

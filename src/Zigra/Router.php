@@ -32,7 +32,7 @@ class Zigra_Router
     /**
      * @param Zigra_Request $request
      * @param bool $resetProperties
-     * @param null $session_manager
+     * @param null|Aura\Session\Session $session_manager
      * @throws \InvalidArgumentException
      */
     public static function route(Zigra_Request $request, $resetProperties = false, $session_manager = null)
@@ -61,7 +61,7 @@ class Zigra_Router
      * @param string $action
      * @param Zigra_Request $request
      * @param array $params
-     * @param null $session_manager
+     * @param null|Aura\Session\Session $session_manager
      * @param bool $isError
      * @throws \InvalidArgumentException
      * @return bool|null
