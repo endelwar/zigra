@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Zigra_Route
+ */
 class Zigra_Route
 {
     protected $pattern;
@@ -116,16 +119,15 @@ class Zigra_Route
 
     public function compile()
     {
-        if (!$this->compiledRoute) {
-            $className = $this->getOption('compiler_class');
-            $routeCompiler = new $className();
-
-            $compiledRoute = $routeCompiler->compile($this);
-        } else {
-            $compiledRoute = $this->compiledRoute;
+        if ($this->compiledRoute) {
+            return $this->compiledRoute;
         }
 
-        return $compiledRoute;
+        $className = $this->getOption('compiler_class');
+        /** @var Zigra_Route_CompilerInterface $routeCompiler */
+        $routeCompiler = new $className();
+
+        return $routeCompiler->compile($this);
     }
 
     /**
