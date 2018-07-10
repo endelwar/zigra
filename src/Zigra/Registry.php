@@ -2,6 +2,8 @@
 
 /**
  * Class Zigra_Registry
+ *
+ * @method static Zigra_Registry getInstance()
  */
 class Zigra_Registry extends Zigra_AbstractSigleton implements Zigra_RegistryInterface
 {
