@@ -1,6 +1,6 @@
 <?php
 
-class Zigra_Route_Compiler
+class Zigra_Route_Compiler implements Zigra_Route_CompilerInterface
 {
     public function compile(Zigra_Route $route)
     {

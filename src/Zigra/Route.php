@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Zigra_Route
+ */
 class Zigra_Route
 {
     protected $pattern;
@@ -33,7 +36,7 @@ class Zigra_Route
     {
         $this->pattern = trim($pattern);
 
-        if (empty($this->pattern) || $this->pattern[0] !== '/') {
+        if (empty($this->pattern) || '/' !== $this->pattern[0]) {
             $this->pattern = '/' . $this->pattern;
         }
     }
@@ -103,12 +106,12 @@ class Zigra_Route
      */
     private function sanitizeRequirement($regex)
     {
-        if ($regex[0] === '^') {
-            $regex = substr($regex, 1);
+        if ('^' === $regex[0]) {
+            $regex = mb_substr($regex, 1);
         }
 
-        if (substr($regex, -1) === '$') {
-            $regex = substr($regex, 0, -1);
+        if ('$' === mb_substr($regex, -1)) {
+            $regex = mb_substr($regex, 0, -1);
         }
 
         return $regex;
@@ -116,16 +119,15 @@ class Zigra_Route
 
     public function compile()
     {
-        if (!$this->compiledRoute) {
-            $className = $this->getOption('compiler_class');
-            $routeCompiler = new $className();
-
-            $compiledRoute = $routeCompiler->compile($this);
-        } else {
-            $compiledRoute = $this->compiledRoute;
+        if ($this->compiledRoute) {
+            return $this->compiledRoute;
         }
 
-        return $compiledRoute;
+        $className = $this->getOption('compiler_class');
+        /** @var Zigra_Route_CompilerInterface $routeCompiler */
+        $routeCompiler = new $className();
+
+        return $routeCompiler->compile($this);
     }
 
     /**
@@ -141,7 +143,7 @@ class Zigra_Route
     {
         $compiledRoute = $this->compile();
 
-        if (count($params) > 0 && count($compiledRoute[0]['variables']) === 0) {
+        if (count($params) > 0 && 0 === count($compiledRoute[0]['variables'])) {
             throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
         }
 

@@ -13,7 +13,7 @@ class Zigra_User
         $this->userclass = $userclass;
         self::$sessionManager = $sessionManager;
         /* Start Session */
-        if (self::$sessionManager->isStarted() === false) {
+        if (false === self::$sessionManager->isStarted()) {
             self::$sessionManager->start();
         }
 
@@ -31,9 +31,16 @@ class Zigra_User
         self::$instance = null;
     }
 
-    public static function singleton($userclass)
+    /**
+     * @param $userclass
+     * @param Aura\Session\Session|null $sessionManager
+     * @return Zigra_User
+     */
+    public static function singleton($userclass, $sessionManager = null)
     {
-        if (null === self::$sessionManager) {
+        if ($sessionManager instanceof Aura\Session\Session) {
+            self::$sessionManager = $sessionManager;
+        } else {
             $session_factory = new \Aura\Session\SessionFactory();
             self::$sessionManager = $session_factory->newInstance($_COOKIE);
         }
@@ -82,7 +89,7 @@ class Zigra_User
             $user = $userclass::findOneByEmail($email);
             if ($user) {
                 // User found, verify password
-                if (static::verify($password, $user->password) === true) {
+                if (true === static::verify($password, $user->password)) {
                     $this->setAsLoggedIn($user);
 
                     return true;
@@ -177,7 +184,7 @@ class Zigra_User
         $password = '';
         $possiblechars = 'abcdefghijklmnopqrstuvwxyz0123456789';
         for ($i = 0; $i < $length; $i++) {
-            $password .= substr($possiblechars, mt_rand(0, $length - 1), 1);
+            $password .= mb_substr($possiblechars, mt_rand(0, $length - 1), 1);
         }
 
         return $password;

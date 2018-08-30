@@ -12,7 +12,7 @@ class Zigra_Request
 
     public function __construct($urlPath = null)
     {
-        $this->_request = $urlPath !== null ? $urlPath : $_SERVER['REQUEST_URI'];
+        $this->_request = null !== $urlPath ? $urlPath : $_SERVER['REQUEST_URI'];
 
         $parts = explode('/', $this->_request);
         $parts = array_filter($parts);
@@ -56,12 +56,12 @@ class Zigra_Request
 
     public function isPost()
     {
-        return $this->_method === 'POST';
+        return 'POST' === $this->_method;
     }
 
     public function isGet()
     {
-        return $this->_method === 'GET';
+        return 'GET' === $this->_method;
     }
 
     public function isAjax()
@@ -69,7 +69,7 @@ class Zigra_Request
         if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return false;
         }
-        if (strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']) === 'XMLHTTPREQUEST') {
+        if ('XMLHTTPREQUEST' === strtoupper($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return true;
         }
 
