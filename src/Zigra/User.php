@@ -31,9 +31,16 @@ class Zigra_User
         self::$instance = null;
     }
 
-    public static function singleton($userclass)
+    /**
+     * @param $userclass
+     * @param Aura\Session\Session|null $sessionManager
+     * @return Zigra_User
+     */
+    public static function singleton($userclass, $sessionManager = null)
     {
-        if (null === self::$sessionManager) {
+        if ($sessionManager instanceof Aura\Session\Session) {
+            self::$sessionManager = $sessionManager;
+        } else {
             $session_factory = new \Aura\Session\SessionFactory();
             self::$sessionManager = $session_factory->newInstance($_COOKIE);
         }

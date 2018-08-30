@@ -76,11 +76,12 @@ class Zigra_Controller
      *
      * @param object $userclass User class that retrieves user data from database
      *
+     * @param Aura\Session\Session|null $sessionManager
      * @return Zigra_User The current Zigra_User implementation instance
      */
-    public function getUser($userclass)
+    public function getUser($userclass, $sessionManager = null)
     {
-        return Zigra_User::singleton($userclass);
+        return Zigra_User::singleton($userclass, $sessionManager);
     }
 
     /**
