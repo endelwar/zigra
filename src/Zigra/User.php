@@ -18,12 +18,13 @@ class Zigra_User
         }
 
         /* Check if last session is from the same pc */
-        if (!isset($_SESSION['last_ip'])) {
+        // TODO verify this check when under proxy (as in cloudflare protected websites)
+        /*if (!isset($_SESSION['last_ip'])) {
             $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
         }
         if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']) {
             self::$sessionManager->destroy();
-        }
+        }*/
     }
 
     public function destroy()
