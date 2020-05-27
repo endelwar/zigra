@@ -17,4 +17,5 @@ return [
         'deu' => 'de_DE',
         'de_DE.ISO8859-1' => 'de_DE',
     ],
+    'regionsubtag' => 'de_DE',
 ];

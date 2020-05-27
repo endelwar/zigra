@@ -19,4 +19,5 @@ return [
         'ro_RO.ISO8859-2' => 'ro_RO',
         'ro_RO.ISO8859-16' => 'ro_RO',
     ],
+    'regionsubtag' => 'ro_RO',
 ];

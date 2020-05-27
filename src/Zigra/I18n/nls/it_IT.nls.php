@@ -19,4 +19,5 @@ return [
         'it_IT.ISO8859-1' => 'it_IT',
         'it_IT.ISO8859-15' => 'it_IT',
     ],
+    'regionsubtag' => 'it_IT',
 ];

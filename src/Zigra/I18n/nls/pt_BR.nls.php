@@ -15,4 +15,5 @@ return [
         'pt-BR' => 'pt_BR',
         'pt_BR' => 'pt_BR',
     ],
+    'regionsubtag' => 'pt_BR',
 ];

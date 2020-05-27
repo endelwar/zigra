@@ -16,4 +16,5 @@ return [
         'polish' => 'pl_PL',
         'pl_PL.ISO8859-2' => 'pl_PL',
     ],
+    'regionsubtag' => 'pl_PL',
 ];

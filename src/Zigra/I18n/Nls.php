@@ -7,22 +7,24 @@
  */
 class Zigra_I18n_Nls
 {
-    /** @var string $isocode */
+    /** @var string */
     protected $isocode;
-    /** @var string $locale */
+    /** @var string */
     protected $locale;
-    /** @var string $fullname */
+    /** @var string */
     protected $fullname;
-    /** @var string $encoding */
+    /** @var string */
     protected $encoding;
-    /** @var array|string $aliases */
+    /** @var array|string */
     protected $aliases;
-    /** @var string $display */
+    /** @var string */
     protected $display;
-    /** @var string $key */
+    /** @var string */
     protected $key;
-    /** @var string $direction */
+    /** @var string */
     protected $direction;
+    /** @var string */
+    protected $regionsubtag;
 
     /**
      * Initialize Zigra_I18n_Nls object
@@ -93,6 +95,11 @@ class Zigra_I18n_Nls
         // get aliases
         if (isset($data['alias'])) {
             $obj->aliases = array_keys($data['alias']);
+        }
+
+        // get language with region subtag
+        if (isset($data['regionsubtag'])) {
+            $obj->regionsubtag = $data['regionsubtag'];
         }
 
         if ('' === $obj->key) {
@@ -229,5 +236,10 @@ class Zigra_I18n_Nls
         }
 
         return 'ltr';
+    }
+
+    public function regionsubtag()
+    {
+        return $this->regionsubtag;
     }
 }

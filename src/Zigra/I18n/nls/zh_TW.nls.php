@@ -15,4 +15,5 @@ return [
         'chinese' => 'zh_TW',
         'zh_TW.Big5' => 'zh_TW',
     ],
+    'regionsubtag' => 'zh_TW',
 ];

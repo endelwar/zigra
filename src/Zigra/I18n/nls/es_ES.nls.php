@@ -20,4 +20,5 @@ return [
         'es_MX' => 'es_ES',
         'es_US.ISO8859-1' => 'es_ES',
     ],
+    'regionsubtag' => 'es_ES',
 ];

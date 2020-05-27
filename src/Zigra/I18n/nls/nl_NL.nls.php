@@ -16,4 +16,5 @@ return [
         'dutch' => 'nl_NL',
         'nl_NL.ISO8859-1' => 'nl_NL',
     ],
+    'regionsubtag' => 'nl_NL',
 ];
