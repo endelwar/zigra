@@ -15,4 +15,5 @@ return [
         'zh_CN.EUC' => 'zh_CN',
         'chinese_gb2312' => 'zh_CN',
     ],
+    'regionsubtag' => 'zh_CN',
 ];

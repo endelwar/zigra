@@ -16,4 +16,5 @@ return [
         'russian' => 'ru_RU',
         'rus' => 'ru_RU',
     ],
+    'regionsubtag' => 'ru_RU',
 ];

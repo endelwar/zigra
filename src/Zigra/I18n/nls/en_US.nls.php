@@ -21,4 +21,5 @@ return [
         'en_US.ISO8859-1' => 'en_US',
         'en_US.ISO8859-15' => 'en_US',
     ],
+    'regionsubtag' => 'en_US',
 ];

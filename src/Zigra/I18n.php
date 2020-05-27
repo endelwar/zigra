@@ -134,7 +134,7 @@ class Zigra_I18n
     public static function getLanguage($availableLangs, $defaultLang)
     {
         $regs = [];
-        if (preg_match('%^/([a-z]{2})/?[\w-_/]*$%', $_SERVER['REQUEST_URI'], $regs)) {
+        if (preg_match('%^/([a-z]{2})/?[\w\-_/]*$%', $_SERVER['REQUEST_URI'], $regs)) {
             $result = $regs[1];
             $i18n = self::matchLang($result);
             if (!$i18n) {

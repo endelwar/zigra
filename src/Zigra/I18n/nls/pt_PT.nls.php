@@ -18,4 +18,5 @@ return [
         'pt-PT' => 'pt_PT',
         'pt_PT' => 'pt_PT',
     ],
+    'regionsubtag' => 'pt_PT',
 ];

@@ -18,4 +18,5 @@ return [
         'ja_JP.Shift_JIS' => 'ja_JP',
         'ja_JP.UTF-8' => 'ja_JP',
     ],
+    'regionsubtag' => 'ja_JP',
 ];

@@ -21,4 +21,5 @@ return [
         'fr_CH' => 'fr_FR',
         'fr_FR.ISO8859-1' => 'fr_FR',
     ],
+    'regionsubtag' => 'fr_FR',
 ];

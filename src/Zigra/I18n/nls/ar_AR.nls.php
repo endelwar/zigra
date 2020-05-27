@@ -20,4 +20,5 @@ return [
         'ar_AR.ISO8859-6' => 'ar_AR',
         'ar_AR.windows-1256' => 'ar_AR',
     ],
+    'regionsubtag' => 'ar_AR',
 ];
