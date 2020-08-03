@@ -1,7 +1,0 @@
-php:
-  risky: true
-  preset: psr2
-
-  enabled:
-    - strict
-    - strict_param
