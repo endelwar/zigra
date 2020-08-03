@@ -5,10 +5,13 @@ namespace ZigraTest;
 use Zigra_I18n;
 use Zigra_I18n_Nls;
 
-class Zigra_I18nTest extends \PHPUnit_Framework_TestCase
+class Zigra_I18nTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider langProvider
+     * @param string $request_uri
+     * @param array $available_languages
+     * @param string $default_language
      */
     public function testGetLanguage($request_uri, $available_languages, $default_language)
     {
@@ -20,10 +23,10 @@ class Zigra_I18nTest extends \PHPUnit_Framework_TestCase
 
     public function langProvider()
     {
-        return array(
-            array('/en/foo/bar', array('en_US', 'it_IT'), 'en_US'),
-            array('/ja/foo/bar', array('en_US', 'it_IT'), 'en_US'),
-            array('/ja/foo/bar', array('ja_JP', 'it_IT'), 'ja_JP'),
-        );
+        return [
+            ['/en/foo/bar', ['en_US', 'it_IT'], 'en_US'],
+            ['/ja/foo/bar', ['en_US', 'it_IT'], 'en_US'],
+            ['/ja/foo/bar', ['ja_JP', 'it_IT'], 'ja_JP'],
+        ];
     }
 }

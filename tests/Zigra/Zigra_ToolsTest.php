@@ -4,10 +4,11 @@ namespace ZigraTest;
 
 use Zigra_Tools;
 
-class Zigra_ToolsTest extends \PHPUnit_Framework_TestCase
+class Zigra_ToolsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider brProvider
+     * @param string $br
      */
     public function testBr2nl($br)
     {
@@ -16,12 +17,12 @@ class Zigra_ToolsTest extends \PHPUnit_Framework_TestCase
 
     public function brProvider()
     {
-        return array(
-            array('<br>'),
-            array('<br/>'),
-            array('<br />'),
-            array('<br / >'),
-            array('<br      /    >'),
-        );
+        return [
+            ['<br>'],
+            ['<br/>'],
+            ['<br />'],
+            ['<br / >'],
+            ['<br      /    >'],
+        ];
     }
 }
