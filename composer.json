@@ -20,18 +20,14 @@
     "aura/session": "^2.1"
   },
   "autoload": {
-    "psr-0": {
-      "Zigra_": "src/"
-    },
     "psr-4": {
-      "ZigraTest\\": "tests/Zigra"
-    },
-    "classmap": [
-      "src/Zigra.php"
-    ]
+      "Zigra\\": "src"
+    }
   },
   "autoload-dev": {
-    "psr-4": { "ZigraTest\\": "tests/" }
+    "psr-4": {
+      "ZigraTest\\": "tests/Zigra"
+    }
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^2.18",

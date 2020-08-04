@@ -1,0 +1,218 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Zigra;
+
+use Aura\Session\Session;
+use Aura\Session\SessionFactory;
+use Doctrine_Record;
+use Swift_Mailer;
+use Swift_Message;
+use Swift_SmtpTransport;
+
+class User
+{
+    protected static $instance;
+    protected static $_user;
+    protected $userclass;
+    /** @var Session */
+    private static $sessionManager;
+
+    public function __construct($userclass, Session $sessionManager)
+    {
+        $this->userclass = $userclass;
+        self::$sessionManager = $sessionManager;
+        /* Start Session */
+        if (false === self::$sessionManager->isStarted()) {
+            self::$sessionManager->start();
+        }
+
+        /* Check if last session is from the same pc */
+        // TODO verify this check when under proxy (as in cloudflare protected websites)
+        /*if (!isset($_SESSION['last_ip'])) {
+            $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
+        }
+        if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']) {
+            self::$sessionManager->destroy();
+        }*/
+    }
+
+    public function destroy(): void
+    {
+        self::$instance = null;
+    }
+
+    /**
+     * @param $userclass
+     * @param Session|null $sessionManager
+     */
+    public static function singleton($userclass, $sessionManager = null): self
+    {
+        if ($sessionManager instanceof Session) {
+            self::$sessionManager = $sessionManager;
+        } else {
+            $session_factory = new SessionFactory();
+            self::$sessionManager = $session_factory->newInstance($_COOKIE);
+        }
+        self::$sessionManager->resume();
+        if (null === self::$instance) {
+            self::$instance = new self($userclass, self::$sessionManager);
+        }
+        if (strtolower(get_class(self::$instance->userclass)) !== strtolower($userclass)) {
+            self::$instance = new self($userclass, self::$sessionManager);
+        }
+
+        return self::$instance;
+    }
+
+    public function loggedIn(): bool
+    {
+        $status = false;
+        if (
+            isset($_SESSION['member_valid'], $_SESSION['member_type']) &&
+            $_SESSION['member_valid'] &&
+            $_SESSION['member_type'] === $this->userclass->getUserType()
+        ) {
+            $status = true;
+        }
+
+        // check COOKIE
+        /*
+         elseif (isset($_COOKIE['remember_me_id']) && isset($_COOKIE['remember_me_hash']))
+          {
+          //TODO codice per cookie
+          }
+        */
+
+        return $status;
+    }
+
+    /**
+     * @param string $email
+     * @param string $password
+     */
+    public function login($email, $password): bool
+    {
+        if ($email && $password) {
+            $userclass = $this->userclass;
+            $user = $userclass::findOneByEmail($email);
+            if ($user) {
+                // User found, verify password
+                if (true === static::verify($password, $user->password)) {
+                    $this->setAsLoggedIn($user);
+
+                    return true;
+                }
+
+                // Wrong password
+                return false;
+            }
+
+            // User not found, show login again
+            return false;
+        }
+
+        // Missing data, show login again
+        return false;
+    }
+
+    /**
+     * @param Doctrine_Record $user
+     *
+     * @return bool
+     */
+    public function setAsLoggedIn($user): ?bool
+    {
+        try {
+            /* If correct create session */
+            self::$sessionManager->regenerateId();
+            self::$_user = $user;
+            $_SESSION['member'] = $user->toArray();
+            unset($_SESSION['member']['password']);
+            $_SESSION['member_id'] = $user->id;
+            $_SESSION['member_valid'] = true;
+            $_SESSION['member_type'] = $user::USERTYPE;
+
+            $_SESSION['userObj'] = $user;
+
+            /* User Remember me feature? */
+
+            //$this->createNewCookie($user->id);
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Verify Password.
+     *
+     * @param string $password
+     * @param string $existingHash
+     */
+    public static function verify($password, $existingHash): bool
+    {
+        if (password_verify($password, $existingHash)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Logout.
+     *
+     * @param string|null $routeName
+     *
+     * @throws \Exception
+     */
+    public function logout($routeName = null, array $routeParams = []): void
+    {
+        // Destroy the SESSION
+        self::$sessionManager->destroy();
+
+        // Redirect
+        if (null === $routeName) {
+            $routeName = 'homepage';
+        }
+        $url = Router::generate($routeName, $routeParams);
+        header('Location: ' . $url);
+    }
+
+    public function getuserobj()
+    {
+        return self::$_user;
+    }
+
+    public static function generateHashedPassword($password)
+    {
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public static function generatePassword($length = 8): string
+    {
+        $password = '';
+        $possiblechars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+        for ($i = 0; $i < $length; ++$i) {
+            $password .= mb_substr($possiblechars, random_int(0, $length - 1), 1);
+        }
+
+        return $password;
+    }
+
+    public static function emailPassword($email, $password): void
+    {
+        $transport = Swift_SmtpTransport::newInstance('localhost', 25);
+        $mailer = Swift_Mailer::newInstance($transport);
+        // TODO string translation
+        // TODO make everything a parameter
+        $message = Swift_Message::newInstance('Zigra App - Email Password')
+            ->setFrom(['server@zigra.dev' => 'Zigra App'])
+            ->setTo($email)
+            ->setBody($password);
+
+        $mailer->send($message);
+    }
+}

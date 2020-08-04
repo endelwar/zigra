@@ -1,19 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ZigraTest;
 
-use Zigra_Registry;
-use Zigra_Registry_Tplvar;
+use PHPUnit\Framework\TestCase;
+use Zigra\Registry;
+use Zigra\Registry\Tplvar;
 
-class registryInstanceTest extends \PHPUnit\Framework\TestCase
+class registryInstanceTest extends TestCase
 {
-    public function testRegistrySingletonSameness()
+    public function testRegistrySingletonSameness(): void
     {
-        $registry1 = Zigra_Registry::getInstance();
-        $registry2 = Zigra_Registry_Tplvar::getInstance();
-        $this->assertInstanceOf(Zigra_Registry::class, $registry1);
-        $this->assertInstanceOf(Zigra_Registry_Tplvar::class, $registry2);
-        $this->assertNotEquals($registry1, $registry2);
-        $this->assertNotSame($registry1, $registry2);
+        $registry1 = Registry::getInstance();
+        $registry2 = Tplvar::getInstance();
+        self::assertInstanceOf(Registry::class, $registry1);
+        self::assertInstanceOf(Tplvar::class, $registry2);
+        self::assertNotEquals($registry1, $registry2);
+        self::assertNotSame($registry1, $registry2);
     }
 }
