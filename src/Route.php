@@ -72,9 +72,6 @@ class Route
         return $this->requirements;
     }
 
-    /**
-     * @param string|null $compilerClass
-     */
     public function setCompilerClass(string $compilerClass): void
     {
         if (!class_exists($compilerClass)) {
