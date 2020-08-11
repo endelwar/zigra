@@ -39,7 +39,7 @@ class Nls
         if (null === $lang) {
             return new self();
         }
-        $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'Nls' . DIRECTORY_SEPARATOR . $lang . '.Nls.php';
+        $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'Nls' . DIRECTORY_SEPARATOR . $lang . '.nls.php';
 
         if (file($lang_file)) {
             $nls = include $lang_file;
