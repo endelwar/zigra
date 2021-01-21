@@ -143,15 +143,15 @@ class Zigra_Route
     {
         $compiledRoute = $this->compile();
 
-        if (count($params) > 0 && 0 === count($compiledRoute[0]['variables'])) {
+        if (count($params) > 0 && 0 === (is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0)) {
             throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
         }
 
-        if (count($compiledRoute[0]['variables']) !== count($params)) {
+        if ((is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0) !== count($params)) {
             throw new InvalidArgumentException(
                 sprintf(
                     'Zigra_Route->generate: missing %d parameters',
-                    count($compiledRoute[0]['variables']) - count($params)
+                    (is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0) - count($params)
                 )
             );
         }

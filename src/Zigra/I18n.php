@@ -18,7 +18,7 @@ class Zigra_I18n
             $nlsdir = __DIR__ . DIRECTORY_SEPARATOR . 'I18n' . DIRECTORY_SEPARATOR . 'nls';
             $files = glob($nlsdir . '/*nls.php');
             $nls = '';
-            $filecount = count($files);
+            $filecount = is_countable($files) ? count($files) : 0;
             if (is_array($files) && $filecount) {
                 for ($i = 0; $i < $filecount; $i++) {
                     if (!is_file($files[$i])) {
@@ -54,7 +54,7 @@ class Zigra_I18n
             $lang_parse
         );
         $langs = [];
-        if (count($lang_parse[1])) {
+        if (is_array($lang_parse[1]) || $lang_parse[1] instanceof \Countable ? count($lang_parse[1]) : 0) {
             // create a list like "en" => 0.8
             $langs = array_combine($lang_parse[1], $lang_parse[4]);
 
