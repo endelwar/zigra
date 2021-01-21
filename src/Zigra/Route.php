@@ -149,9 +149,10 @@ class Zigra_Route
 
         if (count($compiledRoute[0]['variables']) !== count($params)) {
             throw new InvalidArgumentException(
-                'Zigra_Route->generate: missing ' .
-                count($compiledRoute[0]['variables']) - count($params) .
-                ' parameters'
+                sprintf(
+                    'Zigra_Route->generate: missing %d parameters',
+                    count($compiledRoute[0]['variables']) - count($params)
+                )
             );
         }
 
@@ -159,8 +160,10 @@ class Zigra_Route
         $paramdiff = array_diff_key(array_flip($compiledRoute[0]['variables']), $params);
         if (!empty($paramdiff)) {
             throw new InvalidArgumentException(
-                'Zigra_Route->generate: wrong parameters name, missing: ' .
-                implode(', ', array_flip($paramdiff))
+                sprintf(
+                    'Zigra_Route->generate: wrong parameters name, missing: %s',
+                    implode(', ', array_flip($paramdiff))
+                )
             );
         }
         $parameters = [];
