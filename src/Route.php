@@ -133,15 +133,15 @@ class Route
     {
         $compiledRoute = $this->compile();
 
-        if (count($params) > 0 && 0 === (is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0)) {
-            throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
+        if (count($params) > 0 && 0 === (is_array($compiledRoute['variables']) || $compiledRoute['variables'] instanceof \Countable ? count($compiledRoute['variables']) : 0)) {
+            throw new InvalidArgumentException('Zigra\Route->generate: this route doesn\'t have parameters');
         }
 
-        if ((is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0) !== count($params)) {
+        if ((is_array($compiledRoute['variables']) || $compiledRoute['variables'] instanceof \Countable ? count($compiledRoute['variables']) : 0) !== count($params)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Zigra_Route->generate: missing %d parameters',
-                    (is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0) - count($params)
+                    'Zigra\Route->generate: missing %d parameters', 
+                    (is_array($compiledRoute['variables']) || $compiledRoute['variables'] instanceof \Countable ? count($compiledRoute['variables']) : 0) - count($params)
                 )
             );
         }
