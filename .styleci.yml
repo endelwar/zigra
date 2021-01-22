@@ -1,5 +1,0 @@
-preset: psr2
-
-enabled:
-  - strict
-  - strict_param

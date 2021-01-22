@@ -4,14 +4,14 @@ namespace ZigraTest;
 
 use Zigra_Registry_Tplvar;
 
-class Zigra_Registry_TplvarTest extends \PHPUnit_Framework_TestCase
+class Zigra_Registry_TplvarTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Zigra_Registry_Tplvar::clear();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Zigra_Registry_Tplvar::clear();
     }

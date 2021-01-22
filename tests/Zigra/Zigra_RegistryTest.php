@@ -4,14 +4,14 @@ namespace ZigraTest;
 
 use Zigra_Registry;
 
-class Zigra_RegistryTest extends \PHPUnit_Framework_TestCase
+class Zigra_RegistryTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         Zigra_Registry::clear();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         Zigra_Registry::clear();
     }

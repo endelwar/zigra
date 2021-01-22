@@ -5,7 +5,7 @@ namespace ZigraTest;
 use Zigra_Registry;
 use Zigra_Registry_Tplvar;
 
-class registryInstanceTest extends \PHPUnit_Framework_TestCase
+class registryInstanceTest extends \PHPUnit\Framework\TestCase
 {
     public function testRegistrySingletonSameness()
     {

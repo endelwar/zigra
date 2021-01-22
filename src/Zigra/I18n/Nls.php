@@ -36,9 +36,7 @@ class Zigra_I18n_Nls
     public static function init($lang = null)
     {
         if (null === $lang) {
-            $obj = new self();
-
-            return $obj;
+            return new self();
         }
         $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'nls' . DIRECTORY_SEPARATOR . $lang . '.nls.php';
 
