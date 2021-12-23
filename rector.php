@@ -22,7 +22,6 @@ return static function (ContainerConfigurator $containerConfigurator): void {
     $containerConfigurator->import(SetList::PHP_73);
     $containerConfigurator->import(SetList::PHP_74);
 
-
     // get services (needed for register a single rule)
     // $services = $containerConfigurator->services();
 

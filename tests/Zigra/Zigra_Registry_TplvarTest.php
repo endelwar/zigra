@@ -6,12 +6,12 @@ use Zigra_Registry_Tplvar;
 
 class Zigra_Registry_TplvarTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         Zigra_Registry_Tplvar::clear();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Zigra_Registry_Tplvar::clear();
     }

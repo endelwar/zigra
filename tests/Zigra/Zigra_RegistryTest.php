@@ -6,12 +6,12 @@ use Zigra_Registry;
 
 class Zigra_RegistryTest extends \PHPUnit\Framework\TestCase
 {
-    public function setUp(): void
+    protected function setUp(): void
     {
         Zigra_Registry::clear();
     }
 
-    public function tearDown(): void
+    protected function tearDown(): void
     {
         Zigra_Registry::clear();
     }

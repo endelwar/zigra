@@ -5,8 +5,8 @@ class Zigra_User
     protected static $instance;
     protected static $_user;
     protected $userclass;
-    /** @var \Aura\Session\Session */
-    private static $sessionManager;
+
+    private static \Aura\Session\Session $sessionManager;
 
     public function __construct($userclass, Aura\Session\Session $sessionManager)
     {
@@ -18,18 +18,15 @@ class Zigra_User
         }
     }
 
-    public function destroy()
+    public function destroy(): void
     {
         self::$instance = null;
     }
 
     /**
      * @param $userclass
-     * @param Aura\Session\Session|null $sessionManager
-     *
-     * @return Zigra_User
      */
-    public static function singleton($userclass, $sessionManager = null)
+    public static function singleton($userclass, Aura\Session\Session $sessionManager = null): self
     {
         if ($sessionManager instanceof Aura\Session\Session) {
             self::$sessionManager = $sessionManager;
@@ -48,7 +45,7 @@ class Zigra_User
         return self::$instance;
     }
 
-    public function loggedIn()
+    public function loggedIn(): bool
     {
         $status = false;
         if (
@@ -62,13 +59,7 @@ class Zigra_User
         return $status;
     }
 
-    /**
-     * @param string $email
-     * @param string $password
-     *
-     * @return bool
-     */
-    public function login($email, $password)
+    public function login(string $email, string $password): bool
     {
         if ($email && $password) {
             $userclass = $this->userclass;
@@ -95,10 +86,8 @@ class Zigra_User
 
     /**
      * @param \Doctrine_Record $user
-     *
-     * @return bool
      */
-    public function setAsLoggedIn($user)
+    public function setAsLoggedIn($user): bool
     {
         try {
             /* If correct create session */
@@ -120,13 +109,8 @@ class Zigra_User
 
     /**
      * Verify Password.
-     *
-     * @param string $password
-     * @param string $existingHash
-     *
-     * @return bool
      */
-    public static function verify($password, $existingHash)
+    public static function verify(string $password, string $existingHash): bool
     {
         if (password_verify($password, $existingHash)) {
             return true;
@@ -138,11 +122,9 @@ class Zigra_User
     /**
      * Logout.
      *
-     * @param string|null $routeName
-     *
      * @throws Exception
      */
-    public function logout($routeName = null, array $routeParams = [])
+    public function logout(string $routeName = null, array $routeParams = []): void
     {
         // Destroy the SESSION
         self::$sessionManager->destroy();
@@ -165,7 +147,7 @@ class Zigra_User
         return password_hash($password, \PASSWORD_DEFAULT);
     }
 
-    public static function generatePassword($length = 8)
+    public static function generatePassword($length = 8): string
     {
         $password = '';
         $possiblechars = 'abcdefghijklmnopqrstuvwxyz0123456789';

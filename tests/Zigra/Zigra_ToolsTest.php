@@ -8,6 +8,7 @@ class Zigra_ToolsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider brProvider
+     *
      * @param string $br
      */
     public function testBr2nl($br)

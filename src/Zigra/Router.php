@@ -6,8 +6,8 @@ class Zigra_Router
     protected static $_action;
     protected static $_args;
     protected static $_defaults;
-    protected static $_compiledRouteCollection;
-    protected static $_routeCollection;
+    protected static Zigra_Route_Collection $_compiledRouteCollection;
+    protected static Zigra_Route_Collection $_routeCollection;
     private static $matchedRoute;
     private static $instance;
 
@@ -17,10 +17,7 @@ class Zigra_Router
         self::$_compiledRouteCollection = new Zigra_Route_Collection();
     }
 
-    /**
-     * @return Zigra_Router
-     */
-    public static function singleton()
+    public static function singleton(): self
     {
         if (null === self::$instance) {
             self::$instance = new static();
@@ -30,12 +27,9 @@ class Zigra_Router
     }
 
     /**
-     * @param Zigra_Request $request
-     * @param bool $resetProperties
-     * @param null|Aura\Session\Session $session_manager
      * @throws \InvalidArgumentException
      */
-    public static function route(Zigra_Request $request, $resetProperties = false, $session_manager = null)
+    public static function route(Zigra_Request $request, bool $resetProperties = false, Aura\Session\Session $session_manager = null): void
     {
         self::singleton();
         $controller = 'error';
@@ -57,23 +51,16 @@ class Zigra_Router
     }
 
     /**
-     * @param string $controllerName
-     * @param string $action
-     * @param Zigra_Request $request
-     * @param array $params
-     * @param null|Aura\Session\Session $session_manager
-     * @param bool $isError
-     * @throws \InvalidArgumentException
-     * @return bool|null
+     *@throws \InvalidArgumentException
      */
     private static function callControllerAction(
-        $controllerName,
-        $action,
+        string $controllerName,
+        string $action,
         Zigra_Request $request,
         array $params,
-        $session_manager = null,
-        $isError = false
-    ) {
+        Aura\Session\Session $session_manager = null,
+        bool $isError = false
+    ): void {
         // TODO: make this contruct indipendent from app path
         $classFileName = '../app/controller/' . $controllerName . 'Controller.php';
         try {
@@ -84,9 +71,7 @@ class Zigra_Router
                 /** @var Zigra_Controller $controller */
                 $controller = new $fullClassName($request, $params, $session_manager);
                 if (!is_callable([$controller, $action])) {
-                    throw new Zigra_Exception(
-                        'Cannot call module: ' . $controllerName . '->' . $action
-                    );
+                    throw new Zigra_Exception('Cannot call module: ' . $controllerName . '->' . $action);
                 }
 
                 if ($session_manager) {
@@ -101,14 +86,12 @@ class Zigra_Router
                 $controller->$action($request);
                 $controller->postExecute();
 
-                return true;
+                return;
             }
 
             // are we coming from a declared error?
             if (false === $isError) {
-                throw new Zigra_Exception(
-                    'Cannot find class ' . $controllerName . ' (' . $classFileName . ')'
-                );
+                throw new Zigra_Exception('Cannot find class ' . $controllerName . ' (' . $classFileName . ')');
             }
 
             // Issue a 404 error classname file doesn't exists
@@ -124,12 +107,12 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param Zigra_Request $request request
-     * @param bool $resetProperties if reset or not all singleton proprieties
+     * @param Zigra_Request $request         request
+     * @param bool          $resetProperties if reset or not all singleton proprieties
      *
      * @return bool true when route is found or false if not found
      */
-    private static function process(Zigra_Request $request, $resetProperties = false)
+    private static function process(Zigra_Request $request, bool $resetProperties = false): bool
     {
         $routes = self::$_compiledRouteCollection->routes;
         foreach ($routes as $routeName => $route) {
@@ -177,33 +160,31 @@ class Zigra_Router
     }
 
     /**
-     * return the route name matched by the router
-     *
-     * @return string|null
+     * return the route name matched by the router.
      */
-    public static function getMatchedRouteName()
+    public static function getMatchedRouteName(): ?string
     {
         return self::$matchedRoute;
     }
 
     /**
-     * compile and add route to mapped array
+     * compile and add route to mapped array.
      *
-     * @param string $name name of the route
-     * @param string $pattern pattern matching the route
-     * @param array $defaults defaults parameters
-     * @param array $requirements TODO write docs
-     * @param array $options TODO write docs
+     * @param string $name         name of the route
+     * @param string $pattern      pattern matching the route
+     * @param array  $defaults     defaults parameters
+     * @param array  $requirements TODO write docs
+     * @param array  $options      TODO write docs
      *
      * @throws \InvalidArgumentException
      */
     public static function map(
-        $name,
-        $pattern,
+        string $name,
+        string $pattern,
         array $defaults,
         array $requirements = [],
         array $options = []
-    ) {
+    ): void {
         self::singleton();
         $route = new Zigra_Route($pattern, $defaults, $requirements, $options);
         self::$_routeCollection->add($name, $route);
@@ -213,14 +194,14 @@ class Zigra_Router
     /**
      * Generate a short url for given arguments.
      *
-     * @param string $name optional name of route to be used (if not set the route will be selected on given params)
-     * @param array $params the arguments to be processed by the created url
-     *
-     * @throws InvalidArgumentException if route name is not found
+     * @param string $name   optional name of route to be used (if not set the route will be selected on given params)
+     * @param array  $params the arguments to be processed by the created url
      *
      * @return string|false generated url or false on error
+     *
+     *@throws InvalidArgumentException if route name is not found
      */
-    public static function generate($name = '', array $params = [])
+    public static function generate(string $name = '', array $params = [])
     {
         self::singleton();
 

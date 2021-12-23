@@ -2,7 +2,7 @@
 
 class Zigra_AbstractSigleton
 {
-    private static $instances = [];
+    private static array $instances = [];
 
     private function __construct()
     {
