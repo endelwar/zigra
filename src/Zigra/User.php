@@ -16,15 +16,6 @@ class Zigra_User
         if (false === self::$sessionManager->isStarted()) {
             self::$sessionManager->start();
         }
-
-        /* Check if last session is from the same pc */
-        // TODO verify this check when under proxy (as in cloudflare protected websites)
-        /*if (!isset($_SESSION['last_ip'])) {
-            $_SESSION['last_ip'] = $_SERVER['REMOTE_ADDR'];
-        }
-        if ($_SESSION['last_ip'] !== $_SERVER['REMOTE_ADDR']) {
-            self::$sessionManager->destroy();
-        }*/
     }
 
     public function destroy()
@@ -35,6 +26,7 @@ class Zigra_User
     /**
      * @param $userclass
      * @param Aura\Session\Session|null $sessionManager
+     *
      * @return Zigra_User
      */
     public static function singleton($userclass, $sessionManager = null)
@@ -67,20 +59,13 @@ class Zigra_User
             $status = true;
         }
 
-        // check COOKIE
-        /*
-         elseif (isset($_COOKIE['remember_me_id']) && isset($_COOKIE['remember_me_hash']))
-          {
-          //TODO codice per cookie
-          }
-        */
-
         return $status;
     }
 
     /**
      * @param string $email
      * @param string $password
+     *
      * @return bool
      */
     public function login($email, $password)
@@ -110,6 +95,7 @@ class Zigra_User
 
     /**
      * @param \Doctrine_Record $user
+     *
      * @return bool
      */
     public function setAsLoggedIn($user)
@@ -126,10 +112,6 @@ class Zigra_User
 
             $_SESSION['userObj'] = $user;
 
-            /* User Remember me feature? */
-
-            //$this->createNewCookie($user->id);
-
             return true;
         } catch (Exception $e) {
             return false;
@@ -137,9 +119,11 @@ class Zigra_User
     }
 
     /**
-     * Verify Password
+     * Verify Password.
+     *
      * @param string $password
      * @param string $existingHash
+     *
      * @return bool
      */
     public static function verify($password, $existingHash)
@@ -152,9 +136,10 @@ class Zigra_User
     }
 
     /**
-     * Logout
+     * Logout.
+     *
      * @param string|null $routeName
-     * @param array $routeParams
+     *
      * @throws Exception
      */
     public function logout($routeName = null, array $routeParams = [])
@@ -177,31 +162,17 @@ class Zigra_User
 
     public static function generateHashedPassword($password)
     {
-        return password_hash($password, PASSWORD_DEFAULT);
+        return password_hash($password, \PASSWORD_DEFAULT);
     }
 
     public static function generatePassword($length = 8)
     {
         $password = '';
         $possiblechars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-        for ($i = 0; $i < $length; $i++) {
-            $password .= mb_substr($possiblechars, mt_rand(0, $length - 1), 1);
+        for ($i = 0; $i < $length; ++$i) {
+            $password .= mb_substr($possiblechars, random_int(0, $length - 1), 1);
         }
 
         return $password;
-    }
-
-    public static function emailPassword($email, $password)
-    {
-        $transport = Swift_SmtpTransport::newInstance('localhost', 25);
-        $mailer = Swift_Mailer::newInstance($transport);
-        // TODO string translation
-        // TODO make everything a parameter
-        $message = Swift_Message::newInstance('Zigra App - Email Password')
-            ->setFrom(['server@zigra.dev' => 'Zigra App'])
-            ->setTo($email)
-            ->setBody($password);
-
-        $mailer->send($message);
     }
 }
