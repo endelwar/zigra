@@ -2,7 +2,7 @@
 
 class Zigra_Route_Collection
 {
-    public $routes;
+    public array $routes;
 
     public function __construct()
     {
@@ -10,11 +10,9 @@ class Zigra_Route_Collection
     }
 
     /**
-     * @param string $name
-     * @param Zigra_Route $route
      * @throws \InvalidArgumentException
      */
-    public function add($name, $route = null)
+    public function add(string $name, $route = null): void
     {
         // return if we have an empty input
         if (empty($name)) {

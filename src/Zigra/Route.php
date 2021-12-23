@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class Zigra_Route
+ * Class Zigra_Route.
  */
 class Zigra_Route
 {
@@ -9,16 +9,10 @@ class Zigra_Route
     protected $defaults;
     protected $requirements;
     public $options;
-    protected $compiledRoute = false;
+    protected $compiledRoute;
 
-    /**
-     * @param string $pattern
-     * @param array $defaults
-     * @param array $requirements
-     * @param array $options
-     */
     public function __construct(
-        $pattern,
+        string $pattern,
         array $defaults = [],
         array $requirements = [],
         array $options = []
@@ -29,10 +23,7 @@ class Zigra_Route
         $this->setOptions($options);
     }
 
-    /**
-     * @param string $pattern
-     */
-    public function setPattern($pattern)
+    public function setPattern(string $pattern): void
     {
         $this->pattern = trim($pattern);
 
@@ -46,10 +37,7 @@ class Zigra_Route
         return $this->pattern;
     }
 
-    /**
-     * @param array $defaults
-     */
-    public function setDefaults(array $defaults)
+    public function setDefaults(array $defaults): void
     {
         $this->defaults = $defaults;
     }
@@ -59,10 +47,7 @@ class Zigra_Route
         return $this->defaults;
     }
 
-    /**
-     * @param array $requirements
-     */
-    public function setRequirements(array $requirements)
+    public function setRequirements(array $requirements): void
     {
         $this->requirements = [];
         foreach ($requirements as $key => $value) {
@@ -75,10 +60,7 @@ class Zigra_Route
         return $this->requirements;
     }
 
-    /**
-     * @param array $options
-     */
-    public function setOptions(array $options)
+    public function setOptions(array $options): void
     {
         $this->options = array_merge(
             ['compiler_class' => 'Zigra_Route_Compiler'],
@@ -91,20 +73,12 @@ class Zigra_Route
         return $this->options;
     }
 
-    /**
-     * @param string $name
-     * @return string|null
-     */
-    public function getOption($name)
+    public function getOption(string $name): ?string
     {
-        return isset($this->options[$name]) ? $this->options[$name] : null;
+        return $this->options[$name] ?? null;
     }
 
-    /**
-     * @param string $regex
-     * @return string
-     */
-    private function sanitizeRequirement($regex)
+    private function sanitizeRequirement(string $regex): string
     {
         if ('^' === $regex[0]) {
             $regex = mb_substr($regex, 1);
@@ -117,9 +91,9 @@ class Zigra_Route
         return $regex;
     }
 
-    public function compile()
+    public function compile(): array
     {
-        if ($this->compiledRoute) {
+        if (is_array($this->compiledRoute)) {
             return $this->compiledRoute;
         }
 
@@ -139,32 +113,22 @@ class Zigra_Route
      *
      * @return string $url generated url
      */
-    public function generate($params)
+    public function generate(array $params): string
     {
         $compiledRoute = $this->compile();
 
-        if (count($params) > 0 && 0 === (is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0)) {
+        if (count($params) > 0 && 0 === (is_countable($compiledRoute[0]['variables']) ? count($compiledRoute[0]['variables']) : 0)) {
             throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
         }
 
-        if ((is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0) !== count($params)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Zigra_Route->generate: missing %d parameters',
-                    (is_array($compiledRoute[0]['variables']) || $compiledRoute[0]['variables'] instanceof \Countable ? count($compiledRoute[0]['variables']) : 0) - count($params)
-                )
-            );
+        if ((is_countable($compiledRoute[0]['variables']) ? count($compiledRoute[0]['variables']) : 0) !== count($params)) {
+            throw new InvalidArgumentException(sprintf('Zigra_Route->generate: missing %d parameters', (is_countable($compiledRoute[0]['variables']) ? count($compiledRoute[0]['variables']) : 0) - count($params)));
         }
 
         // right number of parameters, let's verify that they are the right ones
         $paramdiff = array_diff_key(array_flip($compiledRoute[0]['variables']), $params);
         if (!empty($paramdiff)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    'Zigra_Route->generate: wrong parameters name, missing: %s',
-                    implode(', ', array_flip($paramdiff))
-                )
-            );
+            throw new InvalidArgumentException(sprintf('Zigra_Route->generate: wrong parameters name, missing: %s', implode(', ', array_flip($paramdiff))));
         }
         $parameters = [];
         $values = [];

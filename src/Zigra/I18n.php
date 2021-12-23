@@ -10,17 +10,17 @@ class Zigra_I18n
     /**
      * @ignore
      */
-    private static function loadNls()
+    private static function loadNls(): void
     {
         if (!is_array(self::$nls)) {
             self::$nls = [];
 
-            $nlsdir = __DIR__ . DIRECTORY_SEPARATOR . 'I18n' . DIRECTORY_SEPARATOR . 'nls';
+            $nlsdir = __DIR__ . \DIRECTORY_SEPARATOR . 'I18n' . \DIRECTORY_SEPARATOR . 'nls';
             $files = glob($nlsdir . '/*nls.php');
             $nls = '';
             $filecount = is_countable($files) ? count($files) : 0;
             if (is_array($files) && $filecount) {
-                for ($i = 0; $i < $filecount; $i++) {
+                for ($i = 0; $i < $filecount; ++$i) {
                     if (!is_file($files[$i])) {
                         continue;
                     }
@@ -42,7 +42,7 @@ class Zigra_I18n
      *
      * @return array Array of Strings representing the languages the browser supports
      */
-    public static function getBrowserLanguages()
+    public static function getBrowserLanguages(): array
     {
         if (!isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             return [];
@@ -54,7 +54,7 @@ class Zigra_I18n
             $lang_parse
         );
         $langs = [];
-        if (is_array($lang_parse[1]) || $lang_parse[1] instanceof \Countable ? count($lang_parse[1]) : 0) {
+        if (is_countable($lang_parse[1]) ? count($lang_parse[1]) : 0) {
             // create a list like "en" => 0.8
             $langs = array_combine($lang_parse[1], $lang_parse[4]);
 
@@ -66,14 +66,14 @@ class Zigra_I18n
             }
 
             // sort list based on value
-            arsort($langs, SORT_NUMERIC);
+            arsort($langs, \SORT_NUMERIC);
         }
 
         return $langs;
     }
 
     /**
-     * Cross reference the browser preferred language with those
+     * Cross-reference the browser preferred language with those
      * that are available (via NLS Files). To find the first suitable language.
      *
      * @return Zigra_I18n_Nls|false first suitable lang object or false
@@ -104,11 +104,7 @@ class Zigra_I18n
         return false;
     }
 
-    /**
-     * @param string $lang
-     * @return mixed
-     */
-    public static function matchLang($lang)
+    public static function matchLang(string $lang)
     {
         self::loadNls();
         if (isset(self::$nls[$lang])) {
@@ -124,14 +120,14 @@ class Zigra_I18n
     }
 
     /**
-     * get i18n object from guessing or session,
+     * get i18n object from guessing or session,.
      *
-     * @param array $availableLangs all available languages
-     * @param string $defaultLang default language
+     * @param array  $availableLangs all available languages
+     * @param string $defaultLang    default language
      *
      * @return Zigra_I18n_Nls suitable lang object
      */
-    public static function getLanguage($availableLangs, $defaultLang)
+    public static function getLanguage(array $availableLangs, string $defaultLang)
     {
         $regs = [];
         if (preg_match('%^/([a-z]{2})/?[\w\-_/]*$%', $_SERVER['REQUEST_URI'], $regs)) {

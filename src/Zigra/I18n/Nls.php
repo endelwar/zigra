@@ -1,44 +1,41 @@
 <?php
 
 /**
- * Class Zigra_I18n_Nls
+ * Class Zigra_I18n_Nls.
  *
  * @author Manuel Dalla Lana <endelwar@aregar.it>
  */
 class Zigra_I18n_Nls
 {
-    /** @var string */
-    protected $isocode;
-    /** @var string */
-    protected $locale;
-    /** @var string */
-    protected $fullname;
-    /** @var string */
-    protected $encoding;
+    protected string $isocode;
+
+    protected string $locale;
+
+    protected string $fullname;
+
+    protected string $encoding;
     /** @var array|string */
     protected $aliases;
-    /** @var string */
-    protected $display;
-    /** @var string */
-    protected $key;
-    /** @var string */
-    protected $direction;
-    /** @var string */
-    protected $regionsubtag;
+
+    protected string $display;
+
+    protected string $key;
+
+    protected string $direction;
+
+    protected string $regionsubtag;
 
     /**
-     * Initialize Zigra_I18n_Nls object
+     * Initialize Zigra_I18n_Nls object.
      *
-     * @param string $lang language iso code
-     *
-     * @return Zigra_I18n_Nls|null
+     * @param string|null $lang language iso code
      */
-    public static function init($lang = null)
+    public static function init(string $lang = null): ?self
     {
         if (null === $lang) {
             return new self();
         }
-        $lang_file = __DIR__ . DIRECTORY_SEPARATOR . 'nls' . DIRECTORY_SEPARATOR . $lang . '.nls.php';
+        $lang_file = __DIR__ . \DIRECTORY_SEPARATOR . 'nls' . \DIRECTORY_SEPARATOR . $lang . '.nls.php';
 
         if (file($lang_file)) {
             $nls = include $lang_file;
@@ -47,19 +44,15 @@ class Zigra_I18n_Nls
 
             return $obj;
         }
-        trigger_error('Cannot load language file "' . $lang_file . '"', E_ERROR);
+        trigger_error('Cannot load language file "' . $lang_file . '"', \E_ERROR);
 
         return null;
     }
 
     /**
-     * Load language information from data array
-     *
-     * @param array $data
-     *
-     * @return Zigra_I18n_Nls
+     * Load language information from data array.
      */
-    public static function fromArray($data)
+    public static function fromArray(array $data): self
     {
         $obj = new self();
 
@@ -77,7 +70,7 @@ class Zigra_I18n_Nls
             $obj->isocode = $data['isocode'][$obj->key];
         } else {
             $t = explode('_', $obj->key);
-            if (is_array($t) && count($t)) {
+            if (is_array($t) && isset($t[0])) {
                 $obj->isocode = $t[0];
             }
         }
@@ -102,18 +95,13 @@ class Zigra_I18n_Nls
 
         if ('' === $obj->key) {
             trigger_error('Big Problems dude! $key in not where it should');
-            die();
+            exit();
         }
 
         return $obj;
     }
 
-    /**
-     * @param string $str
-     *
-     * @return bool
-     */
-    public function matches($str)
+    public function matches(string $str): bool
     {
         if (
             ($str === $this->name()) ||
@@ -126,7 +114,7 @@ class Zigra_I18n_Nls
 
         if (is_array($aliases) && count($aliases)) {
             $aliases_nr = count($aliases);
-            for ($i = 0; $i < $aliases_nr; $i++) {
+            for ($i = 0; $i < $aliases_nr; ++$i) {
                 if (strtolower($aliases[$i]) === strtolower($str)) {
                     return true;
                 }
@@ -136,18 +124,12 @@ class Zigra_I18n_Nls
         return false;
     }
 
-    /**
-     * @return string
-     */
-    public function name()
+    public function name(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return string
-     */
-    public function isocode()
+    public function isocode(): string
     {
         if (!$this->isocode) {
             return substr($this->fullname, 0, 2);
@@ -156,10 +138,7 @@ class Zigra_I18n_Nls
         return $this->isocode;
     }
 
-    /**
-     * @return null|string
-     */
-    public function display()
+    public function display(): ?string
     {
         if (!$this->display) {
             return null;
@@ -168,18 +147,12 @@ class Zigra_I18n_Nls
         return $this->display;
     }
 
-    /**
-     * @return string
-     */
-    public function locale()
+    public function locale(): string
     {
         return $this->locale;
     }
 
-    /**
-     * @return string
-     */
-    public function encoding()
+    public function encoding(): string
     {
         if (!$this->encoding) {
             return 'UTF-8';
@@ -188,10 +161,7 @@ class Zigra_I18n_Nls
         return $this->encoding;
     }
 
-    /**
-     * @return null|string
-     */
-    public function fullname()
+    public function fullname(): ?string
     {
         if (!$this->fullname) {
             return null;
@@ -216,18 +186,12 @@ class Zigra_I18n_Nls
         return [];
     }
 
-    /**
-     * @return string
-     */
-    public function key()
+    public function key(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return string
-     */
-    public function direction()
+    public function direction(): string
     {
         if ($this->direction) {
             return $this->direction;
@@ -236,7 +200,7 @@ class Zigra_I18n_Nls
         return 'ltr';
     }
 
-    public function regionsubtag()
+    public function regionsubtag(): string
     {
         return $this->regionsubtag;
     }

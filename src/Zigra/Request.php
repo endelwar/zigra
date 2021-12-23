@@ -2,17 +2,17 @@
 
 class Zigra_Request
 {
-    protected $_controller;
+    protected string $_controller;
     protected $_action;
     protected $_args;
     protected $_request;
-    protected $_method;
+    protected string $_method;
 
-    public $valid_request_methods = ['GET', 'POST', 'PUT', 'HEAD'];
+    public array $valid_request_methods = ['GET', 'POST', 'PUT', 'HEAD'];
 
     public function __construct($urlPath = null)
     {
-        $this->_request = null !== $urlPath ? $urlPath : $_SERVER['REQUEST_URI'];
+        $this->_request = $urlPath ?? $_SERVER['REQUEST_URI'];
 
         $parts = explode('/', $this->_request);
         $parts = array_filter($parts);
@@ -26,15 +26,12 @@ class Zigra_Request
         }
     }
 
-    /**
-     * @return string
-     */
-    public function getRequest()
+    public function getRequest(): string
     {
         return $this->_request;
     }
 
-    public function getController()
+    public function getController(): string
     {
         return $this->_controller;
     }
@@ -49,22 +46,22 @@ class Zigra_Request
         return $this->_args;
     }
 
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->_method;
     }
 
-    public function isPost()
+    public function isPost(): bool
     {
         return 'POST' === $this->_method;
     }
 
-    public function isGet()
+    public function isGet(): bool
     {
         return 'GET' === $this->_method;
     }
 
-    public function isAjax()
+    public function isAjax(): bool
     {
         if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return false;

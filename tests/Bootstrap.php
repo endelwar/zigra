@@ -9,7 +9,7 @@
  * with this source code in the file LICENSE.
  */
 
-error_reporting(E_ALL);
+error_reporting(\E_ALL);
 if (
     function_exists('date_default_timezone_set') &&
     function_exists('date_default_timezone_get')

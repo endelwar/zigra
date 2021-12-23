@@ -1,94 +1,68 @@
 <?php
 
 /**
- * Class Zigra_Registry
+ * Class Zigra_Registry.
  *
  * @method static Zigra_Registry getInstance()
  */
 class Zigra_Registry extends Zigra_AbstractSigleton implements Zigra_RegistryInterface
 {
-    /**
-     * @var array
-     */
-    protected static $pool = [];
+    protected static array $pool = [];
 
     /**
-     * Get key's value as if key is an object property
-     * @param string $key the variable's name
+     * Get key's value as if key is an object property.
      *
-     * @return mixed
+     * @param string $key the variable's name
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return self::get($key);
     }
 
     /**
-     * Set key's value as if key is an object property
+     * Set key's value as if key is an object property.
      *
-     * @param string $key the variable's name
-     * @param mixed $value the variable's value
+     * @param string $key   the variable's name
+     * @param mixed  $value the variable's value
      *
      * @throws \InvalidArgumentException
      */
-    public function __set($key, $value)
+    public function __set(string $key, $value)
     {
         self::set($key, $value);
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return mixed
-     */
-    public static function set($key, $value)
+    public static function set(string $key, $value)
     {
         self::$pool[$key] = $value;
     }
 
-    /**
-     * @param string $key
-     * @param mixed $value
-     * @return mixed
-     */
-    public static function add($key, $value)
+    public static function add(string $key, string $value)
     {
-        if (self::has($key) && is_array(self::$pool[$key])) {
+        if (is_array(self::$pool[$key]) && self::has($key)) {
             self::$pool[$key][] = $value;
         }
     }
 
     /**
-     * @param string $key
-     * @param mixed $default
      * @return mixed|null
      */
-    public static function get($key, $default = null)
+    public static function get(string $key, string $default = null)
     {
         return self::has($key) ? self::$pool[$key] : $default;
     }
 
-    /**
-     * @param string $key
-     * @return bool
-     */
-    public static function has($key)
+    public static function has(string $key): bool
     {
         return array_key_exists($key, self::$pool);
     }
 
-    /**
-     * @return array
-     */
-    public static function getAll()
+    public static function getAll(): array
     {
         return self::$pool;
     }
 
-    /**
-     * @return array
-     */
-    public static function getKeys()
+    public static function getKeys(): array
     {
         return array_keys(self::$pool);
     }

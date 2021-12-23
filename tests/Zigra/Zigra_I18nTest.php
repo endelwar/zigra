@@ -9,8 +9,9 @@ class Zigra_I18nTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * @dataProvider langProvider
+     *
      * @param string $request_uri
-     * @param array $available_languages
+     * @param array  $available_languages
      * @param string $default_language
      */
     public function testGetLanguage($request_uri, $available_languages, $default_language)

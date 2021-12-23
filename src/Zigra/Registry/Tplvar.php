@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Class Zigra_Registry_Tplvar
+ * Class Zigra_Registry_Tplvar.
  *
  * @method static Zigra_Registry_Tplvar getInstance()
  */

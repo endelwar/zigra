@@ -3,31 +3,29 @@
 class Zigra_Core
 {
     /**
-     * Path to Zigra root
+     * Path to Zigra root.
      *
      * @var string Zigra root directory
      */
-    private static $path;
+    private static string $path;
 
     /**
-     * Set the path to your core Zigra libraries
+     * Set the path to your core Zigra libraries.
      *
      * @param string $path The path to your Zigra libraries
      */
-    public static function setPath($path)
+    public static function setPath(string $path): void
     {
         self::$path = $path;
     }
 
     /**
-     * Get the root path to Zigra
-     *
-     * @return string
+     * Get the root path to Zigra.
      */
-    public static function getPath()
+    public static function getPath(): string
     {
         if (!self::$path) {
-            self::$path = dirname(__DIR__) . '';
+            self::$path = dirname(__DIR__);
         }
 
         return self::$path;
@@ -36,7 +34,7 @@ class Zigra_Core
     /**
      * Registers Zigra as an SPL autoloader.
      */
-    public static function register()
+    public static function register(): void
     {
         ini_set('unserialize_callback_func', 'spl_autoload_call');
         spl_autoload_register([new self(), 'autoload']);
@@ -44,22 +42,20 @@ class Zigra_Core
 
     /**
      * simple autoload function
-     * returns true if the class was loaded, otherwise false
+     * returns true if the class was loaded, otherwise false.
      *
      * @param string $className name of the class to load
-     *
-     * @return bool
      */
-    public static function autoload($className)
+    public static function autoload(string $className): bool
     {
-        if (0 !== stripos($className, 'Zigra')
-            || class_exists($className, false)
+        if (class_exists($className, false)
             || interface_exists($className, false)
+            || 0 !== stripos($className, 'Zigra')
         ) {
             return false;
         }
 
-        $class = self::getPath() . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+        $class = self::getPath() . \DIRECTORY_SEPARATOR . str_replace('_', \DIRECTORY_SEPARATOR, $className) . '.php';
 
         if (file_exists($class)) {
             include $class;
