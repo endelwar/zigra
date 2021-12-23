@@ -1,6 +1,6 @@
+/build/
 /vendor
 /composer.phar
-/.php_cs.cache
-/.phpunit.result.cache
-/build/
 /composer.lock
+/.php-cs-fixer.cache
+/.phpunit.result.cache
