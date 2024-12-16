@@ -27,9 +27,9 @@ class Zigra_Router
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public static function route(Zigra_Request $request, bool $resetProperties = false, Aura\Session\Session $session_manager = null): void
+    public static function route(Zigra_Request $request, bool $resetProperties = false, ?Aura\Session\Session $session_manager = null): void
     {
         self::singleton();
         $controller = 'error';
@@ -51,15 +51,15 @@ class Zigra_Router
     }
 
     /**
-     *@throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private static function callControllerAction(
         string $controllerName,
         string $action,
         Zigra_Request $request,
         array $params,
-        Aura\Session\Session $session_manager = null,
-        bool $isError = false
+        ?Aura\Session\Session $session_manager = null,
+        bool $isError = false,
     ): void {
         // TODO: make this contruct indipendent from app path
         $classFileName = '../app/controller/' . $controllerName . 'Controller.php';
@@ -98,7 +98,7 @@ class Zigra_Router
             header('HTTP/1.0 404 Not Found');
             echo '<h1>404 Not Found</h1>';
             echo 'The page that you have requested could not be found.';
-            exit();
+            exit;
         } catch (Zigra_Exception $e) {
             Zigra_Exception::renderError((string)$e->getCode(), $e->getMessage());
         }
@@ -120,10 +120,10 @@ class Zigra_Router
             if (!isset($request_parts['path'])) {
                 $request_parts['path'] = null;
             }
-            preg_match($route[0]['regex'], (string) $request_parts['path'], $matches);
+            preg_match($route[0]['regex'], (string)$request_parts['path'], $matches);
 
             if (count($matches)) {
-                //remove numeric index from array
+                // remove numeric index from array
                 $matches_filter = array_filter(array_keys($matches), 'is_string');
                 $matches = array_intersect_key($matches, array_flip($matches_filter));
                 $args = [];
@@ -176,14 +176,14 @@ class Zigra_Router
      * @param array  $requirements TODO write docs
      * @param array  $options      TODO write docs
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public static function map(
         string $name,
         string $pattern,
         array $defaults,
         array $requirements = [],
-        array $options = []
+        array $options = [],
     ): void {
         self::singleton();
         $route = new Zigra_Route($pattern, $defaults, $requirements, $options);
@@ -199,7 +199,7 @@ class Zigra_Router
      *
      * @return string|false generated url or false on error
      *
-     *@throws InvalidArgumentException if route name is not found
+     * @throws InvalidArgumentException if route name is not found
      */
     public static function generate(string $name = '', array $params = [])
     {

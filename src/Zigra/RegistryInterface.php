@@ -10,7 +10,7 @@ interface Zigra_RegistryInterface
      *
      * @return mixed the variable's value or default
      */
-    public static function get(string $key, string $default = null);
+    public static function get(string $key, ?string $default = null);
 
     /**
      * Set a variable in the pool.

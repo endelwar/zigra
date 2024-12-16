@@ -14,15 +14,15 @@ class Zigra_Request
     {
         $this->_request = $urlPath ?? $_SERVER['REQUEST_URI'];
 
-        $parts = explode('/', (string) $this->_request);
+        $parts = explode('/', (string)$this->_request);
         $parts = array_filter($parts);
 
         $this->_controller = (($c = array_shift($parts)) ? $c : 'index') . 'Controller';
         $this->_action = (($c = array_shift($parts)) ? $c : 'index');
         $this->_args = isset($parts[0]) ? $parts : [];
 
-        if (in_array(strtoupper((string) $_SERVER['REQUEST_METHOD']), $this->valid_request_methods, true)) {
-            $this->_method = strtoupper((string) $_SERVER['REQUEST_METHOD']);
+        if (in_array(strtoupper((string)$_SERVER['REQUEST_METHOD']), $this->valid_request_methods, true)) {
+            $this->_method = strtoupper((string)$_SERVER['REQUEST_METHOD']);
         }
     }
 
@@ -66,7 +66,7 @@ class Zigra_Request
         if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return false;
         }
-        if ('XMLHTTPREQUEST' === strtoupper((string) $_SERVER['HTTP_X_REQUESTED_WITH'])) {
+        if ('XMLHTTPREQUEST' === strtoupper((string)$_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return true;
         }
 

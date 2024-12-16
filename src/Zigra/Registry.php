@@ -25,7 +25,7 @@ class Zigra_Registry extends Zigra_AbstractSigleton implements Zigra_RegistryInt
      * @param string $key   the variable's name
      * @param mixed  $value the variable's value
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __set(string $key, $value)
     {
@@ -52,7 +52,7 @@ class Zigra_Registry extends Zigra_AbstractSigleton implements Zigra_RegistryInt
     /**
      * @return mixed|null
      */
-    public static function get(string $key, string $default = null)
+    public static function get(string $key, ?string $default = null)
     {
         return self::has($key) ? self::$pool[$key] : $default;
     }

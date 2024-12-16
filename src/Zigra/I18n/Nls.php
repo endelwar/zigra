@@ -33,7 +33,7 @@ class Zigra_I18n_Nls
      *
      * @param string|null $lang language iso code
      */
-    public static function init(string $lang = null): ?self
+    public static function init(?string $lang = null): ?self
     {
         if (null === $lang) {
             return new self();
@@ -48,7 +48,7 @@ class Zigra_I18n_Nls
             return $obj;
         }
 
-        throw new \RuntimeException('Cannot load language file "' . $lang_file . '"', \E_ERROR);
+        throw new RuntimeException('Cannot load language file "' . $lang_file . '"', \E_ERROR);
     }
 
     /**
@@ -97,7 +97,7 @@ class Zigra_I18n_Nls
 
         if ('' === $obj->key) {
             trigger_error('Big Problems dude! $key in not where it should');
-            exit();
+            exit;
         }
 
         return $obj;
@@ -106,9 +106,9 @@ class Zigra_I18n_Nls
     public function matches(string $str): bool
     {
         if (
-            ($str === $this->name()) ||
-            ($str === $this->isocode()) ||
-            ($str === $this->fullname())
+            ($str === $this->name())
+            || ($str === $this->isocode())
+            || ($str === $this->fullname())
         ) {
             return true;
         }
@@ -117,7 +117,7 @@ class Zigra_I18n_Nls
         if (is_array($aliases) && count($aliases)) {
             $aliases_nr = count($aliases);
             for ($i = 0; $i < $aliases_nr; ++$i) {
-                if (strtolower((string) $aliases[$i]) === strtolower($str)) {
+                if (strtolower((string)$aliases[$i]) === strtolower($str)) {
                     return true;
                 }
             }

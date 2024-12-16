@@ -15,7 +15,7 @@ class Zigra_Route
         string $pattern,
         array $defaults = [],
         array $requirements = [],
-        array $options = []
+        array $options = [],
     ) {
         $this->setPattern($pattern);
         $this->setDefaults($defaults);
@@ -109,9 +109,9 @@ class Zigra_Route
      *
      * @param array $params argument values for url parameters in this route
      *
-     * @throws InvalidArgumentException if required params are missing
-     *
      * @return string $url generated url
+     *
+     * @throws InvalidArgumentException if required params are missing
      */
     public function generate(array $params): string
     {

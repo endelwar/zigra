@@ -5,7 +5,7 @@ class Zigra_User
     protected static $instance;
     protected static $_user;
 
-    private static \Aura\Session\Session $sessionManager;
+    private static Aura\Session\Session $sessionManager;
 
     public function __construct(protected $userclass, Aura\Session\Session $sessionManager)
     {
@@ -21,22 +21,19 @@ class Zigra_User
         self::$instance = null;
     }
 
-    /**
-     * @param $userclass
-     */
-    public static function singleton($userclass, Aura\Session\Session $sessionManager = null): self
+    public static function singleton($userclass, ?Aura\Session\Session $sessionManager = null): self
     {
         if ($sessionManager instanceof Aura\Session\Session) {
             self::$sessionManager = $sessionManager;
         } else {
-            $session_factory = new \Aura\Session\SessionFactory();
+            $session_factory = new Aura\Session\SessionFactory();
             self::$sessionManager = $session_factory->newInstance($_COOKIE);
         }
         self::$sessionManager->resume();
         if (null === self::$instance) {
             self::$instance = new self($userclass, self::$sessionManager);
         }
-        if (strtolower(self::$instance->userclass::class) !== strtolower((string) $userclass)) {
+        if (strtolower(self::$instance->userclass::class) !== strtolower((string)$userclass)) {
             self::$instance = new self($userclass, self::$sessionManager);
         }
 
@@ -47,9 +44,9 @@ class Zigra_User
     {
         $status = false;
         if (
-            isset($_SESSION['member_valid'], $_SESSION['member_type']) &&
-            $_SESSION['member_valid'] &&
-            $_SESSION['member_type'] === $this->userclass->getUserType()
+            isset($_SESSION['member_valid'], $_SESSION['member_type'])
+            && $_SESSION['member_valid']
+            && $_SESSION['member_type'] === $this->userclass->getUserType()
         ) {
             $status = true;
         }
@@ -83,7 +80,7 @@ class Zigra_User
     }
 
     /**
-     * @param \Doctrine_Record $user
+     * @param Doctrine_Record $user
      */
     public function setAsLoggedIn($user): bool
     {
@@ -122,7 +119,7 @@ class Zigra_User
      *
      * @throws Exception
      */
-    public function logout(string $routeName = null, array $routeParams = []): void
+    public function logout(?string $routeName = null, array $routeParams = []): void
     {
         // Destroy the SESSION
         self::$sessionManager->destroy();
@@ -142,7 +139,7 @@ class Zigra_User
 
     public static function generateHashedPassword($password)
     {
-        return password_hash((string) $password, \PASSWORD_DEFAULT);
+        return password_hash((string)$password, \PASSWORD_DEFAULT);
     }
 
     public static function generatePassword($length = 8): string
