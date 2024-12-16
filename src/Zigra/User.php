@@ -4,13 +4,11 @@ class Zigra_User
 {
     protected static $instance;
     protected static $_user;
-    protected $userclass;
 
     private static \Aura\Session\Session $sessionManager;
 
-    public function __construct($userclass, Aura\Session\Session $sessionManager)
+    public function __construct(protected $userclass, Aura\Session\Session $sessionManager)
     {
-        $this->userclass = $userclass;
         self::$sessionManager = $sessionManager;
         /* Start Session */
         if (false === self::$sessionManager->isStarted()) {
@@ -38,7 +36,7 @@ class Zigra_User
         if (null === self::$instance) {
             self::$instance = new self($userclass, self::$sessionManager);
         }
-        if (strtolower(get_class(self::$instance->userclass)) !== strtolower($userclass)) {
+        if (strtolower(self::$instance->userclass::class) !== strtolower((string) $userclass)) {
             self::$instance = new self($userclass, self::$sessionManager);
         }
 
@@ -102,7 +100,7 @@ class Zigra_User
             $_SESSION['userObj'] = $user;
 
             return true;
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
     }
@@ -144,7 +142,7 @@ class Zigra_User
 
     public static function generateHashedPassword($password)
     {
-        return password_hash($password, \PASSWORD_DEFAULT);
+        return password_hash((string) $password, \PASSWORD_DEFAULT);
     }
 
     public static function generatePassword($length = 8): string

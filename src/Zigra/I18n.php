@@ -50,7 +50,7 @@ class Zigra_I18n
 
         preg_match_all(
             '/([a-z]{1,8}(-[a-z]{1,8})?)\s*(;\s*q\s*=\s*(1|0\.[\d]+))?/i',
-            $_SERVER['HTTP_ACCEPT_LANGUAGE'],
+            (string) $_SERVER['HTTP_ACCEPT_LANGUAGE'],
             $lang_parse
         );
         $langs = [];
@@ -92,9 +92,8 @@ class Zigra_I18n
                 return self::$nls[$onelang];
             }
 
-            /** @var int $key */
             /** @var Zigra_I18n_Nls $obj */
-            foreach (self::$nls as $key => $obj) {
+            foreach (self::$nls as $obj) {
                 if ($obj->matches($onelang)) {
                     return $obj;
                 }
@@ -130,7 +129,7 @@ class Zigra_I18n
     public static function getLanguage(array $availableLangs, string $defaultLang)
     {
         $regs = [];
-        if (preg_match('%^/([a-z]{2})/?[\w\-_/]*$%', $_SERVER['REQUEST_URI'], $regs)) {
+        if (preg_match('%^/([a-z]{2})/?[\w\-_/]*$%', (string) $_SERVER['REQUEST_URI'], $regs)) {
             $result = $regs[1];
             $i18n = self::matchLang($result);
             if (!$i18n) {

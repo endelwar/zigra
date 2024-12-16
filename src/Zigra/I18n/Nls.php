@@ -117,7 +117,7 @@ class Zigra_I18n_Nls
         if (is_array($aliases) && count($aliases)) {
             $aliases_nr = count($aliases);
             for ($i = 0; $i < $aliases_nr; ++$i) {
-                if (strtolower($aliases[$i]) === strtolower($str)) {
+                if (strtolower((string) $aliases[$i]) === strtolower($str)) {
                     return true;
                 }
             }

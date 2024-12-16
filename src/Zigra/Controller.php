@@ -2,18 +2,14 @@
 
 class Zigra_Controller
 {
-    protected Zigra_Request $request;
-    protected array $params;
     protected $tplVar;
     protected $registry;
 
     /**
      * Zigra_Controller constructor.
      */
-    public function __construct(Zigra_Request $request, array $params, Aura\Session\Session $session_manager = null)
+    public function __construct(protected Zigra_Request $request, protected array $params, Aura\Session\Session $session_manager = null)
     {
-        $this->request = $request;
-        $this->params = $params;
         if ($session_manager) {
             $this->registry = $session_manager->getSegment('zigra\registry');
             $this->tplVar = $session_manager->getSegment('zigra\tplvar');

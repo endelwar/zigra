@@ -11,7 +11,7 @@ class Zigra_Route_Compiler implements Zigra_Route_CompilerInterface
         $tokens = [];
         $variables = [];
 
-        preg_match_all('@\{([\w\d\=_-]+)\}@', $pattern, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
+        preg_match_all('@\{([\w\d\=_-]+)\}@', (string) $pattern, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
         $regex = str_replace('/', '\/', $pattern);
         if (count($matches)) {
             // named variables found

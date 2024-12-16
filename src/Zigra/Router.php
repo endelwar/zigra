@@ -120,7 +120,7 @@ class Zigra_Router
             if (!isset($request_parts['path'])) {
                 $request_parts['path'] = null;
             }
-            preg_match($route[0]['regex'], $request_parts['path'], $matches);
+            preg_match($route[0]['regex'], (string) $request_parts['path'], $matches);
 
             if (count($matches)) {
                 //remove numeric index from array
