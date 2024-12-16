@@ -11,9 +11,12 @@ class Zigra_I18n_Nls
 
     protected string $locale;
 
+    protected string $language;
+
     protected string $fullname;
 
     protected string $encoding;
+
     /** @var array|string */
     protected $aliases;
 
@@ -44,9 +47,8 @@ class Zigra_I18n_Nls
 
             return $obj;
         }
-        trigger_error('Cannot load language file "' . $lang_file . '"', \E_ERROR);
 
-        return null;
+        throw new \RuntimeException('Cannot load language file "' . $lang_file . '"', \E_ERROR);
     }
 
     /**
@@ -70,7 +72,7 @@ class Zigra_I18n_Nls
             $obj->isocode = $data['isocode'][$obj->key];
         } else {
             $t = explode('_', $obj->key);
-            if (is_array($t) && isset($t[0])) {
+            if (isset($t[0])) {
                 $obj->isocode = $t[0];
             }
         }

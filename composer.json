@@ -14,15 +14,15 @@
     }
   ],
   "require": {
-    "php": "7.4.*",
-    "aura/session": "^2.1",
+    "php": "^8.1",
+    "aura/session": "^4.0",
     "ircmaxell/password-compat": "~1.0.4"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.4",
-    "phpstan/phpstan": "^1.2",
-    "phpunit/phpunit": "^9.5.1",
-    "rector/rector": "^0.12.9"
+    "friendsofphp/php-cs-fixer": "^v3.65.0",
+    "phpstan/phpstan": "^2.0.3",
+    "phpunit/phpunit": "^9.6.22",
+    "rector/rector": "^2.0.3"
   },
   "config": {
     "allow-plugins": {
@@ -35,16 +35,13 @@
     "psr-0": {
       "Zigra_": "src/"
     },
-    "psr-4": {
-      "ZigraTest\\": "tests/Zigra"
-    },
     "classmap": [
       "src/Zigra.php"
     ]
   },
   "autoload-dev": {
     "psr-4": {
-      "ZigraTest\\": "tests/"
+      "ZigraTest\\": "tests/Zigra"
     }
   },
   "scripts": {

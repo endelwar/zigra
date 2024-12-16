@@ -32,6 +32,11 @@ class Zigra_Registry extends Zigra_AbstractSigleton implements Zigra_RegistryInt
         self::set($key, $value);
     }
 
+    public function __isset(string $key)
+    {
+        return array_key_exists($key, self::$pool);
+    }
+
     public static function set(string $key, $value)
     {
         self::$pool[$key] = $value;

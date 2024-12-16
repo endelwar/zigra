@@ -20,7 +20,7 @@ class Zigra_Router
     public static function singleton(): self
     {
         if (null === self::$instance) {
-            self::$instance = new static();
+            self::$instance = new self();
         }
 
         return self::$instance;
@@ -94,13 +94,13 @@ class Zigra_Router
                 throw new Zigra_Exception('Cannot find class ' . $controllerName . ' (' . $classFileName . ')');
             }
 
-            // Issue a 404 error classname file doesn't exists
+            // Issue a 404 error classname file doesn't exist
             header('HTTP/1.0 404 Not Found');
             echo '<h1>404 Not Found</h1>';
             echo 'The page that you have requested could not be found.';
             exit();
         } catch (Zigra_Exception $e) {
-            Zigra_Exception::renderError($e->getCode(), $e->getMessage());
+            Zigra_Exception::renderError((string)$e->getCode(), $e->getMessage());
         }
     }
 

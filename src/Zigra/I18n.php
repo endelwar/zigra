@@ -54,7 +54,7 @@ class Zigra_I18n
             $lang_parse
         );
         $langs = [];
-        if (is_countable($lang_parse[1]) ? count($lang_parse[1]) : 0) {
+        if (count($lang_parse[1]) > 0) {
             // create a list like "en" => 0.8
             $langs = array_combine($lang_parse[1], $lang_parse[4]);
 
@@ -110,7 +110,7 @@ class Zigra_I18n
         if (isset(self::$nls[$lang])) {
             return self::$nls[$lang];
         }
-        foreach (self::$nls as $key => $obj) {
+        foreach (self::$nls as $obj) {
             if ($obj->matches($lang)) {
                 return $obj;
             }
