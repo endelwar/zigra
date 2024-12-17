@@ -21,7 +21,7 @@ class Zigra_I18nTest extends TestCase
         $expected = [
             'it-IT' => 1,
             'en-US' => 0.8,
-            'fr'    => 0.6,
+            'fr' => 0.6,
         ];
 
         $result = Zigra_I18n::getBrowserLanguages();
@@ -52,7 +52,6 @@ class Zigra_I18nTest extends TestCase
         $lang = Zigra_I18n::detectBrowserLanguage();
         $this->assertFalse($lang, 'Expected false for languages not supported in nls files');
     }
-
 
     public function testMatchLangExact()
     {

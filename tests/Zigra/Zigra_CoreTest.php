@@ -31,7 +31,7 @@ class Zigra_CoreTest extends TestCase
         Zigra_Core::setPath(null); // Simula che non sia stato impostato nulla
 
         // Imposta l'aspettativa corretta basata sulla posizione della classe
-        $expectedPath = dirname(__DIR__, 2) . '/src';
+        $expectedPath = \dirname(__DIR__, 2) . '/src';
         $this->assertSame($expectedPath, Zigra_Core::getPath());
     }
 
@@ -45,8 +45,8 @@ class Zigra_CoreTest extends TestCase
 
         $this->assertNotEmpty($autoloadFunctions, 'No autoload functions registered');
         $this->assertTrue(
-            in_array([new Zigra_Core(), 'autoload'], $autoloadFunctions, true) ||
-            in_array(['Zigra_Core', 'autoload'], $autoloadFunctions, true),
+            \in_array([new Zigra_Core(), 'autoload'], $autoloadFunctions, true)
+            || \in_array(['Zigra_Core', 'autoload'], $autoloadFunctions, true),
             'Zigra_Core::autoload was not registered as an autoloader'
         );
     }
@@ -56,11 +56,11 @@ class Zigra_CoreTest extends TestCase
         // Simula un file PHP temporaneo per una classe Zigra
         $tempDir = sys_get_temp_dir();
         $className = 'Zigra_TestClass';
-        $filePath = $tempDir . DIRECTORY_SEPARATOR . 'Zigra' . DIRECTORY_SEPARATOR . 'TestClass.php';
+        $filePath = $tempDir . \DIRECTORY_SEPARATOR . 'Zigra' . \DIRECTORY_SEPARATOR . 'TestClass.php';
 
         // Crea la directory e il file di classe
-        if (!is_dir(dirname($filePath))) {
-            mkdir(dirname($filePath), 0777, true);
+        if (!is_dir(\dirname($filePath))) {
+            mkdir(\dirname($filePath), 0777, true);
         }
         file_put_contents($filePath, '<?php class Zigra_TestClass {}');
 
@@ -74,7 +74,7 @@ class Zigra_CoreTest extends TestCase
 
         // Pulizia
         unlink($filePath);
-        rmdir(dirname($filePath));
+        rmdir(\dirname($filePath));
     }
 
     public function testAutoloadNonExistingClass(): void

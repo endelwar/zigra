@@ -11,7 +11,7 @@ class Zigra_ToolsTest extends \PHPUnit\Framework\TestCase
      */
     public function testBr2nl($br)
     {
-        $this->assertSame(chr(13) . chr(10), \Zigra_Tools::br2nl($br));
+        $this->assertSame(\chr(13) . \chr(10), \Zigra_Tools::br2nl($br));
     }
 
     public function brProvider()

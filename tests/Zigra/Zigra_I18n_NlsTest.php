@@ -124,5 +124,4 @@ class Zigra_I18n_NlsTest extends TestCase
         $nls = Zigra_I18n_Nls::fromArray($data);
         $this->assertSame('ja_JP', $nls->regionsubtag(), 'Region subtag should match the expected value.');
     }
-
 }
