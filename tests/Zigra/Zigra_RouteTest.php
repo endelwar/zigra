@@ -42,7 +42,7 @@ class Zigra_RouteTest extends TestCase
     public function testSanitizeRequirement(): void
     {
         $route = new Zigra_Route('/test');
-        $reflection = new \ReflectionClass($route);
+        $reflection = new ReflectionClass($route);
         $method = $reflection->getMethod('sanitizeRequirement');
         $method->setAccessible(true);
 
@@ -82,7 +82,7 @@ class Zigra_RouteTest extends TestCase
     public function testGenerateSuccess(): void
     {
         $compiledRoute = [
-            ['pattern' => '/user/{id}', 'variables' => ['id']]
+            ['pattern' => '/user/{id}', 'variables' => ['id']],
         ];
         $route = $this->getMockBuilder(Zigra_Route::class)
             ->setConstructorArgs(['/test'])
@@ -99,7 +99,7 @@ class Zigra_RouteTest extends TestCase
     public function testGenerateThrowsExceptionForNoParameters(): void
     {
         $compiledRoute = [
-            ['pattern' => '/user/{id}', 'variables' => ['id']]
+            ['pattern' => '/user/{id}', 'variables' => ['id']],
         ];
         $route = $this->getMockBuilder(Zigra_Route::class)
             ->setConstructorArgs(['/test'])
@@ -117,7 +117,7 @@ class Zigra_RouteTest extends TestCase
     public function testGenerateThrowsExceptionForMissingParameters(): void
     {
         $compiledRoute = [
-            ['pattern' => '/user/{id}', 'variables' => ['id', 'slug']]
+            ['pattern' => '/user/{id}', 'variables' => ['id', 'slug']],
         ];
         $route = $this->getMockBuilder(Zigra_Route::class)
             ->setConstructorArgs(['/test'])

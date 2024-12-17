@@ -12,5 +12,5 @@ require_once __DIR__ . '/Zigra/Core.php';
  */
 class Zigra extends Zigra_Core
 {
-    public const VERSION = '0.9.0';
+    public const VERSION = '0.10.0';
 }

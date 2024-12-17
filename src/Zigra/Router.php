@@ -77,7 +77,7 @@ class Zigra_Router
                 $fullClassName = ucfirst($controllerName) . 'Controller';
                 /** @var Zigra_Controller $controller */
                 $controller = new $fullClassName($request, $params, $session_manager);
-                if (!is_callable([$controller, $action])) {
+                if (!\is_callable([$controller, $action])) {
                     throw new Zigra_Exception('Cannot call module: ' . $controllerName . '->' . $action);
                 }
 
@@ -128,7 +128,7 @@ class Zigra_Router
             }
             preg_match($route[0]['regex'], (string)$request_parts['path'], $matches);
 
-            if (count($matches)) {
+            if (\count($matches)) {
                 // remove numeric index from array
                 $matches_filter = array_filter(array_keys($matches), 'is_string');
                 $matches = array_intersect_key($matches, array_flip($matches_filter));

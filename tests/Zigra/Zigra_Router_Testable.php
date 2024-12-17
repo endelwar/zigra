@@ -1,6 +1,6 @@
 <?php
 
-class Zigra_Router_Testable extends \Zigra_Router
+class Zigra_Router_Testable extends Zigra_Router
 {
     public static $mockController;
 
@@ -10,13 +10,14 @@ class Zigra_Router_Testable extends \Zigra_Router
         Zigra_Request $request,
         array $params,
         ?Aura\Session\Session $session_manager = null,
-        bool $isError = false
+        bool $isError = false,
     ): void {
         // Usa il mock del controller se è stato assegnato
         if (self::$mockController) {
             self::$mockController->preExecute();
             self::$mockController->$action($request);
             self::$mockController->postExecute();
+
             return;
         }
 

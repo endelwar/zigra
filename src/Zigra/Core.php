@@ -16,7 +16,7 @@ class Zigra_Core
      */
     public static function setPath(?string $path): void
     {
-        self::$path = $path ? rtrim($path, DIRECTORY_SEPARATOR) : dirname(__DIR__);
+        self::$path = $path ? rtrim($path, \DIRECTORY_SEPARATOR) : \dirname(__DIR__);
     }
 
     /**
@@ -25,7 +25,7 @@ class Zigra_Core
     public static function getPath(): string
     {
         if (!self::$path) {
-            self::$path = dirname(__DIR__);
+            self::$path = \dirname(__DIR__);
         }
 
         return self::$path;

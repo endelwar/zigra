@@ -93,7 +93,7 @@ class Zigra_Route
 
     public function compile(): array
     {
-        if (is_array($this->compiledRoute)) {
+        if (\is_array($this->compiledRoute)) {
             return $this->compiledRoute;
         }
 
@@ -117,18 +117,18 @@ class Zigra_Route
     {
         $compiledRoute = $this->compile();
 
-        if (count($params) > 0 && 0 === (is_countable($compiledRoute[0]['variables']) ? count($compiledRoute[0]['variables']) : 0)) {
+        if (\count($params) > 0 && 0 === (is_countable($compiledRoute[0]['variables']) ? \count($compiledRoute[0]['variables']) : 0)) {
             throw new InvalidArgumentException('Zigra_Route->generate: this route doesn\'t have parameters');
         }
 
-        if ((is_countable($compiledRoute[0]['variables']) ? count($compiledRoute[0]['variables']) : 0) !== count($params)) {
-            throw new InvalidArgumentException(sprintf('Zigra_Route->generate: missing %d parameters', (is_countable($compiledRoute[0]['variables']) ? count($compiledRoute[0]['variables']) : 0) - count($params)));
+        if ((is_countable($compiledRoute[0]['variables']) ? \count($compiledRoute[0]['variables']) : 0) !== \count($params)) {
+            throw new InvalidArgumentException(\sprintf('Zigra_Route->generate: missing %d parameters', (is_countable($compiledRoute[0]['variables']) ? \count($compiledRoute[0]['variables']) : 0) - \count($params)));
         }
 
         // right number of parameters, let's verify that they are the right ones
         $paramdiff = array_diff_key(array_flip($compiledRoute[0]['variables']), $params);
         if (!empty($paramdiff)) {
-            throw new InvalidArgumentException(sprintf('Zigra_Route->generate: wrong parameters name, missing: %s', implode(', ', array_flip($paramdiff))));
+            throw new InvalidArgumentException(\sprintf('Zigra_Route->generate: wrong parameters name, missing: %s', implode(', ', array_flip($paramdiff))));
         }
         $parameters = [];
         $values = [];
