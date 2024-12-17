@@ -2,7 +2,7 @@
 
 namespace ZigraTest;
 
-class registryInstanceTest extends \PHPUnit\Framework\TestCase
+class RegistryInstanceTest extends \PHPUnit\Framework\TestCase
 {
     public function testRegistrySingletonSameness()
     {

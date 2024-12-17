@@ -11,6 +11,8 @@ class Zigra_Router
     private static $matchedRoute;
     private static $instance;
 
+    private static string $controllerPath = '../app/controller/';
+
     private function __construct()
     {
         self::$_routeCollection = new Zigra_Route_Collection();
@@ -24,6 +26,11 @@ class Zigra_Router
         }
 
         return self::$instance;
+    }
+
+    public static function setControllerPath(string $path): void
+    {
+        self::$controllerPath = rtrim($path, '/') . '/';
     }
 
     /**
@@ -53,7 +60,7 @@ class Zigra_Router
     /**
      * @throws InvalidArgumentException
      */
-    private static function callControllerAction(
+    protected static function callControllerAction(
         string $controllerName,
         string $action,
         Zigra_Request $request,
@@ -61,8 +68,8 @@ class Zigra_Router
         ?Aura\Session\Session $session_manager = null,
         bool $isError = false,
     ): void {
-        // TODO: make this contruct indipendent from app path
-        $classFileName = '../app/controller/' . $controllerName . 'Controller.php';
+        $classFileName = self::$controllerPath . $controllerName . 'Controller.php';
+
         try {
             if (file_exists($classFileName)) {
                 include_once $classFileName;
@@ -89,7 +96,6 @@ class Zigra_Router
                 return;
             }
 
-            // are we coming from a declared error?
             if (false === $isError) {
                 throw new Zigra_Exception('Cannot find class ' . $controllerName . ' (' . $classFileName . ')');
             }

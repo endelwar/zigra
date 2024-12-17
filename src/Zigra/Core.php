@@ -5,18 +5,18 @@ class Zigra_Core
     /**
      * Path to Zigra root.
      *
-     * @var string Zigra root directory
+     * @var string|null Zigra root directory
      */
-    private static string $path;
+    private static ?string $path = null;
 
     /**
      * Set the path to your core Zigra libraries.
      *
-     * @param string $path The path to your Zigra libraries
+     * @param string|null $path The path to your Zigra libraries
      */
-    public static function setPath(string $path): void
+    public static function setPath(?string $path): void
     {
-        self::$path = $path;
+        self::$path = $path ? rtrim($path, DIRECTORY_SEPARATOR) : dirname(__DIR__);
     }
 
     /**

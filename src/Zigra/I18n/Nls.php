@@ -1,10 +1,5 @@
 <?php
 
-/**
- * Class Zigra_I18n_Nls.
- *
- * @author Manuel Dalla Lana <endelwar@aregar.it>
- */
 class Zigra_I18n_Nls
 {
     protected string $isocode;
@@ -20,7 +15,7 @@ class Zigra_I18n_Nls
     /** @var array|string */
     protected $aliases;
 
-    protected string $display;
+    protected ?string $display = null;
 
     protected string $key;
 
@@ -40,7 +35,7 @@ class Zigra_I18n_Nls
         }
         $lang_file = __DIR__ . \DIRECTORY_SEPARATOR . 'nls' . \DIRECTORY_SEPARATOR . $lang . '.nls.php';
 
-        if (file($lang_file)) {
+        if (is_file($lang_file)) {
             $nls = include $lang_file;
             $obj = self::fromArray($nls);
             unset($nls);
@@ -106,7 +101,7 @@ class Zigra_I18n_Nls
     public function matches(string $str): bool
     {
         if (
-            ($str === $this->name())
+            (str_replace('-', '_', $str) === $this->name()) // Normalize underscore and dash
             || ($str === $this->isocode())
             || ($str === $this->fullname())
         ) {
@@ -114,8 +109,8 @@ class Zigra_I18n_Nls
         }
         $aliases = $this->aliases();
 
-        if (is_array($aliases) && count($aliases)) {
-            $aliases_nr = count($aliases);
+        if (\is_array($aliases) && \count($aliases)) {
+            $aliases_nr = \count($aliases);
             for ($i = 0; $i < $aliases_nr; ++$i) {
                 if (strtolower((string)$aliases[$i]) === strtolower($str)) {
                     return true;
@@ -178,7 +173,7 @@ class Zigra_I18n_Nls
     public function aliases()
     {
         if ($this->aliases) {
-            if (is_array($this->aliases)) {
+            if (\is_array($this->aliases)) {
                 return $this->aliases;
             }
 

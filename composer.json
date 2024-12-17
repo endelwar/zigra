@@ -19,6 +19,7 @@
     "ircmaxell/password-compat": "~1.0.4"
   },
   "require-dev": {
+    "ext-xdebug": "*",
     "friendsofphp/php-cs-fixer": "^v3.65.0",
     "phpstan/phpstan": "^2.0.3",
     "phpunit/phpunit": "^9.6.22",

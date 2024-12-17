@@ -174,11 +174,11 @@ class Zigra_Controller
         $url = Zigra_Router::generate($routename, $params);
 
         if ($url) {
-            if ((null !== $statuscode) && array_key_exists($statuscode, self::$statusTexts)) {
+            if ((null !== $statuscode) && \array_key_exists($statuscode, self::$statusTexts)) {
                 header('HTTP/1.1 ' . $statuscode . ' ' . self::$statusTexts[$statuscode]);
             }
             if (null !== $anchor) {
-                $url = $url . '#' . $anchor;
+                $url .= '#' . $anchor;
             }
             header('Location: ' . $url);
         } else {

@@ -16,6 +16,7 @@ return (new PhpCsFixer\Config())
         'array_syntax' => ['syntax' => 'short'],
         'concat_space' => ['spacing' => 'one'],
         'cast_spaces' => ['space' => 'none'],
-        'native_function_invocation' => false,
+        'native_function_invocation' => true,
         'no_superfluous_phpdoc_tags' => true,
+        'fully_qualified_strict_types' => true,
     ]);

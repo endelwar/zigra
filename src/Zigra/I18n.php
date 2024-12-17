@@ -2,24 +2,18 @@
 
 class Zigra_I18n
 {
-    /**
-     * @ignore
-     */
     private static $nls;
 
-    /**
-     * @ignore
-     */
     private static function loadNls(): void
     {
-        if (!is_array(self::$nls)) {
+        if (!\is_array(self::$nls)) {
             self::$nls = [];
 
             $nlsdir = __DIR__ . \DIRECTORY_SEPARATOR . 'I18n' . \DIRECTORY_SEPARATOR . 'nls';
             $files = glob($nlsdir . '/*nls.php');
             $nls = '';
-            $filecount = is_countable($files) ? count($files) : 0;
-            if (is_array($files) && $filecount) {
+            $filecount = is_countable($files) ? \count($files) : 0;
+            if (\is_array($files) && $filecount) {
                 for ($i = 0; $i < $filecount; ++$i) {
                     if (!is_file($files[$i])) {
                         continue;
@@ -54,14 +48,16 @@ class Zigra_I18n
             $lang_parse
         );
         $langs = [];
-        if (count($lang_parse[1]) > 0) {
+        if (\count($lang_parse[1]) > 0) {
             // create a list like "en" => 0.8
             $langs = array_combine($lang_parse[1], $lang_parse[4]);
 
             // set default to 1 for any language without q factor
             foreach ($langs as $lang => $val) {
                 if ('' === $val) {
-                    $langs[$lang] = 1;
+                    $langs[$lang] = 1; // Imposta il valore di default a 1
+                } else {
+                    $langs[$lang] = (float)$val; // Forza la conversione a float
                 }
             }
 
@@ -81,7 +77,7 @@ class Zigra_I18n
     public static function detectBrowserLanguage()
     {
         $langs = self::getBrowserLanguages();
-        if (count($langs) < 1) {
+        if (\count($langs) < 1) {
             return false;
         }
 
@@ -134,7 +130,7 @@ class Zigra_I18n
             $i18n = self::matchLang($result);
             if (!$i18n) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
-            } elseif (!in_array($i18n->key(), $availableLangs, true)) {
+            } elseif (!\in_array($i18n->key(), $availableLangs, true)) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
             }
         } elseif (isset($_SESSION['language'])) {
@@ -143,7 +139,7 @@ class Zigra_I18n
             $i18n = self::detectBrowserLanguage();
             if (!$i18n) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
-            } elseif (!in_array($i18n->key(), $availableLangs, true)) {
+            } elseif (!\in_array($i18n->key(), $availableLangs, true)) {
                 $i18n = Zigra_I18n_Nls::init($defaultLang);
             }
         }

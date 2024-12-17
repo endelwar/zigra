@@ -2,27 +2,28 @@
 
 class Zigra_Request
 {
-    protected string $_controller;
-    protected $_action;
-    protected $_args;
-    protected $_request;
-    protected string $_method;
+    private const VALID_REQUEST_METHODS = ['GET', 'POST', 'PUT', 'HEAD'];
 
-    public array $valid_request_methods = ['GET', 'POST', 'PUT', 'HEAD'];
+    protected string $_controller;
+    protected string $_action;
+    protected array $_args = [];
+    protected string $_request;
+    protected string $_method = 'GET';
 
     public function __construct($urlPath = null)
     {
-        $this->_request = $urlPath ?? $_SERVER['REQUEST_URI'];
+        $this->_request = $urlPath ?? ($_SERVER['REQUEST_URI'] ?? '/');
 
         $parts = explode('/', (string)$this->_request);
         $parts = array_filter($parts);
 
         $this->_controller = (($c = array_shift($parts)) ? $c : 'index') . 'Controller';
         $this->_action = (($c = array_shift($parts)) ? $c : 'index');
-        $this->_args = isset($parts[0]) ? $parts : [];
+        $this->_args = $parts ?: [];
 
-        if (in_array(strtoupper((string)$_SERVER['REQUEST_METHOD']), $this->valid_request_methods, true)) {
-            $this->_method = strtoupper((string)$_SERVER['REQUEST_METHOD']);
+        $method = $_SERVER['REQUEST_METHOD'] ?? '';
+        if (\in_array(strtoupper($method), self::VALID_REQUEST_METHODS, true)) {
+            $this->_method = strtoupper($method);
         }
     }
 
@@ -36,12 +37,12 @@ class Zigra_Request
         return $this->_controller;
     }
 
-    public function getAction()
+    public function getAction(): string
     {
         return $this->_action;
     }
 
-    public function getArgs()
+    public function getArgs(): array
     {
         return $this->_args;
     }
@@ -63,13 +64,7 @@ class Zigra_Request
 
     public function isAjax(): bool
     {
-        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
-            return false;
-        }
-        if ('XMLHTTPREQUEST' === strtoupper((string)$_SERVER['HTTP_X_REQUESTED_WITH'])) {
-            return true;
-        }
-
-        return false;
+        return isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+            && 'XMLHTTPREQUEST' === strtoupper($_SERVER['HTTP_X_REQUESTED_WITH']);
     }
 }
