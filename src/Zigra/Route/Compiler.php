@@ -6,14 +6,14 @@ class Zigra_Route_Compiler implements Zigra_Route_CompilerInterface
     {
         $pattern = $route->getPattern();
         $requirements = $route->getRequirements();
-        //$options = $route->getOptions();
+        // $options = $route->getOptions();
         $defaults = $route->getDefaults();
         $tokens = [];
         $variables = [];
 
-        preg_match_all('@\{([\w\d\=_-]+)\}@', $pattern, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
+        preg_match_all('@\{([\w\d\=_-]+)\}@', (string)$pattern, $matches, \PREG_OFFSET_CAPTURE | \PREG_SET_ORDER);
         $regex = str_replace('/', '\/', $pattern);
-        if (count($matches)) {
+        if (\count($matches)) {
             // named variables found
             foreach ($matches as $match) {
                 $var = $match[1][0];

@@ -2,18 +2,14 @@
 
 class Zigra_Controller
 {
-    protected Zigra_Request $request;
-    protected array $params;
     protected $tplVar;
     protected $registry;
 
     /**
      * Zigra_Controller constructor.
      */
-    public function __construct(Zigra_Request $request, array $params, Aura\Session\Session $session_manager = null)
+    public function __construct(protected Zigra_Request $request, protected array $params, ?Aura\Session\Session $session_manager = null)
     {
-        $this->request = $request;
-        $this->params = $params;
         if ($session_manager) {
             $this->registry = $session_manager->getSegment('zigra\registry');
             $this->tplVar = $session_manager->getSegment('zigra\tplvar');
@@ -70,7 +66,7 @@ class Zigra_Controller
      *
      * @return Zigra_User The current Zigra_User implementation instance
      */
-    public function getUser(object $userclass, Aura\Session\Session $sessionManager = null): Zigra_User
+    public function getUser(object $userclass, ?Aura\Session\Session $sessionManager = null): Zigra_User
     {
         return Zigra_User::singleton($userclass, $sessionManager);
     }
@@ -173,23 +169,23 @@ class Zigra_Controller
      * @param int|null    $statuscode HTTP status code
      * @param string|null $anchor     string to append as hash anchor
      */
-    public function forward(string $routename, array $params = [], int $statuscode = null, string $anchor = null): void
+    public function forward(string $routename, array $params = [], ?int $statuscode = null, ?string $anchor = null): void
     {
         $url = Zigra_Router::generate($routename, $params);
 
         if ($url) {
-            if ((null !== $statuscode) && array_key_exists($statuscode, self::$statusTexts)) {
+            if ((null !== $statuscode) && \array_key_exists($statuscode, self::$statusTexts)) {
                 header('HTTP/1.1 ' . $statuscode . ' ' . self::$statusTexts[$statuscode]);
             }
             if (null !== $anchor) {
-                $url = $url . '#' . $anchor;
+                $url .= '#' . $anchor;
             }
             header('Location: ' . $url);
         } else {
             $this->forward404();
         }
 
-        exit();
+        exit;
     }
 
     /**
@@ -197,7 +193,7 @@ class Zigra_Controller
      *
      * @param string|null $message Message of the generated exception
      */
-    public function forward404(string $message = null): void
+    public function forward404(?string $message = null): void
     {
         header('HTTP/1.1 404 ' . self::$statusTexts[404]);
         $this->registry->set('templatename', 'error-404.html.twig');
@@ -213,6 +209,6 @@ class Zigra_Controller
     public function redirect(string $url, int $statuscode = 307): void
     {
         header('Location: ' . $url, true, $statuscode);
-        exit();
+        exit;
     }
 }

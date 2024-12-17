@@ -25,11 +25,16 @@ class Zigra_Registry extends Zigra_AbstractSigleton implements Zigra_RegistryInt
      * @param string $key   the variable's name
      * @param mixed  $value the variable's value
      *
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __set(string $key, $value)
     {
         self::set($key, $value);
+    }
+
+    public function __isset(string $key)
+    {
+        return \array_key_exists($key, self::$pool);
     }
 
     public static function set(string $key, $value)
@@ -39,7 +44,7 @@ class Zigra_Registry extends Zigra_AbstractSigleton implements Zigra_RegistryInt
 
     public static function add(string $key, string $value)
     {
-        if (is_array(self::$pool[$key]) && self::has($key)) {
+        if (\is_array(self::$pool[$key]) && self::has($key)) {
             self::$pool[$key][] = $value;
         }
     }
@@ -47,14 +52,14 @@ class Zigra_Registry extends Zigra_AbstractSigleton implements Zigra_RegistryInt
     /**
      * @return mixed|null
      */
-    public static function get(string $key, string $default = null)
+    public static function get(string $key, ?string $default = null)
     {
         return self::has($key) ? self::$pool[$key] : $default;
     }
 
     public static function has(string $key): bool
     {
-        return array_key_exists($key, self::$pool);
+        return \array_key_exists($key, self::$pool);
     }
 
     public static function getAll(): array

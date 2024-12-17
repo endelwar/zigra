@@ -10,7 +10,7 @@ class Zigra_Route_Collection
     }
 
     /**
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function add(string $name, $route = null): void
     {

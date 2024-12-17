@@ -7,7 +7,8 @@ class Zigra_Exception extends Exception
         if (!self::isCommandLineInterface()) {
             self::renderHtmlHeader();
         }
-        echo $code . ': ' . utf8_encode($message);
+        $encoding = mb_detect_encoding($message, ['UTF-8', 'ISO-8859-1', 'Windows-1252'], true) ?: 'UTF-8';
+        echo $code . ': ' . mb_convert_encoding($message, 'UTF-8', $encoding);
         if (!self::isCommandLineInterface()) {
             self::renderHtmlFooter();
         }

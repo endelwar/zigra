@@ -1,23 +1,21 @@
 <?php
 
-/**
- * Class Zigra_I18n_Nls.
- *
- * @author Manuel Dalla Lana <endelwar@aregar.it>
- */
 class Zigra_I18n_Nls
 {
     protected string $isocode;
 
     protected string $locale;
 
+    protected string $language;
+
     protected string $fullname;
 
     protected string $encoding;
+
     /** @var array|string */
     protected $aliases;
 
-    protected string $display;
+    protected ?string $display = null;
 
     protected string $key;
 
@@ -30,23 +28,22 @@ class Zigra_I18n_Nls
      *
      * @param string|null $lang language iso code
      */
-    public static function init(string $lang = null): ?self
+    public static function init(?string $lang = null): ?self
     {
         if (null === $lang) {
             return new self();
         }
         $lang_file = __DIR__ . \DIRECTORY_SEPARATOR . 'nls' . \DIRECTORY_SEPARATOR . $lang . '.nls.php';
 
-        if (file($lang_file)) {
+        if (is_file($lang_file)) {
             $nls = include $lang_file;
             $obj = self::fromArray($nls);
             unset($nls);
 
             return $obj;
         }
-        trigger_error('Cannot load language file "' . $lang_file . '"', \E_ERROR);
 
-        return null;
+        throw new RuntimeException('Cannot load language file "' . $lang_file . '"', \E_ERROR);
     }
 
     /**
@@ -70,7 +67,7 @@ class Zigra_I18n_Nls
             $obj->isocode = $data['isocode'][$obj->key];
         } else {
             $t = explode('_', $obj->key);
-            if (is_array($t) && isset($t[0])) {
+            if (isset($t[0])) {
                 $obj->isocode = $t[0];
             }
         }
@@ -95,7 +92,7 @@ class Zigra_I18n_Nls
 
         if ('' === $obj->key) {
             trigger_error('Big Problems dude! $key in not where it should');
-            exit();
+            exit;
         }
 
         return $obj;
@@ -104,18 +101,18 @@ class Zigra_I18n_Nls
     public function matches(string $str): bool
     {
         if (
-            ($str === $this->name()) ||
-            ($str === $this->isocode()) ||
-            ($str === $this->fullname())
+            (str_replace('-', '_', $str) === $this->name()) // Normalize underscore and dash
+            || ($str === $this->isocode())
+            || ($str === $this->fullname())
         ) {
             return true;
         }
         $aliases = $this->aliases();
 
-        if (is_array($aliases) && count($aliases)) {
-            $aliases_nr = count($aliases);
+        if (\is_array($aliases) && \count($aliases)) {
+            $aliases_nr = \count($aliases);
             for ($i = 0; $i < $aliases_nr; ++$i) {
-                if (strtolower($aliases[$i]) === strtolower($str)) {
+                if (strtolower((string)$aliases[$i]) === strtolower($str)) {
                     return true;
                 }
             }
@@ -176,7 +173,7 @@ class Zigra_I18n_Nls
     public function aliases()
     {
         if ($this->aliases) {
-            if (is_array($this->aliases)) {
+            if (\is_array($this->aliases)) {
                 return $this->aliases;
             }
 
